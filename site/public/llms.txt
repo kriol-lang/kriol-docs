@@ -1,0 +1,140 @@
+# KriolLang Documentation
+
+> KriolLang (Kriol) is a statically-typed, compiled programming language that uses Cape Verdean Creole keywords.
+
+## Overview
+
+KriolLang is designed to make programming accessible to Cape Verdean Creole speakers. It compiles to native code via LLVM/C and features static typing, functions, arrays, strings, and control flow structures.
+
+## Key Information
+
+- Language: Cape Verdean Creole-based programming language
+- Paradigm: Imperative, procedural
+- Typing: Static
+- Compilation: Native code via LLVM/C
+- File extensions: .kriol (preferred), .kr
+- License: MIT
+- Platforms: Linux (Windows/macOS support planned)
+- Repository: https://github.com/kriol-lang/kriol
+
+## Installation
+
+Linux only (Windows users should use WSL):
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.sh | sh -s -- --pre
+export PATH="$HOME/.kriol:$PATH"
+```
+
+## Basic Syntax
+
+Entry point function:
+```kriol
+fn inisiu() {
+    mostran("Kuale, Mundu!");
+}
+```
+
+## Data Types
+
+- nter: 64-bit integer (int64_t)
+- num: floating-point number (double)
+- bool: boolean (sin = true, nau = false)
+- textu: string (char*)
+
+## Keywords and Constructs
+
+- fn: function declaration
+- si/sinon: if/else
+- nkuantu: while loop
+- pa: for loop
+- divolvi: return
+- mostra/mostran: print without/with newline
+- dipoz: deferred declaration
+- para: break
+- kontinua: continue
+- sai: exit
+- konfirma: assert
+
+## Documentation Structure
+
+/introducao/sobre - About the language, origin, goals
+/introducao/primeiros-passos - Installation and first program
+/linguagem/tipos - Data types (nter, num, bool, textu)
+/linguagem/variaveis - Variable declaration and scope
+/linguagem/operadores - Arithmetic, logical, relational operators
+/linguagem/controlo-de-fluxo - Conditionals and loops
+/linguagem/funcoes - Function declaration and recursion
+/linguagem/arrays - Fixed-size arrays
+/linguagem/strings - Strings and f-string interpolation
+/linguagem/estruturas - Structs (molda) - in development
+/linguagem/entrada - Input (toma) - in development
+/linguagem/conversao-de-tipos - Type conversion
+/referencia/vocabulario - Keyword mapping
+/referencia/especificacao - Formal specification
+
+## Features
+
+Currently supported:
+- Typed variables (nter, num, bool, textu)
+- Functions with return types
+- Control flow (si/sinon, nkuantu, pa)
+- Arrays (fixed size)
+- String interpolation (f-strings)
+- Input/output (mostra, mostran)
+
+In development:
+- Structures (molda)
+- Input reading (toma)
+- Type casting
+- Windows/macOS support
+- Standard library
+
+## Example Programs
+
+Hello World:
+```kriol
+fn inisiu() {
+    mostran("Kuale, Mundu!");
+}
+```
+
+Fibonacci:
+```kriol
+fn fibo(nter n) nter {
+    konfirma(n >= 0);
+    si n <= 1 {
+        divolvi 1;
+    } sinon {
+        divolvi fibo(n - 1) + fibo(n - 2);
+    }
+}
+
+fn inisiu() {
+    nter[10] seq = [0] * 10;
+    dipoz nter i;
+    pa i = 0; i < 10; i += 1 {
+        seq[i] = fibo(i);
+    }
+    mostran(f"Fibonacci: {seq}");
+}
+```
+
+## Type System
+
+- Static typing with compile-time checks
+- Implicit widening: nter to num (automatic)
+- Explicit casting: num to nter (planned)
+- No null types (values must be initialized)
+
+## Compilation
+
+Compile: `kriol file.kr -o output`
+Run: `./output`
+Emit IR: `kriol file.kr --emit-ir`
+
+## Contributing
+
+Repository: https://github.com/kriol-lang/kriol-docs
+Documentation is written in Markdown using Astro Starlight
+Contributions welcome (development, testing, documentation, education)

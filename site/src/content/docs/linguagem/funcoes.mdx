@@ -1,0 +1,120 @@
+---
+title: Funções
+description: Declaração, chamada e retorno de funções no Kriol.
+---
+
+## Declaração
+
+```
+fn <nome>(<parâmetros>) <tipo_retorno> {
+    // corpo
+}
+```
+
+Uma função que não retorna valor omite o tipo de retorno:
+
+```
+fn <nome>(<parâmetros>) {
+    // corpo
+}
+```
+
+## Exemplos
+
+### Função com retorno
+
+```kriol
+fn soma(nter a, nter b) nter {
+    divolvi a + b;
+}
+```
+
+### Função sem retorno (void)
+
+```kriol
+fn saudacao(textu nome) {
+    mostran(f"Olá, {nome}!");
+}
+```
+
+### Função de entrada (`inisiu`)
+
+```kriol
+fn inisiu() {
+    nter resultado = soma(3, 4);
+    mostran(resultado);
+}
+```
+
+## Chamada de funções
+
+```kriol
+soma(10, 20);
+saudacao("Mundo");
+nter r = soma(1, 2);
+```
+
+## `divolvi` (return)
+
+Retorna um valor da função. O tipo deve corresponder ao tipo declarado:
+
+```kriol
+fn dobro(nter n) nter {
+    divolvi n * 2;
+}
+```
+
+Numa função sem tipo de retorno, `divolvi` pode aparecer sem valor para saída antecipada:
+
+```kriol
+fn imprimeSePar(nter n) {
+    si n % 2 != 0 {
+        divolvi;
+    }
+    mostran(f"{n} é par");
+}
+```
+
+:::caution
+Uma função com tipo de retorno **deve** retornar em todos os caminhos de execução. O compilador verifica isto em tempo de compilação.
+:::
+
+## Recursão
+
+O Kriol suporta recursão e recursão mútua. As funções podem ser chamadas antes da sua declaração no ficheiro:
+
+```kriol
+fn par(nter n) bool {
+    si n == 0 { divolvi sin; }
+    divolvi impar(n - 1);
+}
+
+fn impar(nter n) bool {
+    si n == 0 { divolvi nau; }
+    divolvi par(n - 1);
+}
+
+fn inisiu() {
+    mostran(par(4));    // sin
+    mostran(impar(3));  // sin
+}
+```
+
+## Funções embutidas
+
+| Função       | Descrição                                         |
+|--------------|---------------------------------------------------|
+| `mostra(x)`  | Imprime `x` sem nova linha                        |
+| `mostran(x)` | Imprime `x` seguido de nova linha                 |
+| `konfirma(e)`| Verifica que `e` é verdadeiro; termina se falso   |
+| `sai(código)`| Termina o programa com o código de saída dado     |
+
+:::note
+`mostra` e `mostran` são funções especiais reservadas. Não podem ser redefinidas.
+:::
+
+## Regras
+
+- Não é permitida a duplicação de funções com o mesmo nome.
+- Os parâmetros são passados por valor.
+- A ordem de declaração no ficheiro não afeta a capacidade de chamada entre funções do mesmo ficheiro.

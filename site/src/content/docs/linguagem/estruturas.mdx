@@ -1,0 +1,97 @@
+---
+title: Estruturas (molda)
+description: Tipos compostos com campos e métodos no Kriol (em desenvolvimento).
+---
+
+:::caution[Em Desenvolvimento]
+O suporte a estruturas (`molda`) ainda está em desenvolvimento e **não está disponível** na versão atual do compilador. Esta página documenta o design planeado.
+:::
+
+## O que são estruturas?
+
+Uma `molda` é um tipo composto que agrupa campos de diferentes tipos, semelhante a uma `struct` em C ou a uma classe simples. Podem também ter **métodos** associados, implementados com `impl`.
+
+## Sintaxe planeada
+
+### Declaração de uma estrutura
+
+```kriol
+molda Copo {
+    nter quantidade;
+    textu material;
+};
+```
+
+Os campos são separados por vírgulas e o bloco termina com `;`.
+
+### Implementação de métodos
+
+```kriol
+impl Copo {
+    // Método de instância: recebe `Ami mim` como self
+    fn cheio(Ami mim) bool {
+        divolvi mim.quantidade > 90;
+    }
+
+    // Método estático: não recebe instância
+    fn novu() Ami {
+        divolvi Copo { quantidade: 0, material: "vidro" };
+    }
+}
+```
+
+### `Ami` (a referência a si próprio)
+
+O parâmetro `Ami mim` é o equivalente a `self` em Python ou `this` em C++/Java. O nome `mim` é convencional mas pode ser outro identificador.
+
+### Chamada de métodos
+
+```kriol
+// Método de instância
+Copo meu_copo = Copo::novu();
+bool esta_cheio = meu_copo.cheio();
+
+// Método estático
+Copo outro = Copo::novu();
+```
+
+- Métodos de instância chamam-se com `.` no objeto: `objeto.metodo()`
+- Métodos estáticos chamam-se com `::` no tipo: `Tipo::metodo()`
+
+## Exemplo completo (previsto)
+
+```kriol
+molda Copo {
+    nter quantidade;
+    textu material;
+};
+
+impl Copo {
+    fn cheio(Ami mim) bool {
+        divolvi mim.quantidade > 90;
+    }
+
+    fn novu() Ami {
+        divolvi Copo { quantidade: 0, material: "vidro" };
+    }
+
+    fn enche(Ami mim, nter valor) {
+        mim.quantidade += valor;
+    }
+}
+
+fn inisiu() {
+    Copo c = Copo::novu();
+    c.enche(95);
+
+    si c.cheio() {
+        mostran("O copo está cheio!");
+    } sinon {
+        mostran("O copo não está cheio.");
+    }
+}
+```
+
+## Estado atual
+
+O suporte a `molda` ainda não está implementado. Herdaça e composição não estão previstas.

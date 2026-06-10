@@ -1,0 +1,135 @@
+---
+title: Primeiros Passos
+description: Como instalar e executar o teu primeiro programa Kriol.
+---
+
+## Pré-requisitos
+
+Atualmente, o Kriol funciona apenas em **Linux** (x86_64). Se usas Windows, recomendamos usar **WSL** (Windows Subsystem for Linux). Suporte para Windows e macOS está planeado para o futuro.
+
+Precisas ter:
+- Um compilador C (GCC ou Clang)
+- Uma conexão à internet para a instalação
+
+## Instalação
+
+A forma mais fácil de instalar o Kriol é através do script de instalação:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.sh | sh -s -- --pre
+```
+
+Depois, adiciona o Kriol ao teu PATH. Adiciona esta linha ao ficheiro de configuração do teu shell (como `~/.bashrc` ou `~/.zshrc`):
+
+```bash
+export PATH="$HOME/.kriol:$PATH"
+```
+
+Fecha e reabre o terminal, e verifica se funcionou:
+
+```bash
+kriol --version
+```
+
+## O teu primeiro programa
+
+Cria um ficheiro chamado `ola-mundu.kriol`:
+
+```kriol title="ola-mundu.kriol"
+fn inisiu() {
+    mostran("Kuale, Mundu!");
+}
+```
+
+:::note
+A função `inisiu` é o ponto de entrada de qualquer programa Kriol, equivalente ao `main` em C.
+:::
+
+### Compilar e executar
+
+Compila o programa:
+
+```bash
+kriol ola-mundu.kriol -o ola-mundu
+```
+
+Executa:
+
+```bash
+./ola-mundu
+```
+
+**Saída:**
+
+```
+Kuale, Mundu!
+```
+
+## Estrutura básica de um programa
+
+Todo programa Kriol precisa de uma função `inisiu` sem parâmetros:
+
+```kriol
+fn inisiu() {
+    // código aqui
+}
+```
+
+Podes declarar outras funções antes ou depois de `inisiu`. A ordem não importa para chamadas entre funções do mesmo ficheiro.
+
+## Extensões de ficheiro
+
+Os ficheiros Kriol usam `.kriol` (preferida) ou `.kr` (abreviada).
+
+## Exemplo: Fibonacci recursivo
+
+```kriol title="fibonacci.kriol"
+fn fibo(nter n) nter {
+    konfirma(n >= 0);
+
+    si n <= 1 {
+        divolvi 1;
+    } sinon {
+        divolvi fibo(n - 1) + fibo(n - 2);
+    }
+}
+
+fn inisiu() {
+    nter[10] seq = [0] * 10;
+
+    dipoz nter i;
+    pa i = 0; i < 10; i += 1 {
+        seq[i] = fibo(i);
+    }
+
+    mostran(f"A sequência de Fibonacci até o 10º elemento é {seq}");
+}
+```
+
+## Compilar de origem (opcional)
+
+Se quiseres compilar o compilador de origem, precisas de:
+
+- clang-19, clang++-19, e llvm-19
+- bison e flex
+- libgc-dev, xxd, cmake
+
+No Debian/Ubuntu:
+
+```bash
+apt install make flex bison clang-19 clang++-19 llvm-19 llvm-19-dev libgc-dev xxd cmake
+```
+
+Compila:
+
+```bash
+cmake -B build && cmake --build build
+```
+
+Executa:
+
+```bash
+./build/kriol --help
+```
+
+Para mais exemplos, vê a pasta `examples/` no [repositório](https://github.com/kriol-lang/kriol).

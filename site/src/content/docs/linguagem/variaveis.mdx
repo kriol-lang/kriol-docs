@@ -1,0 +1,71 @@
+---
+title: Variáveis
+description: Declaração, inicialização e declaração diferida de variáveis no Kriol.
+---
+
+## Declaração com inicialização
+
+A forma padrão de declarar uma variável exige sempre um valor inicial:
+
+```
+<tipo> <nome> = <expressão>;
+```
+
+```kriol
+nter contador = 0;
+num temperatura = 36.6;
+bool ativo = sin;
+textu mensagem = "Kuale!";
+```
+
+## Declaração diferida com `dipoz`
+
+Quando precisas de declarar uma variável antes de lhe atribuir um valor (por exemplo, para usar no escopo de um ciclo), usa o prefixo `dipoz`:
+
+```kriol
+dipoz nter i;
+pa i = 0; i < 10; i += 1 {
+    mostra(i);
+}
+```
+
+:::caution
+Usar uma variável declarada com `dipoz` antes de lhe atribuir um valor é um erro em tempo de compilação.
+:::
+
+## Atribuição
+
+Depois de declarada, uma variável pode ser reatribuída com `=` ou com operadores compostos:
+
+```kriol
+nter x = 1;
+x = 5;
+x += 2;   // x == 7
+x -= 1;   // x == 6
+x *= 3;   // x == 18
+x /= 2;   // x == 9
+```
+
+## Âmbito (scope)
+
+As variáveis têm âmbito de bloco `{ }`. Uma variável declarada dentro de um bloco não é acessível fora dele:
+
+```kriol
+fn inisiu() {
+    nter a = 10;
+
+    si sin {
+        nter b = 20;   // visível apenas aqui
+        mostran(a);    // ok
+        mostran(b);    // ok
+    }
+
+    // mostran(b);    // ERRO: b não existe aqui
+}
+```
+
+## Nomes reservados
+
+Os seguintes nomes **não podem** ser usados como identificadores de variáveis:
+
+`fn`, `nter`, `num`, `bool`, `textu`, `si`, `sinon`, `pa`, `nkuantu`, `kontinua`, `para`, `divolvi`, `mostra`, `mostran`, `dipoz`, `sai`, `konfirma`, `inisiu`, `sin`, `nau`, `inpristan`

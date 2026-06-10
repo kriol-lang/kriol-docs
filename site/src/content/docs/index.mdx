@@ -1,0 +1,43 @@
+---
+title: Bem-vindo ao Kriol
+description: Linguagem de programação imperativa, tipada e compilada com identidade cabo-verdiana.
+---
+
+## O que é o Kriol?
+
+**KriolLang** (ou **Kriol**) é uma linguagem de programação imperativa, de tipagem estática e compilada. Foi criada para permitir que qualquer pessoa que entende Criolo cabo-verdiano possa programar na sua própria língua, mantendo a mesma versatilidade de linguagens como C, Go e Rust.
+
+```kriol
+fn ola(textu nomi, bool naKriolu) {
+    si naKriolu {
+        mostran(f"Olá {nomi}, ami nta programa na Kriolu!");
+    } sinon {
+        mostran(f"Hello {nomi}, I program in Kriol!");
+    }
+}
+
+fn inisiu() {
+    ola("Visitanti", sin);
+    ola("Guest", nau);
+}
+```
+
+## Porquê o Kriol?
+
+As palavras-chave são baseadas no Criolo cabo-verdiano, uma língua que funciona naturalmente em ASCII sem acentos obrigatórios. Isso aproxima o código da língua do dia a dia de quem fala Criolo.
+
+A linguagem tem tipagem estática: os tipos são verificados na compilação e os erros aparecem antes de executar. Compila para código nativo eficiente através de LLVM/C.
+
+O projeto é Open Source sob licença MIT.
+
+## Próximos passos
+
+- Leia [Sobre o Kriol](./introducao/sobre/) para entender a origem e objectivos do projeto
+- Siga o guia de [Primeiros Passos](./introducao/primeiros-passos/) para instalar e começar a programar
+- Explore a secção [A Linguagem](./linguagem/tipos/) para aprender a sintaxe e funcionalidades
+
+## Links úteis
+
+- [GitHub](https://github.com/kriol-lang)
+- [Repositório do compilador](https://github.com/kriol-lang/kriol)
+- [Repositório da documentação](https://github.com/kriol-lang/kriol-docs)

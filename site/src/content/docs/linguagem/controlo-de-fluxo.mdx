@@ -1,0 +1,133 @@
+---
+title: Controlo de Fluxo
+description: Condicionais, ciclos, break, continue e outras instruções de salto no Kriol.
+---
+
+## Condicional `si` / `sinon`
+
+```kriol
+si <condição> {
+    // bloco verdadeiro
+} sinon {
+    // bloco falso (opcional)
+}
+```
+
+```kriol
+nter x = 10;
+
+si x > 5 {
+    mostran("x é maior que 5");
+} sinon {
+    mostran("x é 5 ou menos");
+}
+```
+
+### `sinon si` (else if)
+
+```kriol
+si x > 100 {
+    mostran("grande");
+} sinon si x > 10 {
+    mostran("médio");
+} sinon {
+    mostran("pequeno");
+}
+```
+
+:::note
+As chavetas `{ }` são **sempre obrigatórias**, mesmo para blocos de uma só instrução.
+:::
+
+## Ciclo `nkuantu` (while)
+
+Executa enquanto a condição for verdadeira:
+
+```kriol
+nkuantu <condição> {
+    // corpo
+}
+```
+
+```kriol
+nter i = 0;
+nkuantu i < 5 {
+    mostran(i);
+    i += 1;
+}
+```
+
+## Ciclo `pa` (for)
+
+```kriol
+pa <inicialização>; <condição>; <incremento> {
+    // corpo
+}
+```
+
+```kriol
+dipoz nter i;
+pa i = 0; i < 10; i += 1 {
+    mostra(i);
+}
+```
+
+:::tip
+A variável de controlo do ciclo `pa` deve ser declarada com `dipoz` antes do ciclo, ou inicializada diretamente na primeira expressão do `pa`.
+:::
+
+## `para` (break)
+
+Termina o ciclo imediatamente:
+
+```kriol
+nter i = 0;
+nkuantu i < 100 {
+    si i == 5 {
+        para;
+    }
+    mostran(i);
+    i += 1;
+}
+// imprime 0, 1, 2, 3, 4
+```
+
+## `kontinua` (continue)
+
+Avança para a próxima iteração do ciclo:
+
+```kriol
+dipoz nter i;
+pa i = 0; i < 10; i += 1 {
+    si i == 5 {
+        kontinua;
+    }
+    mostran(i);
+}
+// imprime 0, 1, 2, 3, 4, 6, 7, 8, 9
+```
+
+:::caution
+`para` e `kontinua` fora de um ciclo são erros de compilação.
+:::
+
+## `sai` (exit)
+
+Termina o programa com um código de saída:
+
+```kriol
+sai(0);    // saída com sucesso
+sai(1);    // saída com erro
+```
+
+## `konfirma` (assert)
+
+Verifica uma condição em tempo de execução. Se a condição for falsa, o programa termina com erro:
+
+```kriol
+konfirma(x >= 0);         // falha se x < 0
+konfirma(1 == 1);         // sempre passa
+konfirma(!nau);           // sempre passa
+```
+
+Útil para pré-condições e validações durante o desenvolvimento.

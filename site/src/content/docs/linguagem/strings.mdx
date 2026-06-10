@@ -1,0 +1,106 @@
+---
+title: Strings e Interpolação
+description: Literais de string, f-strings e interpolação de expressões no Kriol.
+---
+
+## Literais de string
+
+As strings podem ser delimitadas por aspas duplas ou aspas simples:
+
+```kriol
+textu a = "Kuale, Mundu!";
+textu b = 'Cabo Verde';
+```
+
+## Sequências de escape
+
+| Sequência | Significado      |
+|-----------|------------------|
+| `\n`      | Nova linha       |
+| `\t`      | Tabulação        |
+| `\\`      | Barra invertida  |
+| `\"`      | Aspas duplas     |
+| `\'`      | Aspas simples    |
+
+```kriol
+mostran("Linha 1\nLinha 2");
+mostra("coluna1\tcoluna2");
+```
+
+## F-strings (strings interpoladas)
+
+As f-strings permitem embutir expressões diretamente numa string, prefixando-a com `f`:
+
+```kriol
+nter n = 42;
+textu nome = "Kriol";
+mostran(f"O valor é {n} e a linguagem é {nome}.");
+```
+
+### Interpolação de vários tipos
+
+```kriol
+nter  n = 10;
+num   x = 2.5;
+bool  b = sin;
+
+mostran(f"n = {n}");
+mostran(f"x = {x}");
+mostran(f"b = {b}");
+mostran(f"n={n} x={x} b={b}");
+```
+
+### Interpolação de arrays
+
+Podes interpolar um array inteiro numa f-string:
+
+```kriol
+nter[3] nums = [1, 2, 3];
+mostran(f"Números: {nums}");
+```
+
+### Interpolação de chamadas de função
+
+É possível incluir chamadas de função diretamente na interpolação:
+
+```kriol
+fn soma(nter a, nter b) nter { divolvi a + b; }
+
+fn inisiu() {
+    nter n = 10;
+    mostran(f"Soma de 1 a {n} é {soma(1, n)}.");
+}
+```
+
+### Chavetas literais
+
+Para incluir uma chaveta literal `{` ou `}` numa f-string, duplica o carácter:
+
+```kriol
+mostran(f"Usa {{chavetas}} assim.");
+// saída: Usa {chavetas} assim.
+```
+
+:::caution
+Variáveis usadas dentro de `{ }` numa f-string devem estar declaradas e inicializadas. Referenciar uma variável não declarada é um erro de compilação.
+:::
+
+## `mostra` vs `mostran`
+
+| Função      | Comportamento                                  |
+|-------------|------------------------------------------------|
+| `mostra(x)` | Imprime `x` **sem** nova linha no final        |
+| `mostran(x)`| Imprime `x` **com** nova linha (`\n`) no final |
+
+```kriol
+mostra("a");
+mostra("b");
+mostra("c");
+// saída: abc  (tudo na mesma linha)
+
+mostran("linha1");
+mostran("linha2");
+// saída:
+// linha1
+// linha2
+```

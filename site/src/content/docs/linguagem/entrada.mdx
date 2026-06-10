@@ -1,0 +1,54 @@
+---
+title: Entrada de Dados
+description: Leitura de input do utilizador no Kriol (em desenvolvimento).
+---
+
+:::caution[Em Desenvolvimento]
+A funcionalidade de entrada de dados (`toma`) ainda está em desenvolvimento e **não está disponível** na versão atual do compilador. Esta página documenta o design planeado.
+:::
+
+## Conceito
+
+A função `toma` será o mecanismo padrão para ler input do utilizador a partir do `stdin`. A interface prevista aceita uma mensagem de prompt opcional e retorna o valor lido.
+
+## Sintaxe planeada
+
+```kriol
+toma("Mensagem para o utilizador:")
+```
+
+O tipo de retorno dependerá do contexto de atribuição ou de um sufixo de tipo (a definir).
+
+## Exemplos previstos
+
+### Leitura de string
+
+```kriol
+textu nome = toma("Digite o seu nome: ");
+mostran(f"Olá, {nome}!");
+```
+
+### Leitura de inteiro
+
+```kriol
+nter idade = toma("Digite a sua idade: ");
+si idade >= 18 {
+    mostran("Maior de idade.");
+} sinon {
+    mostran("Menor de idade.");
+}
+```
+
+### Leitura de número real
+
+```kriol
+num temperatura = toma("Temperatura (°C): ");
+mostran(f"Temperatura recebida: {temperatura}");
+```
+
+## Considerações em aberto
+
+- Tratamento de erros de conversão (ex: utilizador escreve texto quando se espera `nter`)
+- Leitura de múltiplos valores
+- Leitura de linhas inteiras vs. tokens individuais
+- Inferência automática do tipo de retorno a partir do contexto

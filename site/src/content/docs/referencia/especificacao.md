@@ -1,0 +1,173 @@
+---
+title: Especificação Formal
+description: Gramática formal da linguagem KriolLang em forma BNF modificada.
+---
+
+Esta especificação descreve a gramática da linguagem KriolLang usando uma forma modificada de **Backus-Naur Form (BNF)**.
+
+## Programa
+
+```bnf
+<program> ::= <statements>
+
+<statements> ::= <statements> <statement>
+               | <statement>
+
+<statement> ::= <expression_statement>
+              | <compound_statement>
+              | <selection_statement>
+              | <iteration_statement>
+              | <jump_statement>
+              | <function_declaration>
+              | <declaration>
+              | <import_statement>
+```
+
+## Importação
+
+```bnf
+<import_statement> ::= T_INPRISTAN <single_import>
+<single_import>    ::= T_STR_LIT
+```
+
+## Declaração de variáveis
+
+```bnf
+<type_specifier> ::= T_TYPE_NUM
+                   | T_TYPE_NTER
+                   | T_TYPE_BOOL
+                   | T_TYPE_TEXTU
+
+<constant> ::= T_INT_LIT
+             | T_FLOAT_LIT
+             | T_BOOL_LIT
+             | T_STR_LIT
+             | T_FSTR_LIT
+
+<identifier>      ::= T_IDENT
+<declarator>      ::= <identifier>
+<array_declarator>::= '[' T_INT_LIT ']' <declarator>
+
+<declaration> ::= <type_specifier> <declarator> '=' <initializer> ';'
+                | <type_specifier> <array_declarator> '=' <initializer> ';'
+                | T_DIPOZ <type_specifier> <declarator> ';'
+                | T_DIPOZ <type_specifier> <array_declarator> ';'
+
+<initializer> ::= <expression>
+                | <array_initializer>
+                | <array_initializer> T_MUL T_INT_LIT
+
+<array_initializer>         ::= '[' <array_initializer_elements> ']'
+<array_initializer_elements>::= <value_expression>
+                               | <array_initializer_elements> ',' <value_expression>
+<value_expression>          ::= <constant_expression>
+```
+
+**Notas:**
+- Declarações sem inicializador são inválidas salvo se prefixadas com `dipoz`.
+- A sintaxe de repetição `[valor] * N` requer um literal inteiro `N`.
+
+## Expressões binárias
+
+```bnf
+<logical_or_expression>  ::= <logical_and_expression>
+                           | <logical_or_expression> T_OR <logical_and_expression>
+
+<logical_and_expression> ::= <equality_expression>
+                           | <logical_and_expression> T_AND <equality_expression>
+
+<equality_expression>    ::= <relational_expression>
+                           | <equality_expression> T_EQ <relational_expression>
+                           | <equality_expression> T_NE <relational_expression>
+
+<relational_expression>  ::= <additive_expression>
+                           | <relational_expression> T_LT <additive_expression>
+                           | <relational_expression> T_GT <additive_expression>
+                           | <relational_expression> T_LE <additive_expression>
+                           | <relational_expression> T_GE <additive_expression>
+
+<additive_expression>    ::= <multiplicative_expression>
+                           | <additive_expression> T_PLUS <multiplicative_expression>
+                           | <additive_expression> T_MINUS <multiplicative_expression>
+
+<multiplicative_expression> ::= <unary_expression>
+                              | <multiplicative_expression> T_MUL <primary_expression>
+                              | <multiplicative_expression> T_DIV <primary_expression>
+```
+
+## Outras expressões
+
+```bnf
+<expression>            ::= <assignment_expression>
+<constant_expression>   ::= <logical_or_expression>
+
+<unary_expression>      ::= <primary_expression>
+                          | T_NOT <unary_expression>
+                          | T_MINUS <unary_expression>
+
+<primary_expression>    ::= <identifier>
+                          | <constant>
+                          | <identifier> '[' <value_expression> ']'
+                          | '(' <expression> ')'
+
+<assignment_expression> ::= <constant_expression>
+                          | <primary_expression> <assignment_operator> <assignment_expression>
+
+<assignment_operator>   ::= '=' | '+=' | '-=' | '*=' | '/='
+```
+
+## Funções
+
+```bnf
+<function_declaration> ::= T_FN <declarator> '(' <parameter_optional_list> ')' <type_specifier> <compound_statement>
+                         | T_FN <declarator> '(' <parameter_optional_list> ')' <compound_statement>
+
+<parameter_optional_list> ::= <parameter_list> | λ
+
+<parameter_list>      ::= <parameter_declaration>
+                        | <parameter_list> ',' <parameter_declaration>
+
+<parameter_declaration> ::= <type_specifier> <declarator>
+
+<argument_list>       ::= <argument_list> ',' <expression> | <expression>
+
+<function_call>       ::= <identifier> '(' <argument_list> ')'
+                        | <identifier> '(' ')'
+                        | <mostra_func_call>
+
+<mostra_func_call>    ::= T_MOSTRA '(' <argument_list> ')'
+                        | T_MOSTRA '(' ')'
+                        | T_MOSTRAN '(' <argument_list> ')'
+                        | T_MOSTRAN '(' ')'
+
+<expression_statement>::= <expression> ';' | ';'
+<compound_statement>  ::= '{' <statements> '}' | '{' '}'
+```
+
+## Seleção
+
+```bnf
+<selection_statement> ::= T_SI <expression> <compound_statement>
+                        | T_SI <expression> <compound_statement> T_SINON <else_then>
+
+<else_then> ::= <compound_statement>
+              | <selection_statement>
+```
+
+## Iteração
+
+```bnf
+<iteration_statement> ::= T_NKUANTU <expression> <compound_statement>
+                        | T_PA <expression> ';' <expression> ';' <expression> <compound_statement>
+```
+
+## Salto
+
+```bnf
+<jump_statement> ::= T_PARA ';'
+                   | T_KONTINUA ';'
+                   | T_DIVOLVI <expression> ';'
+                   | T_DIVOLVI ';'
+                   | T_SAI '(' <expression> ')' ';'
+                   | T_KONFIRMA '(' <expression> ')' ';'
+```

@@ -1,0 +1,67 @@
+---
+title: Conversão de Tipos
+description: Conversão implícita e explícita de tipos no Kriol (em desenvolvimento).
+---
+
+## Conversão implícita (widening)
+
+O Kriol converte automaticamente `nter` para `num` quando não há perda de informação:
+
+| De     | Para  | Automático |
+|--------|-------|------------|
+| `nter` | `num` | ✅ Sim     |
+
+```kriol
+nter x = 5;
+num y = x;       // ok, alargamento automático nter para num
+
+fn aceita_num(num n) {
+    mostran(n);
+}
+
+fn inisiu() {
+    aceita_num(10);   // ok, nter 10 é alargado para num
+}
+```
+
+:::note
+O retorno de uma função também suporta alargamento: se a função retorna `num` e fazes `divolvi` de um `nter`, o valor é automaticamente convertido.
+:::
+
+## Conversão explícita (casting)
+
+:::caution[Em Desenvolvimento]
+A conversão explícita de tipos ainda está em desenvolvimento. A sintaxe definitiva não está finalizada. Esta página documenta o design em consideração.
+:::
+
+A conversão de `num` para `nter` (ou entre outros tipos incompatíveis) requer uma conversão explícita.
+
+### Sintaxe em consideração
+
+Algumas opções em análise (a sintaxe final pode diferir):
+
+```kriol
+// Opção A: estilo função
+nter n = nter(3.7);    // n == 3 (truncagem)
+
+// Opção B: estilo prefixo
+nter n = (nter) 3.7;   // n == 3
+
+// Opção C: método no valor
+nter n = 3.7.para_nter();
+```
+
+### Conversões previstas
+
+| De      | Para    | Comportamento esperado            |
+|---------|---------|-----------------------------------|
+| `num`   | `nter`  | Truncagem (descarta parte decimal)|
+| `nter`  | `textu` | Representação textual do número   |
+| `num`   | `textu` | Representação textual do número   |
+| `textu` | `nter`  | Interpretação numérica da string  |
+| `textu` | `num`   | Interpretação numérica da string  |
+| `bool`  | `nter`  | `sin` vira 1, `nau` vira 0        |
+
+## Estado atual
+
+O alargamento `nter` → `num` está implementado. A conversão explícita (truncagem, `textu` ↔ números) ainda está em desenvolvimento e a sintaxe definitiva não está finalizada.

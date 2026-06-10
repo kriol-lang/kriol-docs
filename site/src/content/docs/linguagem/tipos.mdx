@@ -1,0 +1,73 @@
+---
+title: Tipos de Dados
+description: Os tipos de dados primitivos disponíveis no Kriol.
+---
+
+O Kriol é uma linguagem de **tipagem estática**. Cada variável tem um tipo definido em tempo de compilação que não pode mudar.
+
+## Tipos primitivos
+
+| Tipo     | Equivalente C | Descrição                          | Exemplo             |
+|----------|---------------|------------------------------------|---------------------|
+| `nter`   | `int64_t`     | Número inteiro de 64 bits          | `nter x = 42;`      |
+| `num`    | `double`      | Número de vírgula flutuante        | `num pi = 3.14;`    |
+| `bool`   | `bool`        | Valor booleano (`sin` / `nau`)     | `bool ok = sin;`    |
+| `textu`  | `char*`       | Cadeia de caracteres (string)      | `textu s = "oi";`   |
+
+## Literais
+
+### Inteiros (`nter`)
+
+```kriol
+nter a = 10;
+nter b = -42;
+nter c = 0;
+```
+
+### Números reais (`num`)
+
+```kriol
+num pi = 3.14159;
+num negativo = -2.5;
+num inteiro_como_num = 4.0;
+```
+
+### Booleanos (`bool`)
+
+O Kriol usa `sin` (verdadeiro) e `nau` (falso) em vez de `true`/`false`:
+
+```kriol
+bool ativo = sin;
+bool desligado = nau;
+```
+
+### Strings (`textu`)
+
+Podem usar aspas duplas ou simples, e suportam interpolação com f-strings:
+
+```kriol
+textu nome = "Kriol";
+textu outro = 'Cabo Verde';
+textu saudacao = f"Olá, {nome}!";
+```
+
+## Alargamento de tipos (widening)
+
+O Kriol suporta conversão implícita de `nter` para `num` quando necessário. Por exemplo, ao atribuir um inteiro a uma variável `num` ou ao passar um `nter` onde se espera `num`:
+
+```kriol
+nter x = 5;
+num y = x;   // ok, alargamento automático
+```
+
+:::note
+A conversão inversa (`num` → `nter`) **não** é automática. Consulta a página [Conversão de Tipos](/linguagem/conversao-de-tipos/) para detalhes.
+:::
+
+## Arrays
+
+Arrays são colecções de tamanho fixo do mesmo tipo. Consulta a página [Arrays](/linguagem/arrays/) para a documentação completa.
+
+```kriol
+nter[5] numeros = [1, 2, 3, 4, 5];
+```

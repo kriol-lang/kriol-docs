@@ -1,0 +1,94 @@
+---
+title: Operadores
+description: Operadores aritméticos, relacionais, lógicos e de atribuição do Kriol.
+---
+
+## Operadores aritméticos
+
+| Operador | Descrição       | Exemplo          |
+|----------|-----------------|------------------|
+| `+`      | Adição          | `a + b`          |
+| `-`      | Subtração       | `a - b`          |
+| `*`      | Multiplicação   | `a * b`          |
+| `/`      | Divisão         | `a / b`          |
+| `-` (unário) | Negação    | `-a`             |
+
+```kriol
+nter a = 10;
+nter b = 3;
+mostran(a + b);   // 13
+mostran(a - b);   // 7
+mostran(a * b);   // 30
+mostran(a / b);   // 3
+mostran(-a);      // -10
+```
+
+## Operadores relacionais
+
+| Operador | Descrição          |
+|----------|--------------------|
+| `==`     | Igual              |
+| `!=`     | Diferente          |
+| `<`      | Menor que          |
+| `>`      | Maior que          |
+| `<=`     | Menor ou igual     |
+| `>=`     | Maior ou igual     |
+
+```kriol
+nter x = 5;
+bool resultado = x > 3;   // sin
+bool igual = x == 5;      // sin
+```
+
+:::caution
+A comparação de strings com `==` / `!=` **não** é suportada na versão atual. Usa funções de biblioteca quando disponíveis.
+:::
+
+## Operadores lógicos
+
+| Operador | Kriol | Descrição |
+|----------|-------|-----------|
+| E lógico | `&&`  | Verdadeiro se ambos forem verdadeiros |
+| Ou lógico | `\|\|` | Verdadeiro se pelo menos um for verdadeiro |
+| Negação  | `!`   | Inverte o valor booleano |
+
+```kriol
+bool a = sin;
+bool b = nau;
+
+mostran(a && b);   // nau
+mostran(a || b);   // sin
+mostran(!a);       // nau
+```
+
+## Operadores de atribuição compostos
+
+| Operador | Equivalente a  |
+|----------|----------------|
+| `+=`     | `x = x + val`  |
+| `-=`     | `x = x - val`  |
+| `*=`     | `x = x * val`  |
+| `/=`     | `x = x / val`  |
+
+```kriol
+nter n = 10;
+n += 5;    // n == 15
+n -= 3;    // n == 12
+n *= 2;    // n == 24
+n /= 4;    // n == 6
+```
+
+## Precedência de operadores
+
+Do maior para o menor precedência:
+
+1. Negação unária `-`, `!`
+2. `*`, `/`
+3. `+`, `-`
+4. `<`, `>`, `<=`, `>=`
+5. `==`, `!=`
+6. `&&`
+7. `||`
+8. `=`, `+=`, `-=`, `*=`, `/=`
+
+Usa parênteses `()` para forçar a ordem de avaliação desejada.
