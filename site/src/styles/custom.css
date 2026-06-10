@@ -1,23 +1,61 @@
 /* KriolLang custom styles */
-:root {
-  --sl-color-accent-low: #004455;
-  --sl-color-accent: #0088aa;
-  --sl-color-accent-high: #33bbdd;
-  --sl-color-white: #ffffff;
-  --sl-color-gray-1: #f0f7f9;
-  --sl-color-gray-2: #d4e8ed;
-  --sl-color-gray-3: #a0c5d0;
-  --sl-color-gray-4: #5a8a99;
-  --sl-color-gray-5: #2e5560;
-  --sl-color-gray-6: #1a3640;
-  --sl-color-black: #0d1f25;
+:root,
+::backdrop {
+  --sl-color-accent-low: #092f4a;
+  --sl-color-accent: #1486bd;
+  --sl-color-accent-high: #74d7ee;
+
+  --sl-color-white: #f4f7fb;
+  --sl-color-gray-1: #e3eaf4;
+  --sl-color-gray-2: #b8c4d5;
+  --sl-color-gray-3: #8998aa;
+  --sl-color-gray-4: #5c6c80;
+  --sl-color-gray-5: #253b55;
+  --sl-color-gray-6: #0c2036;
+  --sl-color-black: #061326;
+
+  --sl-color-text: var(--sl-color-gray-2);
+  --sl-color-text-accent: var(--sl-color-accent-high);
+  --sl-color-text-invert: var(--sl-color-black);
+  --sl-color-bg: #061326;
+  --sl-color-bg-nav: #061326;
+  --sl-color-bg-sidebar: #08182b;
+  --sl-color-bg-inline-code: #10253d;
+  --sl-color-bg-accent: var(--sl-color-accent-high);
+  --sl-color-hairline-light: #1d344e;
+  --sl-color-hairline: #172b43;
+  --sl-color-hairline-shade: #1a2e47;
+  --sl-color-backdrop-overlay: rgb(6 19 38 / 72%);
 }
 
-/* Dark mode accent tweaks */
-:root[data-theme='dark'] {
-  --sl-color-accent-low: #003344;
-  --sl-color-accent: #0099cc;
-  --sl-color-accent-high: #55ddff;
+:root[data-theme='light'],
+[data-theme='light'] ::backdrop {
+  --sl-color-accent-low: #dbeeff;
+  --sl-color-accent: #145db2;
+  --sl-color-accent-high: #0f448f;
+
+  --sl-color-white: #071326;
+  --sl-color-gray-1: #111c2e;
+  --sl-color-gray-2: #27354a;
+  --sl-color-gray-3: #5d6b7e;
+  --sl-color-gray-4: #8d99a8;
+  --sl-color-gray-5: #d8e0ea;
+  --sl-color-gray-6: #eef3f9;
+  --sl-color-gray-7: #f8fafc;
+  --sl-color-black: #ffffff;
+
+  --sl-color-text: var(--sl-color-gray-2);
+  --sl-color-text-accent: var(--sl-color-accent-high);
+  --sl-color-text-invert: #ffffff;
+  --sl-color-bg: #f8fafc;
+  --sl-color-bg-nav: #f8fafc;
+  --sl-color-bg-sidebar: #ffffff;
+  --sl-color-bg-inline-code: #eef3f9;
+  --sl-color-bg-accent: var(--sl-color-accent-high);
+  --sl-color-hairline-light: #e5eaf1;
+  --sl-color-hairline: #d8e0ea;
+  --sl-color-hairline-shade: #d8e0ea;
+  --sl-color-backdrop-overlay: rgb(7 19 38 / 36%);
 }
 
 /* Code blocks */
