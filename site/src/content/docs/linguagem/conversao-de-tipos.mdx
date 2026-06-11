@@ -47,8 +47,13 @@ nter n = nter(3.7);    // n == 3 (truncagem)
 // Opção B: estilo prefixo
 nter n = (nter) 3.7;   // n == 3
 
-// Opção C: método no valor
-nter n = 3.7.para_nter();
+// Opção C: keyword komu
+nter n = 3.7 komu nter;
+
+// Opção D: operador direto
+nter n = 3.7 -> nter;
+// ou
+nter n = 3.7 >> nter;
 ```
 
 ### Conversões previstas
@@ -61,7 +66,3 @@ nter n = 3.7.para_nter();
 | `textu` | `nter`  | Interpretação numérica da string  |
 | `textu` | `num`   | Interpretação numérica da string  |
 | `bool`  | `nter`  | `sin` vira 1, `nau` vira 0        |
-
-## Estado atual
-
-O alargamento `nter` → `num` está implementado. A conversão explícita (truncagem, `textu` ↔ números) ainda está em desenvolvimento e a sintaxe definitiva não está finalizada.

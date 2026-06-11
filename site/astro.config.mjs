@@ -54,9 +54,9 @@ export default defineConfig({
 						{ label: 'Funções', slug: 'linguagem/funcoes' },
 						{ label: 'Arrays', slug: 'linguagem/arrays' },
 						{ label: 'Strings e Interpolação', slug: 'linguagem/strings' },
-						{ label: 'Estruturas (molda)', slug: 'linguagem/estruturas' },
-						{ label: 'Entrada de Dados', slug: 'linguagem/entrada' },
-						{ label: 'Conversão de Tipos', slug: 'linguagem/conversao-de-tipos' },
+						{ label: 'Estruturas (molda) - Em Desenvolvimento', slug: 'linguagem/estruturas' },
+						{ label: 'Entrada de Dados - Em Desenvolvimento', slug: 'linguagem/entrada' },
+						{ label: 'Conversão de Tipos - Em Desenvolvimento', slug: 'linguagem/conversao-de-tipos' },
 					],
 				},
 				{

@@ -35,7 +35,7 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 |------------|--------------|------------------------------|-----------------|
 | `molda`    | `struct`     | Declaração de estrutura      | 🔄 Em desenvolvimento |
 | `impl`     | —            | Implementação de métodos     | 🔄 Em desenvolvimento |
-| `Ami`      | `self`/`this`| Referência à própria instância | 🔄 Em desenvolvimento |
+| `mim/Ami`      | `self`/`this`| Referência à própria instância | 🔄 Em desenvolvimento |
 | `toma`     | `scanf`/`input` | Leitura de input           | 🔄 Em desenvolvimento |
 
 ## Extensões de ficheiro
