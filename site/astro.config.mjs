@@ -27,6 +27,7 @@ export default defineConfig({
 				src: './src/assets/logo.svg',
 			},
 			social: [
+				{ icon: 'laptop', label: 'Playground', href: 'https://play.kriol.dev' },
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/kriol-lang' },
 			],
 			editLink: {
