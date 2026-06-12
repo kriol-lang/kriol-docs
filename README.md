@@ -78,6 +78,12 @@ npm run build
 
 Os ficheiros compilados ficam em `dist/`
 
+## Realce de sintaxe
+
+O site usa actualmente a gramática TextMate em `site/src/kriol.tmLanguage.json`
+através do Expressive Code/Starlight. Blocos Markdown marcados como
+`kriol`, `kr` ou `source.kriol` usam essa gramática local.
+
 ## Licença
 
 MIT - Vê [LICENSE](../LICENSE) para detalhes

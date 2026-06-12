@@ -1,5 +1,7 @@
 {
-  "name": "Kriol",
+  "name": "kriol",
+  "displayName": "Kriol",
+  "aliases": ["kr", "source.kriol"],
   "scopeName": "source.kriol",
   "fileTypes": ["kr", "kriol"],
   "patterns": [

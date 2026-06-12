@@ -7,10 +7,12 @@ import { fileURLToPath } from 'node:url';
 const kriolGrammar = JSON.parse(
   readFileSync(fileURLToPath(new URL('./src/kriol.tmLanguage.json', import.meta.url)), 'utf-8')
 );
+kriolGrammar.name = 'kriol';
+kriolGrammar.aliases = ['kr', 'source.kriol'];
 
 // https://astro.build/config
 export default defineConfig({
-	site: 'https://kriol-lang.github.io',
+	site: 'https://docs.kriol.dev',
 	integrations: [
 		starlight({
 			title: 'Kriol',
@@ -35,7 +37,9 @@ export default defineConfig({
 			},
 			customCss: ['./src/styles/custom.css'],
 			expressiveCode: {
-				langs: [kriolGrammar],
+				shiki: {
+					langs: [kriolGrammar],
+				},
 			},
 			sidebar: [
 				{
