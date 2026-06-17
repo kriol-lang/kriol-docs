@@ -1,97 +1,114 @@
 ---
-title: Estruturas (molda)
-description: Tipos compostos com campos e métodos no Kriol (em desenvolvimento).
+title: Moldes (`molda`)
+description: Tipos compostos com campos nomeados no Kriol.
 ---
 
-:::caution[Em Desenvolvimento]
-O suporte a estruturas (`molda`) ainda está em desenvolvimento e **não está disponível** na versão atual do compilador. Esta página documenta o design planeado.
-:::
+## O que são moldes?
 
-## O que são estruturas?
+Um molde é um tipo composto que agrupa campos de diferentes tipos, semelhante a uma `struct` em C. A palavra-chave `molda` declara um novo molde: isto é, define a forma que valores desse tipo devem ter. O suporte atual inclui declaração de tipos, literais com campos nomeados, arrays como campos, acesso com `.` e atribuição a campos.
 
-Uma `molda` é um tipo composto que agrupa campos de diferentes tipos, semelhante a uma `struct` em C ou a uma classe simples. Podem também ter **métodos** associados, implementados com `impl`.
-
-## Sintaxe planeada
-
-### Declaração de uma estrutura
+## Declaração
 
 ```kriol
-molda Copo {
-    nter quantidade;
-    textu material;
-};
-```
-
-Os campos são separados por vírgulas e o bloco termina com `;`.
-
-### Implementação de métodos
-
-```kriol
-impl Copo {
-    // Método de instância: recebe `Ami mim` como self
-    fn cheio(Ami mim) bool {
-        divolvi mim.quantidade > 90;
-    }
-
-    // Método estático: não recebe instância
-    fn novu() Ami {
-        divolvi Copo { quantidade: 0, material: "vidro" };
-    }
+molda Pessoa {
+    textu nomi;
+    nter idadi;
 }
 ```
 
-### `Ami` (a referência a si próprio)
+Cada campo usa a mesma forma de declaração de tipo e nome usada em parâmetros e variáveis. O bloco declarado com `molda` não precisa de `;` depois de `}`.
 
-O parâmetro `Ami mim` é o equivalente a `self` em Python ou `this` em C++/Java. O nome `mim` é convencional mas pode ser outro identificador.
+Nomes de tipos definidos pelo utilizador começam com letra maiúscula. Variáveis, funções e campos continuam a usar identificadores iniciados por letra minúscula ou `_`.
 
-### Chamada de métodos
+Campos também podem ser arrays de tamanho fixo:
 
 ```kriol
-// Método de instância
-Copo meu_copo = Copo::novu();
-bool esta_cheio = meu_copo.cheio();
-
-// Método estático
-Copo outro = Copo::novu();
+molda Pessoa {
+    textu nomi;
+    nter[2] flags;
+}
 ```
 
-- Métodos de instância chamam-se com `.` no objeto: `objeto.metodo()`
-- Métodos estáticos chamam-se com `::` no tipo: `Tipo::metodo()`
+## Criação de valores
 
-## Exemplo completo (previsto)
+Valores de um molde são criados com um literal associado ao tipo:
 
 ```kriol
-molda Copo {
-    nter quantidade;
-    textu material;
+Pessoa pessoa = Pessoa::{nomi: "jose", idadi: 60};
+```
+
+Todos os campos são obrigatórios por agora. Campos repetidos, campos desconhecidos ou valores com tipos incompatíveis são erros em tempo de compilação.
+
+Se um campo for array, o literal `[ ... ]` recebe o tipo esperado a partir do
+campo:
+
+```kriol
+Pessoa pessoa = Pessoa::{nomi: "jose", flags: [0, 1]};
+```
+
+## Acesso a campos
+
+Usa `.` para ler ou alterar um campo:
+
+```kriol
+mostran(pessoa.nomi);
+mostran(pessoa.idadi);
+
+pessoa.idadi = 61;
+pessoa.idadi += 1;
+```
+
+O acesso pode ser encadeado com outros campos e índices de array:
+
+```kriol
+molda Enderesu {
+    textu rua;
+    nter numero;
+}
+
+molda Pessoa {
+    Enderesu[2] enderesus;
+}
+
+Pessoa pessoa = Pessoa::{
+    enderesus: [
+        Enderesu::{rua: "antigu", numero: 10},
+        Enderesu::{rua: "nobu", numero: 44}
+    ]
 };
 
-impl Copo {
-    fn cheio(Ami mim) bool {
-        divolvi mim.quantidade > 90;
-    }
+pessoa.enderesus[0].rua = "medio";
+pessoa.enderesus[0].numero += 5;
+```
 
-    fn novu() Ami {
-        divolvi Copo { quantidade: 0, material: "vidro" };
-    }
+Valores de moldes são passados para funções por cópia. Alterar um parâmetro
+dentro de uma função não altera o valor original fora dela. O uso de referências
+explícitas com `ref` será tratado numa fase futura.
 
-    fn enche(Ami mim, nter valor) {
-        mim.quantidade += valor;
-    }
+## Exemplo completo
+
+```kriol
+molda Pessoa {
+    textu nomi;
+    nter idadi;
+}
+
+fn proxima_idadi(Pessoa pessoa) nter {
+    divolvi pessoa.idadi + 1;
 }
 
 fn inisiu() {
-    Copo c = Copo::novu();
-    c.enche(95);
-
-    si c.cheio() {
-        mostran("O copo está cheio!");
-    } sinon {
-        mostran("O copo não está cheio.");
-    }
+    Pessoa pessoa = Pessoa::{nomi: "jose", idadi: 60};
+    mostra(pessoa.nomi);
+    mostra(" ");
+    mostran(proxima_idadi(pessoa));
 }
 ```
 
-## Estado atual
+## Limitações atuais
 
-O suporte a `molda` ainda não está implementado. Herdaça e composição não estão previstas.
+- Métodos e blocos `fazi` ainda não estão implementados.
+- Valores de moldes ainda não têm uma representação direta em `mostra` ou f-strings; imprime campos individuais.
+- Arrays de valores de moldes podem ser guardados e indexados, mas não são
+  imprimíveis como um todo.
+- Herança não está prevista.

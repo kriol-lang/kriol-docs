@@ -64,6 +64,21 @@ num y = x;   // ok, alargamento automático
 A conversão inversa (`num` → `nter`) **não** é automática. Consulta a página [Conversão de Tipos](/linguagem/conversao-de-tipos/) para detalhes.
 :::
 
+## Moldes definidos com `molda`
+
+Além dos tipos primitivos, podes declarar moldes com a palavra-chave `molda`:
+
+```kriol
+molda Pessoa {
+    textu nomi;
+    nter idadi;
+}
+
+Pessoa pessoa = Pessoa::{nomi: "jose", idadi: 60};
+```
+
+Consulta a página [Moldes (`molda`)](/linguagem/estruturas/) para detalhes.
+
 ## Arrays
 
 Arrays são colecções de tamanho fixo do mesmo tipo. Consulta a página [Arrays](/linguagem/arrays/) para a documentação completa.

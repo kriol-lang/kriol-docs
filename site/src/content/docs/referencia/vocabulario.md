@@ -25,18 +25,18 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 | `mostra`     | `printf`         | Imprimir sem newline   |
 | `mostran`    | `printf + \n`    | Imprimir com newline   |
 | `dipoz`      | —                | Declaração diferida    |
+| `molda`      | `struct`         | Declara um molde       |
 | `sai`        | `exit()`         | Terminar programa      |
 | `konfirma`   | `assert()`       | Verificar condição     |
-| `inpristan`  | `#include`       | Importar módulo        |
+| `inpristan`  | `#include`       | Importar módulo (reservado; ainda não implementado) |
 
 ## Palavras-chave planeadas
 
 | KriolLang  | Equivalente  | Significado                  | Estado          |
 |------------|--------------|------------------------------|-----------------|
-| `molda`    | `struct`     | Declaração de estrutura      | 🔄 Em desenvolvimento |
-| `impl`     | —            | Implementação de métodos     | 🔄 Em desenvolvimento |
-| `mim/Ami`      | `self`/`this`| Referência à própria instância | 🔄 Em desenvolvimento |
-| `toma`     | `scanf`/`input` | Leitura de input           | 🔄 Em desenvolvimento |
+| `fazi`     | —              | Implementação de métodos       | 🔄 Planeado |
+| `mim/Ami`  | `self`/`this`  | Referência à própria instância | 🔄 Planeado |
+| `toma`     | `scanf`/`input`| Leitura de input               | 🔄 Planeado |
 
 ## Extensões de ficheiro
 

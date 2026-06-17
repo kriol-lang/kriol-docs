@@ -19,6 +19,7 @@ Esta especificação descreve a gramática da linguagem KriolLang usando uma for
               | <iteration_statement>
               | <jump_statement>
               | <function_declaration>
+              | <molda_declaration>
               | <declaration>
               | <import_statement>
 ```
@@ -30,6 +31,11 @@ Esta especificação descreve a gramática da linguagem KriolLang usando uma for
 <single_import>    ::= T_STR_LIT
 ```
 
+:::caution
+`inpristan` já é reconhecido pela gramática, mas importação de módulos ainda
+não está implementada na versão atual.
+:::
+
 ## Declaração de variáveis
 
 ```bnf
@@ -37,6 +43,7 @@ Esta especificação descreve a gramática da linguagem KriolLang usando uma for
                    | T_TYPE_NTER
                    | T_TYPE_BOOL
                    | T_TYPE_TEXTU
+                   | T_TYPE_IDENT
 
 <constant> ::= T_INT_LIT
              | T_FLOAT_LIT
@@ -57,6 +64,7 @@ Esta especificação descreve a gramática da linguagem KriolLang usando uma for
                 | <array_initializer>
                 | <array_initializer> T_MUL T_INT_LIT
 
+<typed_array_initializer>   ::= '<' <type_specifier> '>' <array_initializer>
 <array_initializer>         ::= '[' <array_initializer_elements> ']'
 <array_initializer_elements>::= <value_expression>
                                | <array_initializer_elements> ',' <value_expression>
@@ -66,6 +74,11 @@ Esta especificação descreve a gramática da linguagem KriolLang usando uma for
 **Notas:**
 - Declarações sem inicializador são inválidas salvo se prefixadas com `dipoz`.
 - A sintaxe de repetição `[valor] * N` requer um literal inteiro `N`.
+- A sintaxe `<tipo>[...]` cria um literal de array com tipo explícito.
+- Um literal `[ ... ]` sem tipo explícito precisa de contexto, como uma variável
+  ou campo de array.
+- Nomes de tipos de moldes declarados com `molda` usam `T_TYPE_IDENT`, isto é, começam com
+  letra maiúscula.
 
 ## Expressões binárias
 
@@ -105,16 +118,52 @@ Esta especificação descreve a gramática da linguagem KriolLang usando uma for
                           | T_NOT <unary_expression>
                           | T_MINUS <unary_expression>
 
-<primary_expression>    ::= <identifier>
+<primary_expression>    ::= <postfix_expression>
+
+<postfix_expression>    ::= <primary_atom>
+                          | <postfix_expression> '(' <argument_list> ')'
+                          | <postfix_expression> '(' ')'
+                          | <postfix_expression> '[' <expression> ']'
+                          | <postfix_expression> '.' T_IDENT
+                          | <postfix_expression> '::' T_IDENT
+
+<primary_atom>          ::= <identifier>
                           | <constant>
-                          | <identifier> '[' <value_expression> ']'
+                          | <record_literal>
+                          | <typed_array_initializer>
                           | '(' <expression> ')'
+
+<record_literal>        ::= T_TYPE_IDENT '::' '{' <record_field_initializers> '}'
+                          | T_TYPE_IDENT '::' '{' '}'
+
+<record_field_initializers> ::= T_IDENT ':' <initializer>
+                              | <record_field_initializers> ',' T_IDENT ':' <initializer>
 
 <assignment_expression> ::= <constant_expression>
                           | <primary_expression> <assignment_operator> <assignment_expression>
 
 <assignment_operator>   ::= '=' | '+=' | '-=' | '*=' | '/='
 ```
+
+## Moldes (`molda`)
+
+```bnf
+<molda_declaration> ::= T_MOLDA T_TYPE_IDENT '{' <molda_field_declarations> '}'
+
+<molda_field_declarations> ::= <molda_field_declaration>
+                             | <molda_field_declarations> <molda_field_declaration>
+
+<molda_field_declaration> ::= <type_specifier> <declarator> ';'
+                            | <type_specifier> <array_declarator> ';'
+```
+
+**Notas:**
+- Um molde declarado com `molda` deve declarar pelo menos um campo.
+- Atribuição a campos usa a mesma regra de assignment de outros alvos
+  atribuíveis, como `valor.campo = expr`.
+- Campos podem ser arrays de tamanho fixo.
+- Acesso e atribuição podem encadear campos e índices, como
+  `pessoa.enderesus[0].rua = "medio"`.
 
 ## Funções
 

@@ -16,6 +16,14 @@ nter[3] nums = [10, 20, 30];
 bool[2] flags = [sin, nau];
 ```
 
+O literal `[ ... ]` sem tipo explícito é interpretado pelo contexto da variável
+ou campo que o recebe. Quando o contexto não deixa claro o tipo do array, usa
+um literal tipado:
+
+```kriol
+nter[3] valores = <nter>[1, 2, 3];
+```
+
 ## Inicialização por repetição
 
 Para preencher um array com o mesmo valor em todas as posições, usa a sintaxe `[valor] * N`:
@@ -75,7 +83,49 @@ mostran(a);                    // imprime os elementos
 mostran(f"Array: {a}");        // interpolação de array
 ```
 
+Arrays também podem aparecer como campos de um molde:
+
+```kriol
+molda Pessoa {
+    textu nomi;
+    nter[2] flags;
+}
+
+Pessoa pessoa = Pessoa::{nomi: "jose", flags: [0, 1]};
+mostran(f"Flags: {pessoa.flags}");
+```
+
+Arrays de valores de moldes podem ser guardados e indexados. Isto permite encadear
+acesso a índice e campo:
+
+```kriol
+molda Enderesu {
+    textu rua;
+    nter numero;
+}
+
+molda Pessoa {
+    Enderesu[2] enderesus;
+}
+
+Pessoa pessoa = Pessoa::{
+    enderesus: [
+        Enderesu::{rua: "antigu", numero: 10},
+        Enderesu::{rua: "nobu", numero: 44}
+    ]
+};
+
+pessoa.enderesus[0].rua = "medio";
+pessoa.enderesus[0].numero += 5;
+```
+
 ## Restrições actuais
 
 - O tamanho do array deve ser um **literal inteiro**. Não pode ser uma variável.
-- Arrays de arrays (multidimensionais) **não são suportados** na versão atual.
+- Literais sem tipo explícito precisam de um contexto de array. Se o compilador
+  não conseguir inferir o alvo, usa `<tipo>[...]`.
+- Arrays de valores de moldes podem ser usados, mas não podem ser impressos como
+  um todo com `mostra`, `mostran` ou f-strings; imprime campos individuais ou
+  arrays de tipos primitivos.
+- Arrays de arrays (multidimensionais) ainda não têm sintaxe de declaração
+  direta na versão atual.

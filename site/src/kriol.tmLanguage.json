@@ -19,6 +19,11 @@
         {
           "name": "comment.line.double-slash.kriol",
           "match": "//.*$"
+        },
+        {
+          "name": "comment.block.kriol",
+          "begin": "/\\*",
+          "end": "\\*/"
         }
       ]
     },
@@ -52,7 +57,7 @@
         },
         {
           "name": "keyword.other.kriol",
-          "match": "\\b(fn|inisiu|dipoz|inpristan|konfirma|impl|molda|toma)\\b"
+          "match": "\\b(fn|inisiu|dipoz|inpristan|konfirma|molda)\\b"
         },
         {
           "name": "support.function.kriol",
@@ -64,7 +69,11 @@
       "patterns": [
         {
           "name": "storage.type.kriol",
-          "match": "\\b(nter|num|textu|bool|Ami)\\b"
+          "match": "\\b(nter|num|textu|bool)\\b"
+        },
+        {
+          "name": "entity.name.type.kriol",
+          "match": "\\b[A-Z][A-Za-z0-9_]*\\b"
         },
         {
           "name": "constant.language.boolean.kriol",
@@ -96,7 +105,7 @@
       "patterns": [
         {
           "name": "keyword.operator.kriol",
-          "match": "\\+\\=|\\-\\=|\\*\\=|\\/\\=|==|!=|<=|>=|&&|\\|\\||[+\\-*/<>=!]"
+          "match": "::|\\+\\=|\\-\\=|\\*\\=|\\/\\=|==|!=|<=|>=|&&|\\|\\||[+\\-*/<>=!:]"
         }
       ]
     }
