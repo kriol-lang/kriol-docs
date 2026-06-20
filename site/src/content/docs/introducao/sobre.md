@@ -24,7 +24,7 @@ O Kriol serve como porta de entrada à programação para falantes de Criolo cab
 
 A linguagem já suporta:
 
-- Variáveis tipadas (`nter`, `desimal`, `textu`, `bool`)
+- Variáveis tipadas (`nter`, `num`, `textu`, `bool` e tipos primitivos explícitos como `i32`, `u64`, `f32`)
 - Funções com retorno tipado
 - Estruturas de controlo (`si/sinon`, `nkuantu`, `pa`)
 - Arrays e strings

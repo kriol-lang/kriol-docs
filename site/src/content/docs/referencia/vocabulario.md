@@ -13,6 +13,18 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 | `num`        | `double`         | Número real            |
 | `textu`      | `char*`          | Cadeia de caracteres   |
 | `bool`       | `bool`           | Booleano               |
+| `i8`         | `int8_t`         | Inteiro assinado de 8 bits |
+| `i16`        | `int16_t`        | Inteiro assinado de 16 bits |
+| `i32`        | `int32_t`        | Inteiro assinado de 32 bits |
+| `i64`        | `int64_t`        | Inteiro assinado de 64 bits |
+| `u8`         | `uint8_t`        | Inteiro sem sinal de 8 bits |
+| `u16`        | `uint16_t`       | Inteiro sem sinal de 16 bits |
+| `u32`        | `uint32_t`       | Inteiro sem sinal de 32 bits |
+| `u64`        | `uint64_t`       | Inteiro sem sinal de 64 bits |
+| `f32`        | `float`          | Número real de 32 bits |
+| `f64`        | `double`         | Número real de 64 bits |
+| `isize`      | `intptr_t`       | Inteiro assinado do tamanho de ponteiro |
+| `usize`      | `uintptr_t`      | Inteiro sem sinal do tamanho de ponteiro |
 | `sin`        | `true` / `1`     | Verdadeiro             |
 | `nau`        | `false` / `0`    | Falso                  |
 | `si`         | `if`             | Se (condicional)       |

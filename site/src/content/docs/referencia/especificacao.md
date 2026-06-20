@@ -43,6 +43,7 @@ não está implementada na versão atual.
                    | T_TYPE_NTER
                    | T_TYPE_BOOL
                    | T_TYPE_TEXTU
+                   | T_TYPE_PRIMITIVE
                    | T_TYPE_IDENT
 
 <constant> ::= T_INT_LIT

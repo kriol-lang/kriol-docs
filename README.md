@@ -80,9 +80,9 @@ Os ficheiros compilados ficam em `dist/`
 
 ## Realce de sintaxe
 
-O site usa actualmente a gramática TextMate em `site/src/kriol.tmLanguage.json`
-através do Expressive Code/Starlight. Blocos Markdown marcados como
-`kriol`, `kr` ou `source.kriol` usam essa gramática local.
+O site mantém a sua própria gramática Shiki em `site/src/kriol.tmLanguage.json`
+para o Expressive Code/Starlight. Blocos Markdown marcados como `kriol`, `kr`
+ou `source.kriol` usam essa gramática local.
 
 ## Licença
 

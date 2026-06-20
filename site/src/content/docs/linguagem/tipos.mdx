@@ -7,12 +7,23 @@ O Kriol é uma linguagem de **tipagem estática**. Cada variável tem um tipo de
 
 ## Tipos primitivos
 
-| Tipo     | Equivalente C | Descrição                          | Exemplo             |
-|----------|---------------|------------------------------------|---------------------|
-| `nter`   | `int64_t`     | Número inteiro de 64 bits          | `nter x = 42;`      |
-| `num`    | `double`      | Número de vírgula flutuante        | `num pi = 3.14;`    |
-| `bool`   | `bool`        | Valor booleano (`sin` / `nau`)     | `bool ok = sin;`    |
-| `textu`  | `char*`       | Cadeia de caracteres (string)      | `textu s = "oi";`   |
+| Tipo     | Equivalente C aproximado | Descrição                         | Exemplo             |
+|----------|---------------------------|-----------------------------------|---------------------|
+| `nter`   | `int64_t`                 | Inteiro assinado de 64 bits       | `nter x = 42;`      |
+| `num`    | `double`                  | Número de vírgula flutuante 64-bit| `num pi = 3.14;`    |
+| `bool`   | `bool`                    | Valor booleano (`sin` / `nau`)    | `bool ok = sin;`    |
+| `textu`  | `char*`                   | Cadeia de caracteres (string)     | `textu s = "oi";`   |
+
+Também existem tipos numéricos primitivos explícitos para controlar largura e
+sinal quando isso é importante:
+
+| Família       | Tipos                                      |
+|---------------|--------------------------------------------|
+| Inteiros com sinal | `i8`, `i16`, `i32`, `i64`, `isize`    |
+| Inteiros sem sinal | `u8`, `u16`, `u32`, `u64`, `usize`    |
+| Ponto flutuante    | `f32`, `f64`                          |
+
+`nter` é equivalente a `i64`, e `num` é equivalente a `f64`.
 
 ## Literais
 
@@ -22,6 +33,9 @@ O Kriol é uma linguagem de **tipagem estática**. Cada variável tem um tipo de
 nter a = 10;
 nter b = -42;
 nter c = 0;
+u8 byte = 255;
+i32 delta = -12;
+usize tamanho = 3;
 ```
 
 ### Números reais (`num`)
@@ -30,6 +44,8 @@ nter c = 0;
 num pi = 3.14159;
 num negativo = -2.5;
 num inteiro_como_num = 4.0;
+f32 pequeno = 1.5;
+f64 grande = 10.25;
 ```
 
 ### Booleanos (`bool`)
@@ -53,7 +69,9 @@ textu saudacao = f"Olá, {nome}!";
 
 ## Alargamento de tipos (widening)
 
-O Kriol suporta conversão implícita de `nter` para `num` quando necessário. Por exemplo, ao atribuir um inteiro a uma variável `num` ou ao passar um `nter` onde se espera `num`:
+O Kriol suporta conversões implícitas de alargamento quando não há perda de
+informação, como `nter` para `num`, inteiros menores para inteiros maiores
+compatíveis, ou inteiros para ponto flutuante. Por exemplo:
 
 ```kriol
 nter x = 5;

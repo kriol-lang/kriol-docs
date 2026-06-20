@@ -5,11 +5,16 @@ description: Conversão implícita e explícita de tipos no Kriol (em desenvolvi
 
 ## Conversão implícita (widening)
 
-O Kriol converte automaticamente `nter` para `num` quando não há perda de informação:
+O Kriol converte automaticamente valores numéricos quando a conversão é um
+alargamento seguro:
 
-| De     | Para  | Automático |
-|--------|-------|------------|
-| `nter` | `num` | ✅ Sim     |
+| De                         | Para                         | Automático |
+|----------------------------|------------------------------|------------|
+| `bool`                     | inteiro ou ponto flutuante   | ✅ Sim     |
+| inteiro menor compatível   | inteiro maior compatível     | ✅ Sim     |
+| inteiro                    | ponto flutuante              | ✅ Sim     |
+| `f32`                      | `f64` / `num`                | ✅ Sim     |
+| `nter` / `i64`             | `num` / `f64`                | ✅ Sim     |
 
 ```kriol
 nter x = 5;

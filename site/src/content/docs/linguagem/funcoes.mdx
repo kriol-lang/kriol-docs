@@ -67,11 +67,11 @@ fn dobro(nter n) nter {
 Numa função sem tipo de retorno, `divolvi` pode aparecer sem valor para saída antecipada:
 
 ```kriol
-fn imprimeSePar(nter n) {
-    si n % 2 != 0 {
+fn imprimeSeNaoNegativo(nter n) {
+    si n < 0 {
         divolvi;
     }
-    mostran(f"{n} é par");
+    mostran(f"{n} não é negativo");
 }
 ```
 
