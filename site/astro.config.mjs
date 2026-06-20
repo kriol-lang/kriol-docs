@@ -29,13 +29,16 @@ export default defineConfig({
 				src: './src/assets/logo.svg',
 			},
 			social: [
-				{ icon: 'laptop', label: 'Playground', href: 'https://play.kriol.dev' },
+				{ icon: 'seti:video', label: 'Playground', href: 'https://play.kriol.dev' },
 				{ icon: 'github', label: 'GitHub', href: 'https://github.com/kriol-lang' },
 			],
 			editLink: {
 				baseUrl: 'https://github.com/kriol-lang/kriol-docs/edit/main/site/',
 			},
 			customCss: ['./src/styles/custom.css'],
+			components: {
+				SocialIcons: './src/components/SocialIcons.astro',
+			},
 			expressiveCode: {
 				shiki: {
 					langs: [kriolGrammar],
