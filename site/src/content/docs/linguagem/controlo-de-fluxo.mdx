@@ -66,15 +66,10 @@ pa <inicialização>; <condição>; <incremento> {
 ```
 
 ```kriol
-dipoz nter i;
-pa i = 0; i < 10; i += 1 {
+pa nter i = 0; i < 10; i += 1 {
     mostra(i);
 }
 ```
-
-:::tip
-A variável de controlo do ciclo `pa` deve ser declarada com `dipoz` antes do ciclo, ou inicializada diretamente na primeira expressão do `pa`.
-:::
 
 ## `para` (break)
 
@@ -97,8 +92,7 @@ nkuantu i < 100 {
 Avança para a próxima iteração do ciclo:
 
 ```kriol
-dipoz nter i;
-pa i = 0; i < 10; i += 1 {
+pa nter i = 0; i < 10; i += 1 {
     si i == 5 {
         kontinua;
     }
