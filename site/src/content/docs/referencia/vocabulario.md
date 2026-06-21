@@ -34,13 +34,21 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 | `para`       | `break`          | Interromper ciclo      |
 | `kontinua`   | `continue`       | Continuar ciclo        |
 | `divolvi`    | `return`         | Retornar valor         |
-| `mostra`     | `printf`         | Imprimir sem newline   |
-| `mostran`    | `printf + \n`    | Imprimir com newline   |
 | `dipoz`      | —                | Declaração diferida    |
 | `molda`      | `struct`         | Declara um molde       |
+| `inpristan`  | `#include`       | Importar módulo (reservado; ainda não implementado) |
+
+## Funções embutidas do prelúdio
+
+| KriolLang    | C / Equivalente  | Significado            |
+|--------------|------------------|------------------------|
+| `mostra`     | `printf`         | Imprimir sem newline   |
+| `mostran`    | `printf + \n`    | Imprimir com newline   |
+| `toma`       | `stdin`          | Ler uma linha como `textu` |
 | `sai`        | `exit()`         | Terminar programa      |
 | `konfirma`   | `assert()`       | Verificar condição     |
-| `inpristan`  | `#include`       | Importar módulo (reservado; ainda não implementado) |
+
+Estas funções são chamadas com sintaxe normal de função, mas os nomes são reservados e não podem ser redefinidos.
 
 ## Palavras-chave planeadas
 
@@ -48,7 +56,6 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 |------------|--------------|------------------------------|-----------------|
 | `fazi`     | —              | Implementação de métodos       | 🔄 Planeado |
 | `mim/Ami`  | `self`/`this`  | Referência à própria instância | 🔄 Planeado |
-| `toma`     | `scanf`/`input`| Leitura de input               | 🔄 Planeado |
 
 ## Extensões de ficheiro
 

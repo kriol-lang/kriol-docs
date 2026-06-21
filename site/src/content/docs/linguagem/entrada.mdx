@@ -1,25 +1,24 @@
 ---
 title: Entrada de Dados
-description: Leitura de input do utilizador no Kriol (em desenvolvimento).
+description: Leitura de input do utilizador no Kriol.
 ---
-
-:::caution[Em Desenvolvimento]
-A funcionalidade de entrada de dados (`toma`) ainda está em desenvolvimento e **não está disponível** na versão atual do compilador. Esta página documenta o design planeado.
-:::
 
 ## Conceito
 
-A função `toma` será o mecanismo padrão para ler input do utilizador a partir do `stdin`. A interface prevista aceita uma mensagem de prompt opcional e retorna o valor lido.
+A função `toma` lê uma linha de `stdin` e retorna um valor `textu`. Ela aceita uma mensagem de prompt opcional.
 
-## Sintaxe planeada
+`toma` é uma função embutida do prelúdio: está sempre disponível, mas o nome é reservado e não pode ser redefinido.
+
+## Sintaxe
 
 ```kriol
-toma("Mensagem para o utilizador:")
+toma()
+toma("Mensagem para o utilizador: ")
 ```
 
-O tipo de retorno dependerá do contexto de atribuição ou de um sufixo de tipo (a definir).
+O valor retornado não inclui a quebra de linha final. Em ficheiros com quebras de linha Windows, o `\r` final também é removido.
 
-## Exemplos previstos
+## Exemplos
 
 ### Leitura de string
 
@@ -28,27 +27,19 @@ textu nome = toma("Digite o seu nome: ");
 mostran(f"Olá, {nome}!");
 ```
 
-### Leitura de inteiro
+### Leitura sem prompt
 
 ```kriol
-nter idade = toma("Digite a sua idade: ");
-si idade >= 18 {
-    mostran("Maior de idade.");
-} sinon {
-    mostran("Menor de idade.");
-}
+textu linha = toma();
+mostran(f"Recebido: {linha}");
 ```
 
-### Leitura de número real
+### Composição com conversão
 
-```kriol
-num temperatura = toma("Temperatura (°C): ");
-mostran(f"Temperatura recebida: {temperatura}");
-```
+`toma` retorna sempre `textu`. Conversão para `nter`, `num` ou outros tipos deve ser feita por uma funcionalidade de parsing/conversão explícita futura.
 
 ## Considerações em aberto
 
 - Tratamento de erros de conversão (ex: utilizador escreve texto quando se espera `nter`)
 - Leitura de múltiplos valores
-- Leitura de linhas inteiras vs. tokens individuais
-- Inferência automática do tipo de retorno a partir do contexto
+- Parsing de `textu` para tipos numéricos

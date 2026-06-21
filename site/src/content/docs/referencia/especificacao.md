@@ -183,12 +183,6 @@ não está implementada na versão atual.
 
 <function_call>       ::= <identifier> '(' <argument_list> ')'
                         | <identifier> '(' ')'
-                        | <mostra_func_call>
-
-<mostra_func_call>    ::= T_MOSTRA '(' <argument_list> ')'
-                        | T_MOSTRA '(' ')'
-                        | T_MOSTRAN '(' <argument_list> ')'
-                        | T_MOSTRAN '(' ')'
 
 <expression_statement>::= <expression> ';' | ';'
 <compound_statement>  ::= '{' <statements> '}' | '{' '}'

@@ -53,15 +53,15 @@
       "patterns": [
         {
           "name": "keyword.control.kriol",
-          "match": "\\b(si|sinon|pa|nkuantu|para|kontinua|divolvi|sai)\\b"
+          "match": "\\b(si|sinon|pa|nkuantu|para|kontinua|divolvi)\\b"
         },
         {
           "name": "keyword.other.kriol",
-          "match": "\\b(fn|inisiu|dipoz|inpristan|konfirma|molda)\\b"
+          "match": "\\b(fn|inisiu|dipoz|inpristan|molda)\\b"
         },
         {
           "name": "support.function.kriol",
-          "match": "\\b(mostra|mostran)\\b"
+          "match": "\\b(mostra|mostran|toma|sai|konfirma)\\b"
         }
       ]
     },
