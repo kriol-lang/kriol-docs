@@ -9,12 +9,53 @@ description: O que é o KriolLang e porquê existe.
 
 A sintaxe inspira-se em linguagens como C, Go e Rust, mas distingue-se pelo uso da língua criola para tornar a programação mais acessível aos cabo-verdianos e falantes de criolo.
 
+```kriol
+molda Pessoa {
+  textu nomi;
+  textu apelidu;
+  textu idadi;
+}
+
+fn novu_pessoa(textu nomi, textu apelidu, textu idadi) Pessoa {
+  divolvi Pessoa::{nomi: nomi, apelidu: apelidu, idadi: idadi};
+}
+
+fn mostra_pessoa(Pessoa p) {
+  mostran(f"{p.nomi} {p.apelidu} tem {p.idadi} anos de idade.");
+}
+
+fn inisiu() {
+  Pessoa[3] pessoas = [
+    novu_pessoa('José', 'Tavares', '60'),
+    novu_pessoa('Yara', 'Coelho', '44'),
+    novu_pessoa('Clara', 'Sanchez', '71')
+  ];
+
+  pa nter i = 0 ; i < 3 ; i += 1 {
+    mostra_pessoa(pessoas[i]);
+  }
+
+  mostran("-----------------");
+  mostran("[[ y abo go? ]]");
+
+  textu nomi = toma("-> nomi: ");
+  textu apelidu = toma("-> apelidu: ");
+  textu idadi = toma("-> idadi: ");
+
+  mostran("-----------------");
+
+  Pessoa abo = novu_pessoa(nomi, apelidu, idadi);
+
+  mostra_pessoa(abo);
+}
+```
+
 ## Porque usar Criolo?
 
 O Criolo é naturalmente adequado para programação. Tal como o inglês, tem baixa dependência de acentos e caracteres especiais. Exemplo:
 
 - Em português: `se/senão` precisa de ser escrito `se/senao` (sem acento)
-- Em Criolo: `si/sinon` já é naturalmente ASCII e soa natural
+- Em Criolo: `si/sinon` já é naturalmente ASCII e soa relativamente mais natural
 
 ## Objectivo
 
