@@ -10,18 +10,18 @@ COPY site/ ./
 
 RUN npm run build
 
-FROM node:24-alpine AS runtime
-
-RUN addgroup -S kriol && adduser -S kriol -G kriol
+# Distroless: no shell, no package manager, only the node runtime and the
+# static site. `serve` is dropped in favor of a small built-in-only static
+# file server (site/serve.mjs), since there's no npm here to install it.
+FROM gcr.io/distroless/nodejs24-debian12 AS runtime
 
 WORKDIR /app
 
-RUN npm install -g serve@14
-
 COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/serve.mjs ./serve.mjs
 
-USER kriol
+USER nonroot
 
 EXPOSE 4321
 
-CMD ["serve", "dist", "--listen", "4321"]
+CMD ["serve.mjs"]
