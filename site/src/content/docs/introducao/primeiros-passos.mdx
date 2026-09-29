@@ -5,7 +5,7 @@ description: Como instalar e executar o teu primeiro programa Kriol.
 
 ## Pré-requisitos
 
-O Kriol funciona em **Linux** e **Windows** (x86_64). Suporte para macOS está planeado para o futuro.
+O Kriol funciona em **Linux** e **Windows** (x86_64). O suporte para Windows é experimental. Suporte para macOS está planeado para o futuro.
 
 Precisas ter:
 - No Linux, um compilador C (GCC ou Clang), usado para ligar os programas
@@ -38,7 +38,11 @@ Fecha e reabre o terminal, e verifica se funcionou:
 kriol --version
 ```
 
-### Windows
+### Windows (experimental)
+
+:::caution[Suporte experimental]
+Os executáveis para Windows ainda não têm assinatura digital, por isso o Windows pode impedir que sejam executados. Se isso acontecer, vê [Se o Windows bloquear o kriol.exe](#se-o-windows-bloquear-o-kriolexe).
+:::
 
 No PowerShell, executa:
 
@@ -53,6 +57,35 @@ kriol --version
 ```
 
 Também podes descarregar o ficheiro `kriol-<versão>-windows-x86_64.zip` da [página de versões](https://github.com/kriol-lang/kriol/releases) e usá-lo diretamente; mantém o `kriol.exe` e o `ld.lld.exe` na mesma pasta. Os programas compilados funcionam no Windows 7 e versões posteriores.
+
+#### Se o Windows bloquear o kriol.exe
+
+Como o `kriol.exe` e o `ld.lld.exe` não têm assinatura digital, ao executá-los podes ver um erro como *"Uma política de Controlo de Aplicações bloqueou este ficheiro"* (em inglês, *"An Application Control policy has blocked this file"*) ou um aviso do SmartScreen a dizer *"O Windows protegeu o seu PC"*. Isto vem das funcionalidades de segurança do Windows, não do Kriol. Para contornar:
+
+1. Se descarregaste o `.zip` manualmente, desbloqueia os ficheiros e tenta de novo. Executa isto na pasta onde o extraíste, ou no `.zip` antes de o extrair:
+
+   ```powershell
+   Get-ChildItem -Recurse | Unblock-File
+   ```
+
+   No aviso do SmartScreen, também podes escolher **Mais informações → Executar mesmo assim**. O script de instalação já desbloqueia os ficheiros e avisa-te se o Windows continuar a bloquear o `kriol.exe`.
+
+2. Se o erro da *política de Controlo de Aplicações* continuar, é o **Controlo Inteligente de Aplicações** (*Smart App Control*) que está a bloquear programas sem assinatura. Podes ver o estado dele em *Segurança do Windows → Controlo de aplicações e browser → Controlo Inteligente de Aplicações*. Nesse caso, recomendamos usar a versão para Linux dentro do [WSL](https://learn.microsoft.com/pt-pt/windows/wsl/install), que te permite manter o Controlo Inteligente de Aplicações ativo. Instala o WSL a partir do PowerShell e reinicia o computador quando te for pedido:
+
+   ```powershell
+   wsl --install
+   ```
+
+   Depois, no terminal do WSL (Ubuntu), instala um compilador C e o Kriol, como nas [instruções para Linux](#linux):
+
+   ```bash
+   sudo apt update && sudo apt install -y gcc curl
+   curl -fsSL https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.sh | sh -s -- --pre
+   ```
+
+3. Caso contrário, por agora a única forma de contornar o Controlo Inteligente de Aplicações é desativá-lo no mesmo sítio. Em muitas versões do Windows 11 não é possível voltar a ativá-lo sem reinstalar o Windows, por isso pensa bem antes. Também podes [compilar o Kriol de origem](#compilar-de-origem-opcional).
+
+4. Em computadores geridos por uma empresa ou escola, o bloqueio pode vir de uma política de TI. Pede ao administrador que autorize os ficheiros.
 
 ## O teu primeiro programa
 
