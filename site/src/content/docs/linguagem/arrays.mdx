@@ -121,6 +121,13 @@ pessoa.enderesus[0].numero += 5;
 ## Restrições actuais
 
 - O tamanho do array deve ser um **literal inteiro**. Não pode ser uma variável.
+- Um array pode ter no máximo **1 048 576** elementos.
+- Um array declarado dentro de uma função fica na pilha e pode ocupar no máximo
+  **1 MiB** (por exemplo, 131 072 valores `nter`). Arrays maiores devem ser
+  declarados fora das funções; vê
+  [Tamanho das variáveis locais](../variaveis/#tamanho-das-variáveis-locais).
+- Aceder a um índice fora do array termina o programa com uma mensagem de erro
+  que indica a linha e o índice.
 - Literais sem tipo explícito precisam de um contexto de array. Se o compilador
   não conseguir inferir o alvo, usa `<tipo>[...]`.
 - Arrays de valores de moldes podem ser usados, mas não podem ser impressos como

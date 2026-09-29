@@ -34,6 +34,20 @@ mostra(i);
 Usar uma variável declarada com `dipoz` antes de lhe atribuir um valor é um erro em tempo de compilação.
 :::
 
+Se a variável só receber um valor num caminho que acaba por não executar (por exemplo, dentro de um `si` cuja condição é falsa), ela mantém o valor inicial zero: `0` para números, `nau` para `bool` e texto vazio para `textu`. O mesmo vale para os campos de um molde e os elementos de um array declarados com `dipoz`.
+
+## Tamanho das variáveis locais
+
+As variáveis declaradas dentro de uma função (e os parâmetros) ficam na pilha do programa, por isso cada uma pode ocupar no máximo **1 MiB** (1 048 576 bytes). Um valor maior, como um array grande, deve ser declarado fora das funções:
+
+```kriol
+nter[200000] grandi = [0] * 200000;   // 1,6 MB: fora das funções
+
+fn inisiu() {
+    grandi[0] = 1;
+}
+```
+
 ## Atribuição
 
 Depois de declarada, uma variável pode ser reatribuída com `=` ou com operadores compostos:

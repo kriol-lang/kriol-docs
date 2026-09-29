@@ -216,6 +216,20 @@ não está implementada na versão atual.
                    | T_KONFIRMA '(' <expression> ')' ';'
 ```
 
+## Limites
+
+O compilador impõe estes limites para que programas grandes falhem com uma mensagem clara, em vez de esgotarem a memória ou a pilha:
+
+| Limite | Valor |
+|---|---|
+| Profundidade de uma expressão (operadores, chamadas, parênteses e inicializadores encadeados) | 256 níveis |
+| Elementos de um array | 1 048 576 |
+| Tamanho de uma variável local ou parâmetro | 1 MiB |
+| Aninhamento de blocos (`si`, `nkuantu`, `pa`, `{ }`) | cerca de 2 500 níveis |
+| Pilha dos programas compilados (Linux, Windows e WebAssembly) | 8 MiB |
+
+Uma soma como `1 + 1 + ... + 1` conta um nível por operador, por isso também está sujeita ao limite de profundidade.
+
 # Referências
 
 Este projeto é possível graças a (mas não apenas) essas referências:

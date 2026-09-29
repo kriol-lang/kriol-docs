@@ -73,7 +73,7 @@ A linguagem já suporta:
 
 ## Planos futuros
 
-- Suporte para Windows e macOS
+- Suporte para macOS
 - Biblioteca padrão mais completa
 - Gestão de ficheiros
 - Módulos e imports

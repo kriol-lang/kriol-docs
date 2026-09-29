@@ -5,10 +5,11 @@ description: Como instalar e executar o teu primeiro programa Kriol.
 
 ## Pré-requisitos
 
-Atualmente, o Kriol funciona apenas em **Linux** (x86_64). Se usas Windows, recomendamos usar **WSL** (Windows Subsystem for Linux). Suporte para Windows e macOS está planeado para o futuro.
+O Kriol funciona em **Linux** e **Windows** (x86_64). Suporte para macOS está planeado para o futuro.
 
 Precisas ter:
-- Um compilador C (GCC ou Clang)
+- No Linux, um compilador C (GCC ou Clang), usado para ligar os programas
+- No Windows, nada mais: o compilador já traz tudo o que precisa
 - Uma conexão à internet para a instalação
 
 :::note[Experimentar no playground]
@@ -16,6 +17,8 @@ Também podes testar a linguagem no [playground Kriol](https://play.kriol.dev) a
 :::
 
 ## Instalação
+
+### Linux
 
 A forma mais fácil de instalar o Kriol é através do script de instalação:
 
@@ -34,6 +37,22 @@ Fecha e reabre o terminal, e verifica se funcionou:
 ```bash
 kriol --version
 ```
+
+### Windows
+
+No PowerShell, executa:
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.ps1))) -Pre
+```
+
+O Kriol fica instalado em `%LOCALAPPDATA%\Programs\kriol` e é adicionado ao teu `PATH`. Abre um novo terminal e verifica se funcionou:
+
+```powershell
+kriol --version
+```
+
+Também podes descarregar o ficheiro `kriol-<versão>-windows-x86_64.zip` da [página de versões](https://github.com/kriol-lang/kriol/releases) e usá-lo diretamente; mantém o `kriol.exe` e o `ld.lld.exe` na mesma pasta. Os programas compilados funcionam no Windows 7 e versões posteriores.
 
 ## O teu primeiro programa
 
@@ -62,6 +81,10 @@ Executa:
 ```bash
 ./ola-mundu
 ```
+
+No Windows, o compilador acrescenta `.exe` ao nome, e o programa executa-se com `.\ola-mundu.exe`.
+
+Os programas são otimizados por omissão (nível `-O2`). Podes escolher outro nível com `-O0` (sem otimização) a `-O3`.
 
 **Saída:**
 
@@ -113,19 +136,21 @@ fn inisiu() {
 
 Se quiseres compilar o compilador de origem, precisas de:
 
-- clang-19, clang++-19, e llvm-19
+- Clang, LLVM e LLD 20
 - bison e flex
-- libgc-dev, xxd, cmake
+- cmake
 
 No Debian/Ubuntu:
 
 ```bash
-apt install make flex bison clang-19 clang++-19 llvm-19 llvm-19-dev libgc-dev xxd cmake
+apt install make flex bison clang-20 llvm-20 llvm-20-dev llvm-20-tools lld-20 zlib1g-dev libzstd-dev cmake wasi-libc libclang-rt-20-dev-wasm32
 ```
 
-Compila:
+Obtém o código, incluindo o submódulo do coletor de lixo, e compila:
 
 ```bash
+git clone --recursive https://github.com/kriol-lang/kriol
+cd kriol
 cmake -B build && cmake --build build
 ```
 
@@ -135,4 +160,4 @@ Executa:
 ./build/kriol --help
 ```
 
-Para mais exemplos, vê a pasta `examples/` no [repositório](https://github.com/kriol-lang/kriol).
+Para compilar no Windows, segue as instruções do `README.md` do [repositório](https://github.com/kriol-lang/kriol). Para mais exemplos, vê a pasta `examples/`.

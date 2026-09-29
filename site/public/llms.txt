@@ -14,16 +14,22 @@ KriolLang is designed to make programming accessible to Cape Verdean Creole spea
 - Compilation: Native code via LLVM/C
 - File extensions: .kriol (preferred), .kr
 - License: MIT
-- Platforms: Linux (Windows/macOS support planned)
+- Platforms: Linux and Windows, x86_64 (macOS support planned)
 - Repository: https://github.com/kriol-lang/kriol
 
 ## Installation
 
-Linux only (Windows users should use WSL):
+Linux:
 
 ```bash
 curl -fsSL https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.sh | sh -s -- --pre
 export PATH="$HOME/.kriol:$PATH"
+```
+
+Windows (PowerShell; installs kriol.exe and ld.lld.exe, programs run on Windows 7+):
+
+```powershell
+& ([scriptblock]::Create((irm https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.ps1))) -Pre
 ```
 
 ## Basic Syntax
@@ -87,7 +93,7 @@ Currently supported:
 In development:
 - Structures (molda)
 - Type casting
-- Windows/macOS support
+- macOS support
 - Standard library
 
 ## Example Programs
@@ -126,9 +132,18 @@ fn inisiu() {
 - Explicit casting: num to nter (planned)
 - No null types (values must be initialized)
 
+## Limits
+
+- Expression depth: 256 levels (a chain like 1 + 1 + ... counts one level per operator)
+- Array elements: 1,048,576
+- Local variables and parameters: 1 MiB each (declare larger values at the top level)
+- Compiled programs get an 8 MiB stack on Linux, Windows and WebAssembly
+- `dipoz` variables start as zero (0, nau, empty text) until assigned
+
 ## Compilation
 
 Compile: `kriol file.kr -o output`
+Optimization: `-O0` to `-O3` (default `-O2`)
 Run: `./output`
 Emit IR: `kriol file.kr --emit-ir`
 
