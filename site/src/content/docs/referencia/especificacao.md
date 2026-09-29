@@ -63,7 +63,7 @@ não está implementada na versão atual.
 
 <initializer> ::= <expression>
                 | <array_initializer>
-                | <array_initializer> T_MUL T_INT_LIT
+                | '[' <value_expression> ';' T_INT_LIT ']'
 
 <typed_array_initializer>   ::= '<' <type_specifier> '>' <array_initializer>
 <array_initializer>         ::= '[' <array_initializer_elements> ']'
@@ -74,7 +74,7 @@ não está implementada na versão atual.
 
 **Notas:**
 - Declarações sem inicializador são inválidas salvo se prefixadas com `dipoz`.
-- A sintaxe de repetição `[valor] * N` requer um literal inteiro `N`.
+- A sintaxe de repetição `[valor; N]` requer um literal inteiro `N`, igual ao tamanho do array.
 - A sintaxe `<tipo>[...]` cria um literal de array com tipo explícito.
 - Um literal `[ ... ]` sem tipo explícito precisa de contexto, como uma variável
   ou campo de array.

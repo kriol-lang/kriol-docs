@@ -84,7 +84,7 @@ Executa:
 
 No Windows, o compilador acrescenta `.exe` ao nome, e o programa executa-se com `.\ola-mundu.exe`.
 
-Os programas são otimizados por omissão (nível `-O2`). Podes escolher outro nível com `-O0` (sem otimização) a `-O3`.
+Os programas são otimizados por omissão (nível 2). Podes escolher outro nível com `--opt-lvl <n>`, de `0` (sem otimização) a `3`.
 
 **Saída:**
 
@@ -122,7 +122,7 @@ fn fibo(nter n) nter {
 }
 
 fn inisiu() {
-    nter[10] seq = [0] * 10;
+    nter[10] seq = [0; 10];
 
     pa nter i = 0; i < 10; i += 1 {
         seq[i] = fibo(i);

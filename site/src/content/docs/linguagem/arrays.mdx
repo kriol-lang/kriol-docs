@@ -26,12 +26,18 @@ nter[3] valores = <nter>[1, 2, 3];
 
 ## Inicialização por repetição
 
-Para preencher um array com o mesmo valor em todas as posições, usa a sintaxe `[valor] * N`:
+Para preencher um array com o mesmo valor em todas as posições, usa a sintaxe `[valor; N]`, em que `N` é o número de elementos:
 
 ```kriol
-nter[5] zeros = [0] * 5;
-num[10] uns = [1.0] * 10;
+nter[5] zeros = [0; 5];
+num[10] uns = [1.0; 10];
 ```
+
+O `N` tem de ser igual ao tamanho declarado do array.
+
+:::note
+Versões anteriores usavam `[valor] * N`. Essa forma já não é aceite; o compilador indica a nova forma.
+:::
 
 ## Declaração diferida
 
@@ -63,7 +69,7 @@ mostran(seq[2]);   // 99
 ## Uso com ciclos
 
 ```kriol
-nter[10] seq = [0] * 10;
+nter[10] seq = [0; 10];
 
 pa nter i = 0; i < 10; i += 1 {
     seq[i] = i * i;

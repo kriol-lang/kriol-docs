@@ -41,7 +41,7 @@ Se a variável só receber um valor num caminho que acaba por não executar (por
 As variáveis declaradas dentro de uma função (e os parâmetros) ficam na pilha do programa, por isso cada uma pode ocupar no máximo **1 MiB** (1 048 576 bytes). Um valor maior, como um array grande, deve ser declarado fora das funções:
 
 ```kriol
-nter[200000] grandi = [0] * 200000;   // 1,6 MB: fora das funções
+nter[200000] grandi = [0; 200000];   // 1,6 MB: fora das funções
 
 fn inisiu() {
     grandi[0] = 1;
