@@ -1,0 +1,58 @@
+{
+  "spec": "sourced/1",
+  "id": "sr:sha256:6c0be9ac458a89ca53aafca9c2ff2b29b5016bc4f6cf96dbddeb7f4fa750e915",
+  "publisher": "docs.kriol.dev",
+  "url": "https://docs.kriol.dev/",
+  "title": "Bem-vindo ao Kriol | Kriol",
+  "published_at": "2026-10-01T20:41:55Z",
+  "language": "pt-PT",
+  "media_type": "text/markdown",
+  "chunks": [
+    {
+      "id": "sc:sha256:365151d1badc60c31c1204ffa9e8bbff0cf6abd945b8fbe8a3a17e641c102d8b",
+      "section": [
+        "Bem-vindo ao Kriol",
+        "O que é o Kriol?"
+      ]
+    },
+    {
+      "id": "sc:sha256:72c0d40968e289b5545c3b043455ba5fe1f4f3ebde9d7cb54d1165e932de1527",
+      "section": [
+        "Bem-vindo ao Kriol",
+        "O que é o Kriol?"
+      ]
+    },
+    {
+      "id": "sc:sha256:fe0ce56c6861c15ca79ea0a2ebe4a14f9d36a9be8769304472908df1f30f754b",
+      "section": [
+        "Bem-vindo ao Kriol",
+        "Porquê o Kriol?"
+      ]
+    },
+    {
+      "id": "sc:sha256:ab38edf81123c1ee9846983acb25fb523ae0e9536a7d2452b1d62c15b79b3756",
+      "section": [
+        "Bem-vindo ao Kriol",
+        "Porquê o Kriol?"
+      ]
+    },
+    {
+      "id": "sc:sha256:f04e1f6ababeeef221eced1c588f9aaa6fbf5d35bd535e6e7e86b2da3476be72",
+      "section": [
+        "Bem-vindo ao Kriol",
+        "Próximos passos"
+      ]
+    },
+    {
+      "id": "sc:sha256:906ef17279f95438abe92f6a9d8c78110af21103aa3ff01c8b098f7a4379d025",
+      "section": [
+        "Bem-vindo ao Kriol",
+        "Links úteis"
+      ]
+    }
+  ],
+  "sig": {
+    "key_id": "2026a",
+    "value": "ed25519:apSUWiMaF41gjDMpuCCZqAwaVgVx34Fc1J7dajkJmMyeB89x/HjGSvXQ68uYtNedEssarwZmNlMDqX/o/cPvBg=="
+  }
+}

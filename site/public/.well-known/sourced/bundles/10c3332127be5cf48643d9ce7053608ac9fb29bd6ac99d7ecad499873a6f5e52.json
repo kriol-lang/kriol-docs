@@ -1,0 +1,37 @@
+{
+  "record": "sr:sha256:10c3332127be5cf48643d9ce7053608ac9fb29bd6ac99d7ecad499873a6f5e52",
+  "chunks": [
+    {
+      "id": "sc:sha256:e2caf0cbcd158c70c89801fedce81007af0d1466fb9d5a8851024804c89a06a5",
+      "text": "```kriol\nsi <condição> {\n    // bloco verdadeiro\n} sinon {\n    // bloco falso (opcional)\n}\n```\n\n```kriol\nnter x = 10;\n\n\nsi x > 5 {\n    mostran(\"x é maior que 5\");\n} sinon {\n    mostran(\"x é 5 ou menos\");\n}\n```"
+    },
+    {
+      "id": "sc:sha256:003ff0b381fead0c5a3a94ea3d3fe7583af7ef49af7a9d87f2f9d0ba92e1f4ae",
+      "text": "```kriol\nsi x > 100 {\n    mostran(\"grande\");\n} sinon si x > 10 {\n    mostran(\"médio\");\n} sinon {\n    mostran(\"pequeno\");\n}\n```"
+    },
+    {
+      "id": "sc:sha256:138aa07c78f72693354d545e982a67a228dac15e4ac98801eb466e4d9f25624a",
+      "text": "Executa enquanto a condição for verdadeira:\n\n```kriol\nnkuantu <condição> {\n    // corpo\n}\n```\n\n```kriol\nnter i = 0;\nnkuantu i < 5 {\n    mostran(i);\n    i += 1;\n}\n```"
+    },
+    {
+      "id": "sc:sha256:631d7298e26ac79bcc792ef73d423698f9688f1e054f60c61705dfe2b42c6f3f",
+      "text": "```kriol\npa <inicialização>; <condição>; <incremento> {\n    // corpo\n}\n```\n\n```kriol\npa nter i = 0; i < 10; i += 1 {\n    mostra(i);\n}\n```"
+    },
+    {
+      "id": "sc:sha256:11092f3052d93e3c7090e7daef86a9c5415e91dae9014195802f3b43ccb96870",
+      "text": "Termina o ciclo imediatamente:\n\n```kriol\nnter i = 0;\nnkuantu i < 100 {\n    si i == 5 {\n        para;\n    }\n    mostran(i);\n    i += 1;\n}\n// imprime 0, 1, 2, 3, 4\n```"
+    },
+    {
+      "id": "sc:sha256:ab0e381f302c80755a2cdaac919be7bd3cdb95ec4598bf38942797ca8f5aa561",
+      "text": "Avança para a próxima iteração do ciclo:\n\n```kriol\npa nter i = 0; i < 10; i += 1 {\n    si i == 5 {\n        kontinua;\n    }\n    mostran(i);\n}\n// imprime 0, 1, 2, 3, 4, 6, 7, 8, 9\n```"
+    },
+    {
+      "id": "sc:sha256:c90940495252cb4fd30b9f7538091a1a272977433badefb982576625cda7a5aa",
+      "text": "Termina o programa com um código de saída:\n\n```kriol\nsai(0);    // saída com sucesso\nsai(1);    // saída com erro\n```"
+    },
+    {
+      "id": "sc:sha256:374fb978739e20fe53e52b04d303ad9c8879fcfd730e0dd7c61943d417316595",
+      "text": "Verifica uma condição em tempo de execução. Se a condição for falsa, o programa termina com erro:\n\n```kriol\nkonfirma(x >= 0);         // falha se x < 0\nkonfirma(1 == 1);         // sempre passa\nkonfirma(!nau);           // sempre passa\n```\n\nÚtil para pré-condições e validações durante o desenvolvimento."
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "spec": "sourced/1",
+  "id": "sr:sha256:3208ee5cdbeb34a5150c8f4e1757d05661784168d753eb9c506873ab7a6603a0",
+  "publisher": "docs.kriol.dev",
+  "url": "https://docs.kriol.dev/introducao/primeiros-passos/",
+  "title": "Primeiros Passos | Kriol",
+  "published_at": "2026-10-01T20:41:55Z",
+  "language": "pt-PT",
+  "media_type": "text/markdown",
+  "chunks": [
+    {
+      "id": "sc:sha256:de9d1a3dedfe29b0d6e59d6462d2a4bb4ad0999b0f0ab7e2a710754e6b3ab298",
+      "section": [
+        "Primeiros Passos",
+        "Pré-requisitos"
+      ]
+    },
+    {
+      "id": "sc:sha256:a44f83628a4dd551f7528c84cce43dc6668265bfc89fd07011e39212e9293061",
+      "section": [
+        "Primeiros Passos",
+        "Pré-requisitos"
+      ]
+    },
+    {
+      "id": "sc:sha256:cc5f3cc3eeb30ca694aa56c378878dac477784b7fef98e980dc6de539f21705c",
+      "section": [
+        "Primeiros Passos",
+        "Instalação",
+        "Linux"
+      ]
+    },
+    {
+      "id": "sc:sha256:6ad23d3b96210002ac40c52a4e9e46282cf22935e98483b2e77d93ca7fe73b35",
+      "section": [
+        "Primeiros Passos",
+        "Instalação",
+        "Windows (experimental)"
+      ]
+    },
+    {
+      "id": "sc:sha256:08128c2642831e7295d2fc0961afc29d064b993cbc4ad3ba496822d2bc06ea29",
+      "section": [
+        "Primeiros Passos",
+        "Instalação",
+        "Windows (experimental)"
+      ]
+    },
+    {
+      "id": "sc:sha256:2cd38fb2eab1fd1eeb0b425d71a1262ed827c67e23065842fb5fb55c81f2ad19",
+      "section": [
+        "Primeiros Passos",
+        "Instalação",
+        "Windows (experimental)",
+        "Se o Windows bloquear o kriol.exe"
+      ]
+    },
+    {
+      "id": "sc:sha256:3f788200ff17faeb51d8ca0786d579f1036612ca7f534e53823e431d2538ace7",
+      "section": [
+        "Primeiros Passos",
+        "Instalação",
+        "Windows (experimental)",
+        "Se o Windows bloquear o kriol.exe"
+      ]
+    },
+    {
+      "id": "sc:sha256:56cb550defb0f4098828dca1b60d11aabbfc2d3682b47660851ef8fbfbffcde7",
+      "section": [
+        "Primeiros Passos",
+        "Instalação",
+        "Windows (experimental)",
+        "Se o Windows bloquear o kriol.exe"
+      ]
+    },
+    {
+      "id": "sc:sha256:64a8c48a9e37ce8c0fdc5f342809eea5d7fafec9d047e59ecd940ae3d26ce195",
+      "section": [
+        "Primeiros Passos",
+        "Instalação",
+        "Windows (experimental)",
+        "Se o Windows bloquear o kriol.exe"
+      ]
+    },
+    {
+      "id": "sc:sha256:cf2ee0a5c7e8a65da174cfe6c8ba3d6adc33e86156c774b19a9466d9b271faf0",
+      "section": [
+        "Primeiros Passos",
+        "Instalação",
+        "Windows (experimental)",
+        "Se o Windows bloquear o kriol.exe"
+      ]
+    },
+    {
+      "id": "sc:sha256:e85ff1ea16cf6ce9dcc0a086479cb24e9cd6de0dd8e67aa2abc9bf8c69b3731a",
+      "section": [
+        "Primeiros Passos",
+        "Instalação",
+        "Windows (experimental)",
+        "Se o Windows bloquear o kriol.exe"
+      ]
+    },
+    {
+      "id": "sc:sha256:dd3381f8992772dcf92d255c61f0c5482b7d085b79db8e111fdd65068c3fcc8e",
+      "section": [
+        "Primeiros Passos",
+        "O teu primeiro programa"
+      ]
+    },
+    {
+      "id": "sc:sha256:f0abe60d19270afd8e2a72e74dcf38cd9052f46760394998725863ae7f0ba93a",
+      "section": [
+        "Primeiros Passos",
+        "O teu primeiro programa",
+        "Compilar e executar"
+      ]
+    },
+    {
+      "id": "sc:sha256:b5bd0bfc4e2dd4d1200795f118561c5dd46b04e3f41e22bfd2999701af4c60bd",
+      "section": [
+        "Primeiros Passos",
+        "Estrutura básica de um programa"
+      ]
+    },
+    {
+      "id": "sc:sha256:7829e85da4a912f2f7374d491267cd118f96ba0968e304b04c817b0266342d19",
+      "section": [
+        "Primeiros Passos",
+        "Extensões de ficheiro"
+      ]
+    },
+    {
+      "id": "sc:sha256:4b6fdede1a101ac48e01ffa5058f5d3edfc31d317cffd32deb701af173f99348",
+      "section": [
+        "Primeiros Passos",
+        "Exemplo: Fibonacci recursivo"
+      ]
+    },
+    {
+      "id": "sc:sha256:6e3e3f2eeabd9cc0a0741955c44e30ae833972e433e94bf37edbfd88cc547d9f",
+      "section": [
+        "Primeiros Passos",
+        "Compilar de origem (opcional)"
+      ]
+    },
+    {
+      "id": "sc:sha256:3ef4cd79b20db69cef2d7d391e5d5e204448245adf06e40e3a24fc4ae68a0ce6",
+      "section": [
+        "Primeiros Passos",
+        "Compilar de origem (opcional)"
+      ]
+    }
+  ],
+  "sig": {
+    "key_id": "2026a",
+    "value": "ed25519:g3gTX2J5ctRFGH2TWp0NlRuCcHUG9JCs5eh+TJO3xUAunX/XFtTe2XGHaEYkEhGBxBB9wJwXAXhc8iZl21XADw=="
+  }
+}

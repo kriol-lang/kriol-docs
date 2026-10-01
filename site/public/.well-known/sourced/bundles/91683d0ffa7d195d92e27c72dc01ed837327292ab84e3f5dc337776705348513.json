@@ -1,0 +1,29 @@
+{
+  "record": "sr:sha256:91683d0ffa7d195d92e27c72dc01ed837327292ab84e3f5dc337776705348513",
+  "chunks": [
+    {
+      "id": "sc:sha256:9f8fe5fc40c607180f9860cd012512c6dd7f885a6d990f7fe7ccf094542553cf",
+      "text": "A função `toma` lê uma linha de `stdin` e retorna um valor `textu`. Ela aceita uma mensagem de prompt opcional.\n\n`toma` é uma função embutida do prelúdio: está sempre disponível, mas o nome é reservado e não pode ser redefinido."
+    },
+    {
+      "id": "sc:sha256:bb25a1370bb76341fdc3df4b1558dd3ded5e7e651fafa02741b3482ffa2873da",
+      "text": "```kriol\ntoma()\ntoma(\"Mensagem para o utilizador: \")\n```\n\nO valor retornado não inclui a quebra de linha final. Em ficheiros com quebras de linha Windows, o `\\r` final também é removido."
+    },
+    {
+      "id": "sc:sha256:cefe235b8d368d569f824b9d4862920b17c965b35bc7aaa81d6e1951d43e695f",
+      "text": "```kriol\ntextu nome = toma(\"Digite o seu nome: \");\nmostran(f\"Olá, {nome}!\");\n```"
+    },
+    {
+      "id": "sc:sha256:4c42696fb023d3f8c06adba59ecedc146b958a66017c685a3b316a12dcc4090f",
+      "text": "```kriol\ntextu linha = toma();\nmostran(f\"Recebido: {linha}\");\n```"
+    },
+    {
+      "id": "sc:sha256:473b7bb5c615b4f495820a187347611a5e967e3e74cbcfcd4bcc809a4a187cdd",
+      "text": "`toma` retorna sempre `textu`. Conversão para `nter`, `num` ou outros tipos deve ser feita por uma funcionalidade de parsing/conversão explícita futura."
+    },
+    {
+      "id": "sc:sha256:dc41500029d86c1a58dce92f778c21918c5f204ffdaf458b471bb9b9a794208b",
+      "text": "- Tratamento de erros de conversão (ex: utilizador escreve texto quando se espera `nter`)\n- Leitura de múltiplos valores\n- Parsing de `textu` para tipos numéricos"
+    }
+  ]
+}

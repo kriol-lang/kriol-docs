@@ -1,0 +1,45 @@
+{
+  "record": "sr:sha256:455d3cb5c48d81ce351922a5ad4a250230df661c4dda3ce78f56b3963741a5f6",
+  "chunks": [
+    {
+      "id": "sc:sha256:6250469939bc6942bea0da79da55b26f276d5841526eb85b9f1933fbdb17d7c8",
+      "text": "O Kriol é uma linguagem de **tipagem estática**. Cada variável tem um tipo definido em tempo de compilação que não pode mudar."
+    },
+    {
+      "id": "sc:sha256:b9eb7bd6034d0d415c0eb5403768473b3e700080288468fc8d1efd3ffca8f46f",
+      "text": "| Tipo    | Equivalente C aproximado | Descrição                          | Exemplo           |\n|---------|--------------------------|------------------------------------|-------------------|\n| `nter`  | `int64_t`                | Inteiro assinado de 64 bits        | `nter x = 42;`    |\n| `num`   | `double`                 | Número de vírgula flutuante 64-bit | `num pi = 3.14;`  |\n| `bool`  | `bool`                   | Valor booleano (`sin` / `nau`)     | `bool ok = sin;`  |\n| `textu` | `char*`                  | Cadeia de caracteres (string)      | `textu s = \"oi\";` |\n\nTambém existem tipos numéricos primitivos explícitos para controlar largura e sinal quando isso é importante:"
+    },
+    {
+      "id": "sc:sha256:3302288a86041b4b06edc587c8f126178d77e8ac67f5c75e8726ee212a473b10",
+      "text": "| Família            | Tipos                              |\n|--------------------|------------------------------------|\n| Inteiros com sinal | `i8`, `i16`, `i32`, `i64`, `isize` |\n| Inteiros sem sinal | `u8`, `u16`, `u32`, `u64`, `usize` |\n| Ponto flutuante    | `f32`, `f64`                       |\n\n`nter` é equivalente a `i64`, e `num` é equivalente a `f64`."
+    },
+    {
+      "id": "sc:sha256:90a8345fefa0c399d5e751060880895ed95abd37008fcad677899a15422c62cf",
+      "text": "```kriol\nnter a = 10;\nnter b = -42;\nnter c = 0;\nu8 byte = 255;\ni32 delta = -12;\nusize tamanho = 3;\n```"
+    },
+    {
+      "id": "sc:sha256:dadaa6ba14de4bff7e5497eabe209af981951338b989eae18d8481d506cb632f",
+      "text": "```kriol\nnum pi = 3.14159;\nnum negativo = -2.5;\nnum inteiro_como_num = 4.0;\nf32 pequeno = 1.5;\nf64 grande = 10.25;\n```"
+    },
+    {
+      "id": "sc:sha256:1324716ae349f4768b8a4b10c26fd81c5a389f0c707bd2d53b015f5e61e7d658",
+      "text": "O Kriol usa `sin` (verdadeiro) e `nau` (falso) em vez de `true`/`false`:\n\n```kriol\nbool ativo = sin;\nbool desligado = nau;\n```"
+    },
+    {
+      "id": "sc:sha256:111ac1e8b0758a8ed26fe3a13661e26f2b035c4bfe1b4b1e83403d710e5d4576",
+      "text": "Podem usar aspas duplas ou simples, e suportam interpolação com f-strings:\n\n```kriol\ntextu nome = \"Kriol\";\ntextu outro = 'Cabo Verde';\ntextu saudacao = f\"Olá, {nome}!\";\n```"
+    },
+    {
+      "id": "sc:sha256:c9d7d0fec68aadb6a6258b2fd76d1f75c8993a7163c93ddc80e84a094fc0a059",
+      "text": "O Kriol suporta conversões implícitas de alargamento quando não há perda de informação, como `nter` para `num`, inteiros menores para inteiros maiores compatíveis, ou inteiros para ponto flutuante. Por exemplo:\n\n```kriol\nnter x = 5;\nnum y = x;   // ok, alargamento automático\n```"
+    },
+    {
+      "id": "sc:sha256:3ee267134814ca20a251c6b51bb122e264874f124c3eccf83d8f111e138365bc",
+      "text": "Além dos tipos primitivos, podes declarar moldes com a palavra-chave `molda`:\n\n```kriol\nmolda Pessoa {\n    textu nomi;\n    nter idadi;\n}\n\n\nPessoa pessoa = Pessoa::{nomi: \"jose\", idadi: 60};\n```\n\nConsulta a página [Moldes (`molda`)](https://docs.kriol.dev/linguagem/estruturas/) para detalhes."
+    },
+    {
+      "id": "sc:sha256:2769a042b957479cfcd1bd171c01a290208c46feed423946ae87ca90ee9b66e4",
+      "text": "Arrays são colecções de tamanho fixo do mesmo tipo. Consulta a página [Arrays](https://docs.kriol.dev/linguagem/arrays/) para a documentação completa.\n\n```kriol\nnter[5] numeros = [1, 2, 3, 4, 5];\n```"
+    }
+  ]
+}

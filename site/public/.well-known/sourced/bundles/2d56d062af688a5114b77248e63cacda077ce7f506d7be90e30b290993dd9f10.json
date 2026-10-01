@@ -1,0 +1,25 @@
+{
+  "record": "sr:sha256:2d56d062af688a5114b77248e63cacda077ce7f506d7be90e30b290993dd9f10",
+  "chunks": [
+    {
+      "id": "sc:sha256:22188937c19300fe8ba3f3b6b304f17cf5864fdf265a321efa68518654c04a76",
+      "text": "O Kriol converte automaticamente valores numéricos quando a conversão é um alargamento seguro:\n\n| De                       | Para                       | Automático |\n|--------------------------|----------------------------|------------|\n| `bool`                   | inteiro ou ponto flutuante | ✅ Sim      |\n| inteiro menor compatível | inteiro maior compatível   | ✅ Sim      |\n| inteiro                  | ponto flutuante            | ✅ Sim      |\n| `f32`                    | `f64` / `num`              | ✅ Sim      |\n| `nter` / `i64`           | `num` / `f64`              | ✅ Sim      |"
+    },
+    {
+      "id": "sc:sha256:50a35d1cc28b701b55c427fa39ee05632408841d3a0d0d385f561c8ef247a4ac",
+      "text": "```kriol\nnter x = 5;\nnum y = x;       // ok, alargamento automático nter para num\n\n\nfn aceita_num(num n) {\n    mostran(n);\n}\n\n\nfn inisiu() {\n    aceita_num(10);   // ok, nter 10 é alargado para num\n}\n```"
+    },
+    {
+      "id": "sc:sha256:402db1bab8ce46c7ec36ab9aae549cc0a3e5f8e797ee9b73c798163818576081",
+      "text": "A conversão de `num` para `nter` (ou entre outros tipos incompatíveis) requer uma conversão explícita."
+    },
+    {
+      "id": "sc:sha256:5a18633df640342d6863ee51b45aa1da8f8d6de4642865a1ccfd8fee989c1e3a",
+      "text": "Algumas opções em análise (a sintaxe final pode diferir):\n\n```kriol\n// Opção A: estilo função\nnter n = nter(3.7);    // n == 3 (truncagem)\n\n\n// Opção B: estilo prefixo\nnter n = (nter) 3.7;   // n == 3\n\n\n// Opção C: keyword komu\nnter n = 3.7 komu nter;\n\n\n// Opção D: operador direto\nnter n = 3.7 -> nter;\n// ou\nnter n = 3.7 >> nter;\n```"
+    },
+    {
+      "id": "sc:sha256:7f98d9aaeab49e39268d3771f555b033e857a8f7d16092afdcc2bf9125283e0b",
+      "text": "| De      | Para    | Comportamento esperado             |\n|---------|---------|------------------------------------|\n| `num`   | `nter`  | Truncagem (descarta parte decimal) |\n| `nter`  | `textu` | Representação textual do número    |\n| `num`   | `textu` | Representação textual do número    |\n| `textu` | `nter`  | Interpretação numérica da string   |\n| `textu` | `num`   | Interpretação numérica da string   |\n| `bool`  | `nter`  | `sin` vira 1, `nau` vira 0         |"
+    }
+  ]
+}

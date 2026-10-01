@@ -1,0 +1,58 @@
+{
+  "spec": "sourced/1",
+  "id": "sr:sha256:f72e24bc41a7bd88df3d322721da7bf5c6fbaa59dd2b4f6b9ff297330289c10c",
+  "publisher": "docs.kriol.dev",
+  "url": "https://docs.kriol.dev/linguagem/operadores/",
+  "title": "Operadores | Kriol",
+  "published_at": "2026-10-01T20:41:55Z",
+  "language": "pt-PT",
+  "media_type": "text/markdown",
+  "chunks": [
+    {
+      "id": "sc:sha256:c02d95b35864b921a4b23015221fb3c66664933927c2cc9713bd71783b9c6223",
+      "section": [
+        "Operadores",
+        "Operadores aritméticos"
+      ]
+    },
+    {
+      "id": "sc:sha256:3ee77f883851a405832c6700e96dabc10711ec5ceaf628434673ea7994d6f1fb",
+      "section": [
+        "Operadores",
+        "Operadores aritméticos"
+      ]
+    },
+    {
+      "id": "sc:sha256:4e5c87f99e049309796741f9ab3ea20c2ef2613511c12227c0808afaa4f97370",
+      "section": [
+        "Operadores",
+        "Operadores relacionais"
+      ]
+    },
+    {
+      "id": "sc:sha256:c8d7bdbacc024d225ec35a8119b5821d7ab29c6e9e19b465c999483281f65d1f",
+      "section": [
+        "Operadores",
+        "Operadores lógicos"
+      ]
+    },
+    {
+      "id": "sc:sha256:f47750adaaa92bb785389d4a7e2d076f1516e142b4abfa6ed1191f36f944849b",
+      "section": [
+        "Operadores",
+        "Operadores de atribuição compostos"
+      ]
+    },
+    {
+      "id": "sc:sha256:a0964f587cf38ccf4a391306033b544c81b3f0cbe3e7deb8b7fc0f7476030ab4",
+      "section": [
+        "Operadores",
+        "Precedência de operadores"
+      ]
+    }
+  ],
+  "sig": {
+    "key_id": "2026a",
+    "value": "ed25519:hen+peNOmJr4669Mn26OBTHVxtflqYDKDx29k3CXSUnWXFznQgWaZAPM3+zOeWTVODzkItFhKCOkoONNiJ8GBQ=="
+  }
+}

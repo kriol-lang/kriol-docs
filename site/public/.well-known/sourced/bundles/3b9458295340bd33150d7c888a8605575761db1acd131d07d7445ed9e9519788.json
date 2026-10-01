@@ -1,0 +1,33 @@
+{
+  "record": "sr:sha256:3b9458295340bd33150d7c888a8605575761db1acd131d07d7445ed9e9519788",
+  "chunks": [
+    {
+      "id": "sc:sha256:7c6597eaea6463220abf789165c55c63c3bb54ebd66612aecfada7229e8cae1e",
+      "text": "**KriolLang** (ou **Kriol**) é uma linguagem de programação imperativa, de tipagem estática e compilada. Foi criada usando palavras-chave do **Criolo cabo-verdiano**, a língua materna de Cabo Verde."
+    },
+    {
+      "id": "sc:sha256:5b5a8c190f31edea9140fe0c221ebd5c05ed07502bdf2ecfeb51273ed7f54277",
+      "text": "A sintaxe inspira-se em linguagens como C, Go e Rust, mas distingue-se pelo uso da língua criola para tornar a programação mais acessível aos cabo-verdianos e falantes de criolo."
+    },
+    {
+      "id": "sc:sha256:be555c86998f0978e4334b320e2a3cb4e7fe63d128c823750f2d0ace57258e82",
+      "text": "```kriol\nmolda Pessoa {\n  textu nomi;\n  textu apelidu;\n  textu idadi;\n}\n\n\nfn novu_pessoa(textu nomi, textu apelidu, textu idadi) Pessoa {\n  divolvi Pessoa::{nomi: nomi, apelidu: apelidu, idadi: idadi};\n}\n\n\nfn mostra_pessoa(Pessoa p) {\n  mostran(f\"{p.nomi} {p.apelidu} tem {p.idadi} anos de idade.\");\n}\n\n\nfn inisiu() {\n  Pessoa[3] pessoas = [\n    novu_pessoa('José', 'Tavares', '60'),\n    novu_pessoa('Yara', 'Coelho', '44'),\n    novu_pessoa('Clara', 'Sanchez', '71')\n  ];\n\n\n  pa nter i = 0 ; i < 3 ; i += 1 {\n    mostra_pessoa(pessoas[i]);\n  }\n\n\n  mostran(\"-----------------\");\n  mostran(\"[[ y abo go? ]]\");\n\n\n  textu nomi = toma(\"-> nomi: \");\n  textu apelidu = toma(\"-> apelidu: \");\n  textu idadi = toma(\"-> idadi: \");\n\n\n  mostran(\"-----------------\");\n\n\n  Pessoa abo = novu_pessoa(nomi, apelidu, idadi);\n\n\n  mostra_pessoa(abo);\n}\n```"
+    },
+    {
+      "id": "sc:sha256:e95c0b031cc2eedb7f344331af71f04a5d6bf4e7ab4f1874085f0a40d89b9cd6",
+      "text": "O Criolo é naturalmente adequado para programação. Tal como o inglês, tem baixa dependência de acentos e caracteres especiais. Exemplo:\n\n- Em português: `se/senão` precisa de ser escrito `se/senao` (sem acento)\n- Em Criolo: `si/sinon` já é naturalmente ASCII e soa relativamente mais natural"
+    },
+    {
+      "id": "sc:sha256:8809a1f81c07a6b7c875e020a9a7d51693d836114f23c438aa0c2a7d29ba056c",
+      "text": "O Kriol serve como porta de entrada à programação para falantes de Criolo cabo-verdiano. Permite ensinar lógica e programação numa língua próxima do quotidiano."
+    },
+    {
+      "id": "sc:sha256:2f796413b5e10d3b408b6a3d5d29728d9b3b591a4b6a8e05fd1d798fbe6cfd38",
+      "text": "A linguagem já suporta:\n\n- Variáveis tipadas (`nter`, `num`, `textu`, `bool` e tipos primitivos explícitos como `i32`, `u64`, `f32`)\n- Funções com retorno tipado\n- Estruturas de controlo (`si/sinon`, `nkuantu`, `pa`)\n- Arrays e strings\n- Input/output (`mostra`, `mostran`, `toma`)"
+    },
+    {
+      "id": "sc:sha256:3628d5707bc59928cdaadc8922046d5cf01d2d3e67bdddce08978f1c3ab76c9d",
+      "text": "- Suporte para macOS\n- Biblioteca padrão mais completa\n- Gestão de ficheiros\n- Módulos e imports\n- Estruturas (molda)\n- Melhorias no sistema de tipos\n\nO projecto é **Open Source** sob licença MIT. Contribuições são bem-vindas no [GitHub](https://github.com/kriol-lang)."
+    }
+  ]
+}
