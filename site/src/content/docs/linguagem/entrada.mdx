@@ -52,10 +52,27 @@ fn inisiu() {
 
 ### Composição com conversão
 
-`toma` devolve sempre `textu`. Conversão para `int`, `num` ou outros tipos deve ser feita por uma funcionalidade de parsing/conversão explícita futura.
+`toma` devolve sempre `textu`. Para ler um número, converte o texto com `tipo::konverti` (vê [Conversão de tipos](/linguagem/conversao-de-tipos/)):
+
+```kriol
+fn inisiu() : Erru {
+    int idadi = tenta int::konverti(toma("Idadi: "));
+    mostran(f"Para o ano terás {idadi + 1}.");
+}
+```
+
+Se o utilizador escrever algo que não é um número, `int::konverti` falha com um erro como `invalid integer 'abc'`. Para voltar a pedir o valor, usa `sinon` num ciclo:
+
+```kriol
+fn inisiu() {
+    int idadi = -1;
+    nkuantu idadi < 0 {
+        idadi = int::konverti(toma("Idadi: ")) sinon -1;
+    }
+    mostran(f"Idadi: {idadi}");
+}
+```
 
 ## Considerações em aberto
 
-- Tratamento de erros de conversão (ex: utilizador escreve texto quando se espera `int`)
-- Leitura de múltiplos valores
-- Parsing de `textu` para tipos numéricos
+- Leitura de múltiplos valores numa só linha

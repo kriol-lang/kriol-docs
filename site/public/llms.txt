@@ -131,6 +131,7 @@ fn inisiu() {
 - Implicit widening: int to num (automatic)
 - Explicit casting with C-style syntax: `(int) 3.9`, `(u8) 300`, `(bool) n`; only numbers and bool convert (text is not convertible)
 - Typed array literal: `(int[]) [1, 2, 3]`
+- Text to number: `tenta int::konverti(toma())`, `num::konverti(s) sinon 0.0`, also `bool::konverti`; it fails with an Erru on invalid text
 - No null types and no uninitialized variables (every declaration has an initial value)
 - Division `/` always yields a real number (`7 / 2` is `3.5`); there is no integer division operator yet
 - Bitwise operators on integers: `&`, `|`, `^`, `~` (and `&=`, `|=`, `^=`); they bind tighter than comparisons
