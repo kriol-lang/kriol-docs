@@ -53,16 +53,17 @@ fn inisiu() {
 - fn: function declaration
 - si/sinon: if/else
 - nkuantu: while loop
-- pa: for loop
+- pa: for loop, `pa int i = 0; i < 10; i += 1 { }`; the step is optional (`pa int i = 0; i < 10 { }`)
 - divolvi: return
 - mostra/mostran: print without/with newline
 - toma: read one line from stdin as textu; it stops the program if the input ends, unless handled: `tenta toma()` in a function declared `: Erru`, or `toma() sinon "default"`
-- para: break
+- kebra: break
 - kontinua: continue
 - sai: exit
 - konfirma: assert, with an optional message: konfirma(cond, "message")
 - paniku: abort the program with a message: paniku("message")
-- Recoverable errors: `fn f() int : Erru`, `lansa Erru::{mensage: "..."};`, `tenta f()` (propagate), `f() sinon value` (default). An unhandled error stops the program at the call, with a warning at compile time; `kriol --strict` turns warnings into errors
+- molda: struct; literal `Pessoa{nomi = "Ana", idadi = 30}`, fields read and written with `.`
+- Recoverable errors: `fn f() int : Erru`, `lansa Erru{mensage = "..."};`, `tenta f()` (propagate), `f() sinon value` (default). An unhandled error stops the program at the call, with a warning at compile time; `kriol --strict` turns warnings into errors
 
 ## Documentation Structure
 
@@ -73,7 +74,7 @@ fn inisiu() {
 /linguagem/operadores - Arithmetic, logical, relational operators
 /linguagem/controlo-de-fluxo - Conditionals and loops
 /linguagem/funcoes - Function declaration and recursion
-/linguagem/arrays - Fixed-size arrays
+/linguagem/arrays - Fixed-size and multi-dimensional arrays
 /linguagem/strings - Strings and f-string interpolation
 /linguagem/estruturas - Structs (molda) - in development
 /linguagem/entrada - Input (toma)
@@ -87,7 +88,7 @@ Currently supported:
 - Typed variables (int, num, bool, textu)
 - Functions with return types
 - Control flow (si/sinon, nkuantu, pa)
-- Arrays (fixed size)
+- Arrays (fixed size, multi-dimensional, passed and returned by value)
 - String interpolation (f-strings)
 - Input/output (mostra, mostran, toma)
 
@@ -128,19 +129,22 @@ fn inisiu() {
 ## Type System
 
 - Static typing with compile-time checks
-- Implicit widening: int to num (automatic)
+- Implicit widening: int to num (automatic); as in C, a real stored into an integer is truncated toward zero (`int n = 3.9;` is 3, saturating out of range)
 - Explicit casting with C-style syntax: `(int) 3.9`, `(u8) 300`, `(bool) n`; only numbers and bool convert (text is not convertible)
 - Typed array literal: `(int[]) [1, 2, 3]`
-- Text to number: `tenta int::konverti(toma())`, `num::konverti(s) sinon 0.0`, also `bool::konverti`; it fails with an Erru on invalid text
+- Text to number: `textu t = tenta toma(); int n = tenta int::konverti(t);`, `num::konverti(s) sinon 0.0`, also `bool::konverti`; it fails with an Erru on invalid text
 - No null types and no uninitialized variables (every declaration has an initial value)
-- Division `/` always yields a real number (`7 / 2` is `3.5`); there is no integer division operator yet
+- Division as in C: two integers divide as integers (`7 / 2` is 3), a real operand makes it real; `x op= v` computes in the common type and stores into x's type
+- Division or remainder by zero stops the program, for integers and reals
+- `!`, `&&` and `||` accept numbers, which are true when not zero
+- Arrays and molda are values: assigning, passing and returning copy them; `int[2][3]` has 2 rows of 3 (outermost dimension first)
 - Bitwise operators on integers: `&`, `|`, `^`, `~` (and `&=`, `|=`, `^=`); they bind tighter than comparisons
 
 ## Limits
 
 - Expression depth: 256 levels (a chain like 1 + 1 + ... counts one level per operator)
-- Array elements: 1,048,576
-- Local variables and parameters: 1 MiB each (declare larger values at the top level)
+- Elements per array dimension: 1,048,576
+- Local variables, parameters and returned values: 1 MiB each (declare larger values at the top level)
 - Compiled programs get an 8 MiB stack on Linux, Windows and WebAssembly
 
 ## Compilation

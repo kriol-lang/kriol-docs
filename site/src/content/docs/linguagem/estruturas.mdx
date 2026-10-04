@@ -34,7 +34,7 @@ molda Pessoa {
 Valores de um molde são criados com um literal associado ao tipo:
 
 ```kriol
-Pessoa pessoa = Pessoa::{nomi: "jose", idadi: 60};
+Pessoa pessoa = Pessoa{nomi = "jose", idadi = 60};
 ```
 
 Todos os campos são obrigatórios por agora. Campos repetidos, campos desconhecidos ou valores com tipos incompatíveis são erros em tempo de compilação.
@@ -43,7 +43,7 @@ Se um campo for array, o literal `[ ... ]` recebe o tipo esperado a partir do
 campo:
 
 ```kriol
-Pessoa pessoa = Pessoa::{nomi: "jose", flags: [0, 1]};
+Pessoa pessoa = Pessoa{nomi = "jose", flags = [0, 1]};
 ```
 
 ## Acesso a campos
@@ -70,10 +70,10 @@ molda Pessoa {
     Enderesu[2] enderesus;
 }
 
-Pessoa pessoa = Pessoa::{
-    enderesus: [
-        Enderesu::{rua: "antigu", numero: 10},
-        Enderesu::{rua: "nobu", numero: 44}
+Pessoa pessoa = Pessoa{
+    enderesus = [
+        Enderesu{rua = "antigu", numero = 10},
+        Enderesu{rua = "nobu", numero = 44}
     ]
 };
 
@@ -98,7 +98,7 @@ fn proxima_idadi(Pessoa pessoa) int {
 }
 
 fn inisiu() {
-    Pessoa pessoa = Pessoa::{nomi: "jose", idadi: 60};
+    Pessoa pessoa = Pessoa{nomi = "jose", idadi = 60};
     mostra(pessoa.nomi);
     mostra(" ");
     mostran(proxima_idadi(pessoa));

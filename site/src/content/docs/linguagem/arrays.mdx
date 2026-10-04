@@ -132,7 +132,7 @@ molda Pessoa {
     int[2] flags;
 }
 
-Pessoa pessoa = Pessoa::{nomi: "jose", flags: [0, 1]};
+Pessoa pessoa = Pessoa{nomi = "jose", flags = [0, 1]};
 mostran(f"Flags: {pessoa.flags}");
 ```
 
@@ -149,10 +149,10 @@ molda Pessoa {
     Enderesu[2] enderesus;
 }
 
-Pessoa pessoa = Pessoa::{
-    enderesus: [
-        Enderesu::{rua: "antigu", numero: 10},
-        Enderesu::{rua: "nobu", numero: 44}
+Pessoa pessoa = Pessoa{
+    enderesus = [
+        Enderesu{rua = "antigu", numero = 10},
+        Enderesu{rua = "nobu", numero = 44}
     ]
 };
 

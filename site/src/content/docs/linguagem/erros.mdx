@@ -37,7 +37,7 @@ Uma função que pode falhar declara-o a seguir ao tipo de retorno, depois de `:
 ```kriol
 fn metadi(int a, int b) num : Erru {
     si b == 0 {
-        lansa Erru::{mensage: "divizon pa zero"};
+        lansa Erru{mensage = "divizon pa zero"};
     }
     divolvi (num) a / b;
 }
@@ -68,7 +68,7 @@ Para o compilador tratar os avisos como erros, compila com `--strict`.
 ```kriol
 fn valida(int n) : Erru {
     si n < 0 {
-        lansa Erru::{mensage: f"negativu: {n}"};
+        lansa Erru{mensage = f"negativu: {n}"};
     }
 }
 

@@ -149,11 +149,11 @@ não está implementada na versão atual.
                           | <typed_array_initializer>
                           | '(' <expression> ')'
 
-<record_literal>        ::= T_TYPE_IDENT '::' '{' <record_field_initializers> '}'
-                          | T_TYPE_IDENT '::' '{' '}'
+<record_literal>        ::= T_TYPE_IDENT '{' <record_field_initializers> '}'
+                          | T_TYPE_IDENT '{' '}'
 
-<record_field_initializers> ::= T_IDENT ':' <initializer>
-                              | <record_field_initializers> ',' T_IDENT ':' <initializer>
+<record_field_initializers> ::= T_IDENT '=' <initializer>
+                              | <record_field_initializers> ',' T_IDENT '=' <initializer>
 
 <assignment_expression> ::= <constant_expression>
                           | <constant_expression> T_SINON <constant_expression>
