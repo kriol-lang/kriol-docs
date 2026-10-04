@@ -56,7 +56,7 @@ fn inisiu() {
 - pa: for loop
 - divolvi: return
 - mostra/mostran: print without/with newline
-- toma: read one line from stdin as textu
+- toma: read one line from stdin as textu; it can fail (end of input), so use `tenta toma()` in a function declared `: Erru`, or `toma() sinon "default"`
 - para: break
 - kontinua: continue
 - sai: exit

@@ -45,7 +45,7 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 |--------------|------------------|------------------------|
 | `mostra`     | `printf`         | Imprimir sem newline   |
 | `mostran`    | `printf + \n`    | Imprimir com newline   |
-| `toma`       | `stdin`          | Ler uma linha como `textu` |
+| `toma`       | `stdin`          | Ler uma linha como `textu` (pode falhar com `Erru`) |
 | `sai`        | `exit()`         | Terminar programa      |
 | `konfirma`   | `assert()`       | Verificar condição (com mensagem opcional) |
 | `paniku`     | `panic()`        | Terminar com uma mensagem de erro |
