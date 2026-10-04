@@ -14,6 +14,12 @@
     { "include": "#operators" }
   ],
   "repository": {
+    "braces": {
+      "comment": "Braces inside an interpolation, such as a molda literal, so its } does not end the interpolation.",
+      "begin": "\\{",
+      "end": "\\}",
+      "patterns": [{ "include": "#braces" }, { "include": "$self" }]
+    },
     "comments": {
       "patterns": [
         {
@@ -35,7 +41,7 @@
           "end": "\"",
           "patterns": [
             { "name": "constant.character.escape.kriol", "match": "\\\\." },
-            { "name": "meta.interpolation.kriol", "begin": "\\{", "end": "\\}", "patterns": [{ "include": "$self" }] }
+            { "name": "meta.interpolation.kriol", "begin": "\\{", "end": "\\}", "patterns": [{ "include": "#braces" }, { "include": "$self" }] }
           ]
         },
         {
@@ -44,7 +50,7 @@
           "end": "'",
           "patterns": [
             { "name": "constant.character.escape.kriol", "match": "\\\\." },
-            { "name": "meta.interpolation.kriol", "begin": "\\{", "end": "\\}", "patterns": [{ "include": "$self" }] }
+            { "name": "meta.interpolation.kriol", "begin": "\\{", "end": "\\}", "patterns": [{ "include": "#braces" }, { "include": "$self" }] }
           ]
         }
       ]
@@ -53,7 +59,7 @@
       "patterns": [
         {
           "name": "keyword.control.kriol",
-          "match": "\\b(si|sinon|pa|nkuantu|para|kontinua|divolvi|tenta|lansa)\\b"
+          "match": "\\b(si|sinon|pa|nkuantu|kebra|kontinua|divolvi|tenta|lansa)\\b"
         },
         {
           "name": "keyword.other.kriol",
