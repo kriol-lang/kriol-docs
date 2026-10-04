@@ -217,12 +217,13 @@ não está implementada na versão atual.
 ```bnf
 <iteration_statement> ::= T_NKUANTU <expression> <compound_statement>
                         | T_PA <expression> ';' <expression> ';' <expression> <compound_statement>
+                        | T_PA <expression> ';' <expression> <compound_statement>
 ```
 
 ## Salto
 
 ```bnf
-<jump_statement> ::= T_PARA ';'
+<jump_statement> ::= T_KEBRA ';'
                    | T_KONTINUA ';'
                    | T_DIVOLVI <expression> ';'
                    | T_DIVOLVI ';'

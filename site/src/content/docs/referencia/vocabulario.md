@@ -31,7 +31,7 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 | `sinon`      | `else`           | Senão                  |
 | `pa`         | `for`            | Ciclo for              |
 | `nkuantu`    | `while`          | Ciclo while            |
-| `para`       | `break`          | Interromper ciclo      |
+| `kebra`      | `break`          | Interromper ciclo      |
 | `kontinua`   | `continue`       | Continuar ciclo        |
 | `divolvi`    | `return`         | Retornar valor         |
 | `lansa`      | `throw`          | Falhar a função com um `Erru` |

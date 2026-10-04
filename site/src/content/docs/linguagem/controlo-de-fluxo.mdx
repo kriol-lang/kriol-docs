@@ -71,7 +71,19 @@ pa int i = 0; i < 10; i += 1 {
 }
 ```
 
-## `para` (break)
+O incremento pode ficar de fora. Nesse caso o `pa` tem só a inicialização e a condição, e é o corpo que atualiza a variável:
+
+```kriol
+pa int i = 0; i < 10 {
+    mostra(i);
+    i += 2;
+}
+// imprime 02468
+```
+
+A variável declarada na inicialização só existe dentro do ciclo.
+
+## `kebra` (break)
 
 Termina o ciclo imediatamente:
 
@@ -79,7 +91,7 @@ Termina o ciclo imediatamente:
 int i = 0;
 nkuantu i < 100 {
     si i == 5 {
-        para;
+        kebra;
     }
     mostran(i);
     i += 1;
@@ -102,7 +114,7 @@ pa int i = 0; i < 10; i += 1 {
 ```
 
 :::caution
-`para` e `kontinua` fora de um ciclo são erros de compilação.
+`kebra` e `kontinua` fora de um ciclo são erros de compilação.
 :::
 
 ## `sai` (exit)
