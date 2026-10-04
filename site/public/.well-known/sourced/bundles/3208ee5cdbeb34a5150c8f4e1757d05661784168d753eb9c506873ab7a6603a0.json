@@ -47,11 +47,11 @@
     },
     {
       "id": "sc:sha256:dd3381f8992772dcf92d255c61f0c5482b7d085b79db8e111fdd65068c3fcc8e",
-      "text": "Cria um ficheiro chamado `ola-mundu.kriol`:\n\nola-mundu.kriol\n\n```kriol\nfn inisiu() {\n    mostran(\"Kuale, Mundu!\");\n}\n```"
+      "text": "Cria um ficheiro chamado `ola-mundu.kriol`:\n\nola-mundu.kriol\n\n```kriol\nfn inisiu() {\n    mostran(\"Kualeh, Mundu!\");\n}\n```"
     },
     {
       "id": "sc:sha256:f0abe60d19270afd8e2a72e74dcf38cd9052f46760394998725863ae7f0ba93a",
-      "text": "Compila o programa:\n\n```bash\nkriol ola-mundu.kriol -o ola-mundu\n```\n\nExecuta:\n\n```bash\n./ola-mundu\n```\n\nNo Windows, o compilador acrescenta `.exe` ao nome, e o programa executa-se com `.\\ola-mundu.exe`.\n\nOs programas são otimizados por omissão (nível 2). Podes escolher outro nível com `--opt-lvl <n>`, de `0` (sem otimização) a `3`.\n\n**Saída:**\n\n```\nKuale, Mundu!\n```"
+      "text": "Compila o programa:\n\n```bash\nkriol ola-mundu.kriol -o ola-mundu\n```\n\nExecuta:\n\n```bash\n./ola-mundu\n```\n\nNo Windows, o compilador acrescenta `.exe` ao nome, e o programa executa-se com `.\\ola-mundu.exe`.\n\nOs programas são otimizados por omissão (nível 2). Podes escolher outro nível com `--opt-lvl <n>`, de `0` (sem otimização) a `3`.\n\n**Saída:**\n\n```\nKualeh, Mundu!\n```"
     },
     {
       "id": "sc:sha256:b5bd0bfc4e2dd4d1200795f118561c5dd46b04e3f41e22bfd2999701af4c60bd",

@@ -5,19 +5,9 @@ description: Leitura de input do utilizador no Kriol.
 
 ## Conceito
 
-A função `toma` lê uma linha de `stdin` e retorna um valor `textu`. Ela aceita uma mensagem de prompt opcional.
+A função `toma` lê uma linha da entrada padrão (`stdin`) e devolve-a como `textu`. Pode receber uma mensagem, que é escrita antes da leitura para dizer ao utilizador o que escrever.
 
 `toma` é uma função embutida do prelúdio: está sempre disponível, mas o nome é reservado e não pode ser redefinido.
-
-## Quando a leitura falha
-
-Ler pode falhar: a entrada pode ter terminado (por exemplo, quando o utilizador fecha a entrada com `Ctrl+D`, ou quando o ficheiro redirecionado acaba) ou pode não ser possível lê-la. `toma` falha então com um `Erru` cuja mensagem é `end of input` (a entrada acabou sem dados) ou `failed to read from stdin` (a leitura falhou). Uma última linha sem quebra de linha é lida normalmente.
-
-Podes tratar a falha (vê [Erros](/linguagem/erros/)), ou não fazer nada:
-
-- `toma()` sozinho termina o programa com `kriol: panic at line N: end of input` se a entrada acabar. É o mais simples, e adequado para programas curtos.
-- `tenta toma()` passa o erro a quem chamou, por isso só se usa numa função que declare `: Erru`.
-- `toma() sinon "valor"` usa um texto por omissão quando a leitura falha.
 
 ## Sintaxe
 
@@ -28,31 +18,34 @@ tenta toma()        // passa o erro adiante (função com `: Erru`)
 toma() sinon ""     // valor por omissão
 ```
 
-O valor retornado não inclui a quebra de linha final. Em ficheiros com quebras de linha Windows, o `\r` final também é removido.
+## Regras
 
-## Exemplos
+- `toma` aceita no máximo um argumento, e esse argumento tem de ser `textu`.
+- A mensagem é escrita tal como está, sem quebra de linha, e a saída é despejada antes da leitura, por isso aparece sempre antes de o programa esperar pela entrada.
+- Cada chamada lê exatamente uma linha. O valor devolvido não inclui a quebra de linha final; em ficheiros com quebras de linha Windows, o `\r` final também é removido.
+- Uma linha vazia é lida como `""`. Só falha uma leitura sem nenhum dado, depois de a entrada acabar.
+- Uma última linha sem quebra de linha é lida normalmente.
+- `toma` devolve sempre `textu`. Para obter um número ou um `bool`, converte o texto com `tipo::konverti` (vê [Ler números](#ler-números)).
 
-### Leitura de string
+## Quando a leitura falha
 
-```kriol
-fn inisiu() {
-    textu nome = toma("Digite o seu nome: ");
-    mostran(f"Olá, {nome}!");
-}
-```
+Ler pode falhar: a entrada pode ter terminado ou pode não ser possível lê-la. `toma` falha então com um `Erru` cuja mensagem é `end of input` (a entrada acabou sem dados) ou `failed to read from stdin` (a leitura falhou).
 
-### Valor por omissão se a entrada acabar
+A entrada termina quando o ficheiro redirecionado chega ao fim, ou quando o utilizador a fecha no terminal: `Ctrl+D` em Linux e macOS, ou `Ctrl+Z` seguido de `Enter` no início de uma linha na consola do Windows.
 
-```kriol
-fn inisiu() {
-    textu nome = toma("Digite o seu nome: ") sinon "visitanti";
-    mostran(f"Olá, {nome}!");
-}
-```
+Podes tratar a falha (vê [Erros](/linguagem/erros/)), ou não fazer nada:
 
-### Composição com conversão
+- `toma()` sozinho termina o programa com `kriol: panic at line N: end of input` se a entrada acabar. É o mais simples, e adequado para programas curtos.
+- `tenta toma()` passa o erro a quem chamou, por isso só se usa numa função que declare `: Erru`.
+- `toma() sinon "valor"` usa um texto por omissão quando a leitura falha.
 
-`toma` devolve sempre `textu`. Para ler um número, converte o texto com `tipo::konverti` (vê [Conversão de tipos](/linguagem/conversao-de-tipos/)):
+:::note
+Ao contrário das funções declaradas com `: Erru`, um `toma` não tratado não gera aviso do compilador, nem com `--strict`, para manter simples os primeiros programas.
+:::
+
+## Ler números
+
+Lê primeiro o texto numa linha e converte-o na seguinte, com `tipo::konverti` (vê [Conversão de tipos](/linguagem/conversao-de-tipos/#texto-para-número-tkonverti)). Os espaços no início e no fim do texto são ignorados na conversão.
 
 ```kriol
 fn inisiu() : Erru {
@@ -75,6 +68,45 @@ fn inisiu() {
 }
 ```
 
-## Considerações em aberto
+## Exemplos
 
-- Leitura de múltiplos valores numa só linha
+### Leitura de string
+
+```kriol
+fn inisiu() {
+    textu nome = toma("Digite o seu nome: ");
+    mostran(f"Olá, {nome}!");
+}
+```
+
+### Valor por omissão se a entrada acabar
+
+```kriol
+fn inisiu() {
+    textu nome = toma("Digite o seu nome: ") sinon "visitanti";
+    mostran(f"Olá, {nome}!");
+}
+```
+
+### Vários valores, um por linha
+
+```kriol
+fn inisiu() : Erru {
+    textu entrada_a = tenta toma("Primeiro númeru: ");
+    num a = tenta num::konverti(entrada_a);
+
+    textu entrada_b = tenta toma("Segundo númeru: ");
+    num b = tenta num::konverti(entrada_b);
+
+    mostran(f"{a} + {b} = {a + b}");
+}
+```
+
+:::note
+No [playground](https://play.kriol.dev), quando o programa chama `toma` aparece uma caixa **Entrada padrão** na consola; o valor escrito é enviado como uma linha.
+:::
+
+## Limitações atuais
+
+- Cada chamada lê uma linha inteira: ainda não há forma de ler vários valores numa só linha, nem um carácter de cada vez.
+- Não há leitura de ficheiros; só a entrada padrão.

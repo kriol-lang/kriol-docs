@@ -3,7 +3,7 @@
   "chunks": [
     {
       "id": "sc:sha256:1c34bdaa02a8ec6377f536a785a8def022b4a91fa587013f7c687183f2d48a64",
-      "text": "As strings podem ser delimitadas por aspas duplas ou aspas simples:\n\n```kriol\ntextu a = \"Kuale, Mundu!\";\ntextu b = 'Cabo Verde';\n```"
+      "text": "As strings podem ser delimitadas por aspas duplas ou aspas simples:\n\n```kriol\ntextu a = \"Kualeh, Mundu!\";\ntextu b = 'Cabo Verde';\n```"
     },
     {
       "id": "sc:sha256:f334fab5b7b7ad38aceada77f7ab2db3cb03486b98c7d7e34f572ebb07fa22c0",

@@ -3,7 +3,7 @@
   "chunks": [
     {
       "id": "sc:sha256:0d957cd7f5719b60a4335d7ec0e1f7a9229d07c7f881e99dc41f416d0c1028c0",
-      "text": "A forma padrão de declarar uma variável exige sempre um valor inicial:\n\n```\n<tipo> <nome> = <expressão>;\n```\n\n```kriol\nnter contador = 0;\nnum temperatura = 36.6;\nbool ativo = sin;\ntextu mensagem = \"Kuale!\";\n```"
+      "text": "A forma padrão de declarar uma variável exige sempre um valor inicial:\n\n```\n<tipo> <nome> = <expressão>;\n```\n\n```kriol\nnter contador = 0;\nnum temperatura = 36.6;\nbool ativo = sin;\ntextu mensagem = \"Kualeh!\";\n```"
     },
     {
       "id": "sc:sha256:c52f8fdc6067092a29c37b264a2eb777cfc725ffc66b7d03139db96ad72d08ad",

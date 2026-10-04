@@ -37,7 +37,7 @@ Windows (PowerShell; installs kriol.exe and ld.lld.exe, programs run on Windows 
 Entry point function:
 ```kriol
 fn inisiu() {
-    mostran("Kuale, Mundu!");
+    mostran("Kualeh, Mundu!");
 }
 ```
 
@@ -101,7 +101,7 @@ In development:
 Hello World:
 ```kriol
 fn inisiu() {
-    mostran("Kuale, Mundu!");
+    mostran("Kualeh, Mundu!");
 }
 ```
 
