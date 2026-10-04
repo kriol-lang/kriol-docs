@@ -14,7 +14,7 @@ si <condição> {
 ```
 
 ```kriol
-nter x = 10;
+int x = 10;
 
 si x > 5 {
     mostran("x é maior que 5");
@@ -50,7 +50,7 @@ nkuantu <condição> {
 ```
 
 ```kriol
-nter i = 0;
+int i = 0;
 nkuantu i < 5 {
     mostran(i);
     i += 1;
@@ -66,7 +66,7 @@ pa <inicialização>; <condição>; <incremento> {
 ```
 
 ```kriol
-pa nter i = 0; i < 10; i += 1 {
+pa int i = 0; i < 10; i += 1 {
     mostra(i);
 }
 ```
@@ -76,7 +76,7 @@ pa nter i = 0; i < 10; i += 1 {
 Termina o ciclo imediatamente:
 
 ```kriol
-nter i = 0;
+int i = 0;
 nkuantu i < 100 {
     si i == 5 {
         para;
@@ -92,7 +92,7 @@ nkuantu i < 100 {
 Avança para a próxima iteração do ciclo:
 
 ```kriol
-pa nter i = 0; i < 10; i += 1 {
+pa int i = 0; i < 10; i += 1 {
     si i == 5 {
         kontinua;
     }

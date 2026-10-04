@@ -9,7 +9,7 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 |--------------|------------------|------------------------|
 | `fn`         | função           | Declara uma função     |
 | `inisiu`     | `main`           | Ponto de entrada       |
-| `nter`       | `int64_t`        | Inteiro de 64 bits     |
+| `int`        | `int64_t`        | Inteiro de 64 bits (*interu*) |
 | `num`        | `double`         | Número real            |
 | `textu`      | `char*`          | Cadeia de caracteres   |
 | `bool`       | `bool`           | Booleano               |
@@ -34,7 +34,6 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 | `para`       | `break`          | Interromper ciclo      |
 | `kontinua`   | `continue`       | Continuar ciclo        |
 | `divolvi`    | `return`         | Retornar valor         |
-| `dipoz`      | —                | Declaração diferida    |
 | `molda`      | `struct`         | Declara um molde       |
 | `inpristan`  | `#include`       | Importar módulo (reservado; ainda não implementado) |
 
@@ -71,7 +70,8 @@ Estas funções são chamadas com sintaxe normal de função, mas os nomes são 
 | `+`      | Aritmético      | Adição                |
 | `-`      | Aritmético      | Subtração / Negação   |
 | `*`      | Aritmético      | Multiplicação         |
-| `/`      | Aritmético      | Divisão               |
+| `/`      | Aritmético      | Divisão (resultado sempre real) |
+| `%`      | Aritmético      | Resto da divisão      |
 | `==`     | Relacional      | Igual                 |
 | `!=`     | Relacional      | Diferente             |
 | `<`      | Relacional      | Menor que             |
@@ -81,8 +81,16 @@ Estas funções são chamadas com sintaxe normal de função, mas os nomes são 
 | `&&`     | Lógico          | E lógico              |
 | `\|\|`   | Lógico          | Ou lógico             |
 | `!`      | Lógico          | Negação               |
+| `&`      | Bits            | E bit a bit           |
+| `\|`     | Bits            | Ou bit a bit          |
+| `^`      | Bits            | Ou exclusivo bit a bit |
+| `~`      | Bits            | Complemento (unário)  |
 | `=`      | Atribuição      | Atribuição simples    |
 | `+=`     | Atribuição      | Adição e atribuição   |
 | `-=`     | Atribuição      | Subtração e atribuição|
 | `*=`     | Atribuição      | Multiplicação e atribuição |
-| `/=`     | Atribuição      | Divisão e atribuição  |
+| `/=`     | Atribuição      | Divisão e atribuição (só reais) |
+| `%=`     | Atribuição      | Resto e atribuição    |
+| `&=`     | Atribuição      | E bit a bit e atribuição |
+| `\|=`    | Atribuição      | Ou bit a bit e atribuição |
+| `^=`     | Atribuição      | Ou exclusivo e atribuição |

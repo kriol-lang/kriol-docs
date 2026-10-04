@@ -31,7 +31,7 @@ fn inisiu() {
     novu_pessoa('Clara', 'Sanchez', '71')
   ];
 
-  pa nter i = 0 ; i < 3 ; i += 1 {
+  pa int i = 0 ; i < 3 ; i += 1 {
     mostra_pessoa(pessoas[i]);
   }
 
@@ -65,10 +65,11 @@ O Kriol serve como porta de entrada à programação para falantes de Criolo cab
 
 A linguagem já suporta:
 
-- Variáveis tipadas (`nter`, `num`, `textu`, `bool` e tipos primitivos explícitos como `i32`, `u64`, `f32`)
+- Variáveis tipadas (`int`, `num`, `textu`, `bool` e tipos primitivos explícitos como `i32`, `u64`, `f32`)
 - Funções com retorno tipado
 - Estruturas de controlo (`si/sinon`, `nkuantu`, `pa`)
 - Arrays e strings
+- Operadores aritméticos, lógicos, relacionais e de bits (`&`, `|`, `^`, `~`)
 - Input/output (`mostra`, `mostran`, `toma`)
 
 ## Planos futuros

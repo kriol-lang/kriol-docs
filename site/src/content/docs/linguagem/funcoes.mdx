@@ -24,7 +24,7 @@ fn <nome>(<parâmetros>) {
 ### Função com retorno
 
 ```kriol
-fn soma(nter a, nter b) nter {
+fn soma(int a, int b) int {
     divolvi a + b;
 }
 ```
@@ -41,7 +41,7 @@ fn saudacao(textu nome) {
 
 ```kriol
 fn inisiu() {
-    nter resultado = soma(3, 4);
+    int resultado = soma(3, 4);
     mostran(resultado);
 }
 ```
@@ -51,7 +51,7 @@ fn inisiu() {
 ```kriol
 soma(10, 20);
 saudacao("Mundo");
-nter r = soma(1, 2);
+int r = soma(1, 2);
 ```
 
 ## `divolvi` (return)
@@ -59,7 +59,7 @@ nter r = soma(1, 2);
 Retorna um valor da função. O tipo deve corresponder ao tipo declarado:
 
 ```kriol
-fn dobro(nter n) nter {
+fn dobro(int n) int {
     divolvi n * 2;
 }
 ```
@@ -67,7 +67,7 @@ fn dobro(nter n) nter {
 Numa função sem tipo de retorno, `divolvi` pode aparecer sem valor para saída antecipada:
 
 ```kriol
-fn imprimeSeNaoNegativo(nter n) {
+fn imprimeSeNaoNegativo(int n) {
     si n < 0 {
         divolvi;
     }
@@ -84,12 +84,12 @@ Uma função com tipo de retorno **deve** retornar em todos os caminhos de execu
 O Kriol suporta recursão e recursão mútua. As funções podem ser chamadas antes da sua declaração no ficheiro:
 
 ```kriol
-fn par(nter n) bool {
+fn par(int n) bool {
     si n == 0 { divolvi sin; }
     divolvi impar(n - 1);
 }
 
-fn impar(nter n) bool {
+fn impar(int n) bool {
     si n == 0 { divolvi nau; }
     divolvi par(n - 1);
 }

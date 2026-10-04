@@ -12,7 +12,7 @@ Os arrays no Kriol são colecções de **tamanho fixo** de elementos do mesmo ti
 ```
 
 ```kriol
-nter[3] nums = [10, 20, 30];
+int[3] nums = [10, 20, 30];
 bool[2] flags = [sin, nau];
 ```
 
@@ -21,7 +21,7 @@ ou campo que o recebe. Quando o contexto não deixa claro o tipo do array, usa
 um literal tipado:
 
 ```kriol
-nter[3] valores = <nter>[1, 2, 3];
+int[3] valores = <int>[1, 2, 3];
 ```
 
 ## Inicialização por repetição
@@ -29,7 +29,7 @@ nter[3] valores = <nter>[1, 2, 3];
 Para preencher um array com o mesmo valor em todas as posições, usa a sintaxe `[valor; N]`, em que `N` é o número de elementos:
 
 ```kriol
-nter[5] zeros = [0; 5];
+int[5] zeros = [0; 5];
 num[10] uns = [1.0; 10];
 ```
 
@@ -39,27 +39,12 @@ O `N` tem de ser igual ao tamanho declarado do array.
 Versões anteriores usavam `[valor] * N`. Essa forma já não é aceite; o compilador indica a nova forma.
 :::
 
-## Declaração diferida
-
-Usa `dipoz` para declarar um array sem o inicializar imediatamente:
-
-```kriol
-dipoz nter[3] nums;
-nums[0] = 7;
-nums[1] = 5;
-nums[2] = nums[0] + nums[1];
-```
-
-:::caution
-Aceder a um elemento de um array declarado com `dipoz` antes de lhe atribuir um valor é um erro em tempo de compilação (se detetável estaticamente).
-:::
-
 ## Acesso a elementos
 
 Os índices começam em `0`:
 
 ```kriol
-nter[5] seq = [1, 2, 3, 4, 5];
+int[5] seq = [1, 2, 3, 4, 5];
 mostran(seq[0]);   // 1
 mostran(seq[4]);   // 5
 seq[2] = 99;
@@ -69,9 +54,9 @@ mostran(seq[2]);   // 99
 ## Uso com ciclos
 
 ```kriol
-nter[10] seq = [0; 10];
+int[10] seq = [0; 10];
 
-pa nter i = 0; i < 10; i += 1 {
+pa int i = 0; i < 10; i += 1 {
     seq[i] = i * i;
 }
 
@@ -83,7 +68,7 @@ mostran(f"Quadrados: {seq}");
 Podes passar um array diretamente a `mostra` / `mostran` ou usá-lo numa f-string para imprimir todos os elementos:
 
 ```kriol
-nter[3] a = [1, 2, 3];
+int[3] a = [1, 2, 3];
 mostran(a);                    // imprime os elementos
 mostran(f"Array: {a}");        // interpolação de array
 ```
@@ -93,7 +78,7 @@ Arrays também podem aparecer como campos de um molde:
 ```kriol
 molda Pessoa {
     textu nomi;
-    nter[2] flags;
+    int[2] flags;
 }
 
 Pessoa pessoa = Pessoa::{nomi: "jose", flags: [0, 1]};
@@ -106,7 +91,7 @@ acesso a índice e campo:
 ```kriol
 molda Enderesu {
     textu rua;
-    nter numero;
+    int numero;
 }
 
 molda Pessoa {
@@ -129,7 +114,7 @@ pessoa.enderesus[0].numero += 5;
 - O tamanho do array deve ser um **literal inteiro**. Não pode ser uma variável.
 - Um array pode ter no máximo **1 048 576** elementos.
 - Um array declarado dentro de uma função fica na pilha e pode ocupar no máximo
-  **1 MiB** (por exemplo, 131 072 valores `nter`). Arrays maiores devem ser
+  **1 MiB** (por exemplo, 131 072 valores `int`). Arrays maiores devem ser
   declarados fora das funções; vê
   [Tamanho das variáveis locais](../variaveis/#tamanho-das-variáveis-locais).
 - Aceder a um índice fora do array termina o programa com uma mensagem de erro

@@ -1,6 +1,6 @@
 ---
 title: Variáveis
-description: Declaração, inicialização e declaração diferida de variáveis no Kriol.
+description: Declaração, inicialização e atribuição de variáveis no Kriol.
 ---
 
 ## Declaração com inicialização
@@ -12,36 +12,30 @@ A forma padrão de declarar uma variável exige sempre um valor inicial:
 ```
 
 ```kriol
-nter contador = 0;
+int contador = 0;
 num temperatura = 36.6;
 bool ativo = sin;
 textu mensagem = "Kuale!";
 ```
 
-## Declaração diferida com `dipoz`
+## Variáveis sem valor inicial
 
-Quando precisas de declarar uma variável antes de lhe atribuir um valor (por exemplo, para usar no escopo de um ciclo), usa o prefixo `dipoz`:
+O Kriol não tem variáveis por inicializar: toda a declaração leva um valor. Quando só sabes o valor mais tarde, declara a variável com um valor neutro e atribui-lhe depois:
 
 ```kriol
-dipoz nter i;
+int i = 0;
 pa i = 0; i < 10; i += 1 {
     mostra(i);
 }
 mostra(i);
 ```
 
-:::caution
-Usar uma variável declarada com `dipoz` antes de lhe atribuir um valor é um erro em tempo de compilação.
-:::
-
-Se a variável só receber um valor num caminho que acaba por não executar (por exemplo, dentro de um `si` cuja condição é falsa), ela mantém o valor inicial zero: `0` para números, `nau` para `bool` e texto vazio para `textu`. O mesmo vale para os campos de um molde e os elementos de um array declarados com `dipoz`.
-
 ## Tamanho das variáveis locais
 
 As variáveis declaradas dentro de uma função (e os parâmetros) ficam na pilha do programa, por isso cada uma pode ocupar no máximo **1 MiB** (1 048 576 bytes). Um valor maior, como um array grande, deve ser declarado fora das funções:
 
 ```kriol
-nter[200000] grandi = [0; 200000];   // 1,6 MB: fora das funções
+int[200000] grandi = [0; 200000];   // 1,6 MB: fora das funções
 
 fn inisiu() {
     grandi[0] = 1;
@@ -53,12 +47,12 @@ fn inisiu() {
 Depois de declarada, uma variável pode ser reatribuída com `=` ou com operadores compostos:
 
 ```kriol
-nter x = 1;
+int x = 1;
 x = 5;
 x += 2;   // x == 7
 x -= 1;   // x == 6
 x *= 3;   // x == 18
-x /= 2;   // x == 9
+x -= 9;   // x == 9
 ```
 
 ## Âmbito (scope)
@@ -67,10 +61,10 @@ As variáveis têm âmbito de bloco `{ }`. Uma variável declarada dentro de um 
 
 ```kriol
 fn inisiu() {
-    nter a = 10;
+    int a = 10;
 
     si sin {
-        nter b = 20;   // visível apenas aqui
+        int b = 20;   // visível apenas aqui
         mostran(a);    // ok
         mostran(b);    // ok
     }
@@ -83,4 +77,4 @@ fn inisiu() {
 
 Os seguintes nomes **não podem** ser usados como identificadores de variáveis:
 
-`fn`, `molda`, `nter`, `num`, `bool`, `textu`, `i8`, `i16`, `i32`, `i64`, `u8`, `u16`, `u32`, `u64`, `f32`, `f64`, `isize`, `usize`, `si`, `sinon`, `pa`, `nkuantu`, `kontinua`, `para`, `divolvi`, `mostra`, `mostran`, `toma`, `dipoz`, `sai`, `konfirma`, `inisiu`, `sin`, `nau`, `inpristan`
+`fn`, `molda`, `int`, `num`, `bool`, `textu`, `i8`, `i16`, `i32`, `i64`, `u8`, `u16`, `u32`, `u64`, `f32`, `f64`, `isize`, `usize`, `si`, `sinon`, `pa`, `nkuantu`, `kontinua`, `para`, `divolvi`, `mostra`, `mostran`, `toma`, `sai`, `konfirma`, `inisiu`, `sin`, `nau`, `inpristan`

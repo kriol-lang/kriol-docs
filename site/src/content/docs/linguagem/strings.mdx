@@ -32,7 +32,7 @@ mostra("coluna1\tcoluna2");
 As f-strings permitem embutir expressões diretamente numa string, prefixando-a com `f`:
 
 ```kriol
-nter n = 42;
+int n = 42;
 textu nome = "Kriol";
 mostran(f"O valor é {n} e a linguagem é {nome}.");
 ```
@@ -40,7 +40,7 @@ mostran(f"O valor é {n} e a linguagem é {nome}.");
 ### Interpolação de vários tipos
 
 ```kriol
-nter  n = 10;
+int  n = 10;
 num   x = 2.5;
 bool  b = sin;
 
@@ -55,7 +55,7 @@ mostran(f"n={n} x={x} b={b}");
 Podes interpolar um array inteiro numa f-string:
 
 ```kriol
-nter[3] nums = [1, 2, 3];
+int[3] nums = [1, 2, 3];
 mostran(f"Números: {nums}");
 ```
 
@@ -64,10 +64,10 @@ mostran(f"Números: {nums}");
 É possível incluir chamadas de função diretamente na interpolação:
 
 ```kriol
-fn soma(nter a, nter b) nter { divolvi a + b; }
+fn soma(int a, int b) int { divolvi a + b; }
 
 fn inisiu() {
-    nter n = 10;
+    int n = 10;
     mostran(f"Soma de 1 a {n} é {soma(1, n)}.");
 }
 ```

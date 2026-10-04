@@ -144,7 +144,7 @@ Os ficheiros Kriol usam `.kriol` (preferida) ou `.kr` (abreviada).
 ## Exemplo: Fibonacci recursivo
 
 ```kriol title="fibonacci.kriol"
-fn fibo(nter n) nter {
+fn fibo(int n) int {
     konfirma(n >= 0);
 
     si n <= 1 {
@@ -155,9 +155,9 @@ fn fibo(nter n) nter {
 }
 
 fn inisiu() {
-    nter[10] seq = [0; 10];
+    int[10] seq = [0; 10];
 
-    pa nter i = 0; i < 10; i += 1 {
+    pa int i = 0; i < 10; i += 1 {
         seq[i] = fibo(i);
     }
 

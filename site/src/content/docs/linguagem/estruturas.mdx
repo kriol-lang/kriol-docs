@@ -12,7 +12,7 @@ Um molde é um tipo composto que agrupa campos de diferentes tipos, semelhante a
 ```kriol
 molda Pessoa {
     textu nomi;
-    nter idadi;
+    int idadi;
 }
 ```
 
@@ -25,7 +25,7 @@ Campos também podem ser arrays de tamanho fixo:
 ```kriol
 molda Pessoa {
     textu nomi;
-    nter[2] flags;
+    int[2] flags;
 }
 ```
 
@@ -63,7 +63,7 @@ O acesso pode ser encadeado com outros campos e índices de array:
 ```kriol
 molda Enderesu {
     textu rua;
-    nter numero;
+    int numero;
 }
 
 molda Pessoa {
@@ -90,10 +90,10 @@ explícitas com `ref` será tratado numa fase futura.
 ```kriol
 molda Pessoa {
     textu nomi;
-    nter idadi;
+    int idadi;
 }
 
-fn proxima_idadi(Pessoa pessoa) nter {
+fn proxima_idadi(Pessoa pessoa) int {
     divolvi pessoa.idadi + 1;
 }
 

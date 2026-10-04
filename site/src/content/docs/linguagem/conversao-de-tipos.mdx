@@ -14,23 +14,27 @@ alargamento seguro:
 | inteiro menor compatível   | inteiro maior compatível     | ✅ Sim     |
 | inteiro                    | ponto flutuante              | ✅ Sim     |
 | `f32`                      | `f64` / `num`                | ✅ Sim     |
-| `nter` / `i64`             | `num` / `f64`                | ✅ Sim     |
+| `int` / `i64`             | `num` / `f64`                | ✅ Sim     |
 
 ```kriol
-nter x = 5;
-num y = x;       // ok, alargamento automático nter para num
+int x = 5;
+num y = x;       // ok, alargamento automático int para num
 
 fn aceita_num(num n) {
     mostran(n);
 }
 
 fn inisiu() {
-    aceita_num(10);   // ok, nter 10 é alargado para num
+    aceita_num(10);   // ok, int 10 é alargado para num
 }
 ```
 
 :::note
-O retorno de uma função também suporta alargamento: se a função retorna `num` e fazes `divolvi` de um `nter`, o valor é automaticamente convertido.
+O resultado de uma divisão com `/` é sempre real (`num`), mesmo entre dois inteiros. Por isso `int c = 7 / 2;` é um erro de compilação, e `num c = 7 / 2;` guarda `3.5`. Vê [Operadores](/linguagem/operadores/#a-divisão-é-sempre-real).
+:::
+
+:::note
+O retorno de uma função também suporta alargamento: se a função retorna `num` e fazes `divolvi` de um `int`, o valor é automaticamente convertido.
 :::
 
 ## Conversão explícita (casting)
@@ -39,7 +43,7 @@ O retorno de uma função também suporta alargamento: se a função retorna `nu
 A conversão explícita de tipos ainda está em desenvolvimento. A sintaxe definitiva não está finalizada. Esta página documenta o design em consideração.
 :::
 
-A conversão de `num` para `nter` (ou entre outros tipos incompatíveis) requer uma conversão explícita.
+A conversão de `num` para `int` (ou entre outros tipos incompatíveis) requer uma conversão explícita.
 
 ### Sintaxe em consideração
 
@@ -47,27 +51,27 @@ Algumas opções em análise (a sintaxe final pode diferir):
 
 ```kriol
 // Opção A: estilo função
-nter n = nter(3.7);    // n == 3 (truncagem)
+int n = int(3.7);    // n == 3 (truncagem)
 
 // Opção B: estilo prefixo
-nter n = (nter) 3.7;   // n == 3
+int n = (int) 3.7;   // n == 3
 
 // Opção C: keyword komu
-nter n = 3.7 komu nter;
+int n = 3.7 komu int;
 
 // Opção D: operador direto
-nter n = 3.7 -> nter;
+int n = 3.7 -> int;
 // ou
-nter n = 3.7 >> nter;
+int n = 3.7 >> int;
 ```
 
 ### Conversões previstas
 
 | De      | Para    | Comportamento esperado            |
 |---------|---------|-----------------------------------|
-| `num`   | `nter`  | Truncagem (descarta parte decimal)|
-| `nter`  | `textu` | Representação textual do número   |
+| `num`   | `int`  | Truncagem (descarta parte decimal)|
+| `int`  | `textu` | Representação textual do número   |
 | `num`   | `textu` | Representação textual do número   |
-| `textu` | `nter`  | Interpretação numérica da string  |
+| `textu` | `int`  | Interpretação numérica da string  |
 | `textu` | `num`   | Interpretação numérica da string  |
-| `bool`  | `nter`  | `sin` vira 1, `nau` vira 0        |
+| `bool`  | `int`  | `sin` vira 1, `nau` vira 0        |

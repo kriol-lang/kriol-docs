@@ -43,8 +43,8 @@ fn inisiu() {
 
 ## Data Types
 
-- nter: 64-bit integer (int64_t)
-- num: floating-point number (double)
+- int: 64-bit signed integer (int64_t); i8..i64, u8..u64, isize, usize are also available
+- num: 64-bit floating-point number (double, same as f64); f32 is also available
 - bool: boolean (sin = true, nau = false)
 - textu: string (char*)
 
@@ -57,7 +57,6 @@ fn inisiu() {
 - divolvi: return
 - mostra/mostran: print without/with newline
 - toma: read one line from stdin as textu
-- dipoz: deferred declaration
 - para: break
 - kontinua: continue
 - sai: exit
@@ -67,7 +66,7 @@ fn inisiu() {
 
 /introducao/sobre - About the language, origin, goals
 /introducao/primeiros-passos - Installation and first program
-/linguagem/tipos - Data types (nter, num, bool, textu)
+/linguagem/tipos - Data types (int, num, bool, textu)
 /linguagem/variaveis - Variable declaration and scope
 /linguagem/operadores - Arithmetic, logical, relational operators
 /linguagem/controlo-de-fluxo - Conditionals and loops
@@ -83,7 +82,7 @@ fn inisiu() {
 ## Features
 
 Currently supported:
-- Typed variables (nter, num, bool, textu)
+- Typed variables (int, num, bool, textu)
 - Functions with return types
 - Control flow (si/sinon, nkuantu, pa)
 - Arrays (fixed size)
@@ -107,7 +106,7 @@ fn inisiu() {
 
 Fibonacci:
 ```kriol
-fn fibo(nter n) nter {
+fn fibo(int n) int {
     konfirma(n >= 0);
     si n <= 1 {
         divolvi 1;
@@ -117,8 +116,8 @@ fn fibo(nter n) nter {
 }
 
 fn inisiu() {
-    nter[10] seq = [0; 10];
-    pa nter i = 0; i < 10; i += 1 {
+    int[10] seq = [0; 10];
+    pa int i = 0; i < 10; i += 1 {
         seq[i] = fibo(i);
     }
     mostran(f"Fibonacci: {seq}");
@@ -128,9 +127,11 @@ fn inisiu() {
 ## Type System
 
 - Static typing with compile-time checks
-- Implicit widening: nter to num (automatic)
-- Explicit casting: num to nter (planned)
-- No null types (values must be initialized)
+- Implicit widening: int to num (automatic)
+- Explicit casting: num to int (planned)
+- No null types and no uninitialized variables (every declaration has an initial value)
+- Division `/` always yields a real number (`7 / 2` is `3.5`); there is no integer division operator yet
+- Bitwise operators on integers: `&`, `|`, `^`, `~` (and `&=`, `|=`, `^=`); they bind tighter than comparisons
 
 ## Limits
 
@@ -138,7 +139,6 @@ fn inisiu() {
 - Array elements: 1,048,576
 - Local variables and parameters: 1 MiB each (declare larger values at the top level)
 - Compiled programs get an 8 MiB stack on Linux, Windows and WebAssembly
-- `dipoz` variables start as zero (0, nau, empty text) until assigned
 
 ## Compilation
 

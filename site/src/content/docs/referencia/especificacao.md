@@ -58,8 +58,6 @@ não está implementada na versão atual.
 
 <declaration> ::= <type_specifier> <declarator> '=' <initializer> ';'
                 | <type_specifier> <array_declarator> '=' <initializer> ';'
-                | T_DIPOZ <type_specifier> <declarator> ';'
-                | T_DIPOZ <type_specifier> <array_declarator> ';'
 
 <initializer> ::= <expression>
                 | <array_initializer>
@@ -73,7 +71,7 @@ não está implementada na versão atual.
 ```
 
 **Notas:**
-- Declarações sem inicializador são inválidas salvo se prefixadas com `dipoz`.
+- Toda a declaração de variável exige um inicializador.
 - A sintaxe de repetição `[valor; N]` requer um literal inteiro `N`, igual ao tamanho do array.
 - A sintaxe `<tipo>[...]` cria um literal de array com tipo explícito.
 - Um literal `[ ... ]` sem tipo explícito precisa de contexto, como uma variável
@@ -94,19 +92,29 @@ não está implementada na versão atual.
                            | <equality_expression> T_EQ <relational_expression>
                            | <equality_expression> T_NE <relational_expression>
 
-<relational_expression>  ::= <additive_expression>
-                           | <relational_expression> T_LT <additive_expression>
-                           | <relational_expression> T_GT <additive_expression>
-                           | <relational_expression> T_LE <additive_expression>
-                           | <relational_expression> T_GE <additive_expression>
+<relational_expression>  ::= <bit_or_expression>
+                           | <relational_expression> T_LT <bit_or_expression>
+                           | <relational_expression> T_GT <bit_or_expression>
+                           | <relational_expression> T_LE <bit_or_expression>
+                           | <relational_expression> T_GE <bit_or_expression>
+
+<bit_or_expression>      ::= <bit_xor_expression>
+                           | <bit_or_expression> T_BIT_OR <bit_xor_expression>
+
+<bit_xor_expression>     ::= <bit_and_expression>
+                           | <bit_xor_expression> T_BIT_XOR <bit_and_expression>
+
+<bit_and_expression>     ::= <additive_expression>
+                           | <bit_and_expression> T_BIT_AND <additive_expression>
 
 <additive_expression>    ::= <multiplicative_expression>
                            | <additive_expression> T_PLUS <multiplicative_expression>
                            | <additive_expression> T_MINUS <multiplicative_expression>
 
 <multiplicative_expression> ::= <unary_expression>
-                              | <multiplicative_expression> T_MUL <primary_expression>
-                              | <multiplicative_expression> T_DIV <primary_expression>
+                              | <multiplicative_expression> T_MUL <unary_expression>
+                              | <multiplicative_expression> T_DIV <unary_expression>
+                              | <multiplicative_expression> T_MOD <unary_expression>
 ```
 
 ## Outras expressões
@@ -117,6 +125,7 @@ não está implementada na versão atual.
 
 <unary_expression>      ::= <primary_expression>
                           | T_NOT <unary_expression>
+                          | T_BIT_NOT <unary_expression>
                           | T_MINUS <unary_expression>
 
 <primary_expression>    ::= <postfix_expression>
@@ -143,7 +152,7 @@ não está implementada na versão atual.
 <assignment_expression> ::= <constant_expression>
                           | <primary_expression> <assignment_operator> <assignment_expression>
 
-<assignment_operator>   ::= '=' | '+=' | '-=' | '*=' | '/='
+<assignment_operator>   ::= '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '|=' | '^='
 ```
 
 ## Moldes (`molda`)
@@ -212,8 +221,6 @@ não está implementada na versão atual.
                    | T_KONTINUA ';'
                    | T_DIVOLVI <expression> ';'
                    | T_DIVOLVI ';'
-                   | T_SAI '(' <expression> ')' ';'
-                   | T_KONFIRMA '(' <expression> ')' ';'
 ```
 
 ## Limites

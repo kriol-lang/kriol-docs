@@ -9,7 +9,7 @@ O Kriol é uma linguagem de **tipagem estática**. Cada variável tem um tipo de
 
 | Tipo     | Equivalente C aproximado | Descrição                         | Exemplo             |
 |----------|---------------------------|-----------------------------------|---------------------|
-| `nter`   | `int64_t`                 | Inteiro assinado de 64 bits       | `nter x = 42;`      |
+| `int`   | `int64_t`                 | Inteiro assinado de 64 bits       | `int x = 42;`      |
 | `num`    | `double`                  | Número de vírgula flutuante 64-bit| `num pi = 3.14;`    |
 | `bool`   | `bool`                    | Valor booleano (`sin` / `nau`)    | `bool ok = sin;`    |
 | `textu`  | `char*`                   | Cadeia de caracteres (string)     | `textu s = "oi";`   |
@@ -23,16 +23,18 @@ sinal quando isso é importante:
 | Inteiros sem sinal | `u8`, `u16`, `u32`, `u64`, `usize`    |
 | Ponto flutuante    | `f32`, `f64`                          |
 
-`nter` é equivalente a `i64`, e `num` é equivalente a `f64`.
+`int` é equivalente a `i64`, e `num` é equivalente a `f64`. Os nomes `int` e `num` vêm de *interu* e *numeru*.
+
+Ao contrário do `int` do C, cuja largura depende da plataforma (tipicamente 32 bits), o `int` do Kriol tem **sempre 64 bits**. Para um inteiro de outra largura usa `i8`, `i16`, `i32`, `u8`, `u16`, `u32` ou `u64`; para números reais de 32 bits usa `f32`.
 
 ## Literais
 
-### Inteiros (`nter`)
+### Inteiros (`int`)
 
 ```kriol
-nter a = 10;
-nter b = -42;
-nter c = 0;
+int a = 10;
+int b = -42;
+int c = 0;
 u8 byte = 255;
 i32 delta = -12;
 usize tamanho = 3;
@@ -70,16 +72,16 @@ textu saudacao = f"Olá, {nome}!";
 ## Alargamento de tipos (widening)
 
 O Kriol suporta conversões implícitas de alargamento quando não há perda de
-informação, como `nter` para `num`, inteiros menores para inteiros maiores
+informação, como `int` para `num`, inteiros menores para inteiros maiores
 compatíveis, ou inteiros para ponto flutuante. Por exemplo:
 
 ```kriol
-nter x = 5;
+int x = 5;
 num y = x;   // ok, alargamento automático
 ```
 
 :::note
-A conversão inversa (`num` → `nter`) **não** é automática. Consulta a página [Conversão de Tipos](/linguagem/conversao-de-tipos/) para detalhes.
+A conversão inversa (`num` → `int`) **não** é automática. Consulta a página [Conversão de Tipos](/linguagem/conversao-de-tipos/) para detalhes.
 :::
 
 ## Moldes definidos com `molda`
@@ -89,7 +91,7 @@ Além dos tipos primitivos, podes declarar moldes com a palavra-chave `molda`:
 ```kriol
 molda Pessoa {
     textu nomi;
-    nter idadi;
+    int idadi;
 }
 
 Pessoa pessoa = Pessoa::{nomi: "jose", idadi: 60};
@@ -102,5 +104,5 @@ Consulta a página [Moldes (`molda`)](/linguagem/estruturas/) para detalhes.
 Arrays são colecções de tamanho fixo do mesmo tipo. Consulta a página [Arrays](/linguagem/arrays/) para a documentação completa.
 
 ```kriol
-nter[5] numeros = [1, 2, 3, 4, 5];
+int[5] numeros = [1, 2, 3, 4, 5];
 ```

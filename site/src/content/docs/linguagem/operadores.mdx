@@ -1,6 +1,6 @@
 ---
 title: Operadores
-description: Operadores aritméticos, relacionais, lógicos e de atribuição do Kriol.
+description: Operadores aritméticos, relacionais, lógicos, de bits e de atribuição do Kriol.
 ---
 
 ## Operadores aritméticos
@@ -10,18 +10,42 @@ description: Operadores aritméticos, relacionais, lógicos e de atribuição do
 | `+`      | Adição          | `a + b`          |
 | `-`      | Subtração       | `a - b`          |
 | `*`      | Multiplicação   | `a * b`          |
-| `/`      | Divisão         | `a / b`          |
+| `/`      | Divisão (real)  | `a / b`          |
+| `%`      | Resto da divisão| `a % b`          |
 | `-` (unário) | Negação    | `-a`             |
 
 ```kriol
-nter a = 10;
-nter b = 3;
+int a = 10;
+int b = 3;
 mostran(a + b);   // 13
 mostran(a - b);   // 7
 mostran(a * b);   // 30
-mostran(a / b);   // 3
+mostran(a % b);   // 1
 mostran(-a);      // -10
 ```
+
+### A divisão é sempre real
+
+O operador `/` nunca trunca: o resultado é sempre um número real, mesmo quando os dois operandos são inteiros. Dois inteiros dividem-se como `f64` (`num`), e se um dos operandos for `f32` o resultado é `f32`.
+
+```kriol
+num a = 7 / 2;       // 3.5
+int x = 8;
+int y = 2;
+num b = x / y;       // 4.0
+```
+
+Como o resultado é real, guardá-lo numa variável inteira é um erro de compilação, porque perderia a parte decimal:
+
+```kriol
+int c = 7 / 2;       // ERRO: não se pode atribuir 'num' a 'int'
+```
+
+:::note
+A divisão inteira (que trunca) ainda não existe na linguagem. Quando existir, terá um operador próprio, para que `/` tenha sempre o mesmo significado.
+:::
+
+A divisão real por zero dá `inf` (ou `nan`, no caso de `0 / 0`), como em IEEE 754. Já o resto `a % 0`, entre inteiros, termina o programa com uma mensagem de erro.
 
 ## Operadores relacionais
 
@@ -35,7 +59,7 @@ mostran(-a);      // -10
 | `>=`     | Maior ou igual     |
 
 ```kriol
-nter x = 5;
+int x = 5;
 bool resultado = x > 3;   // sin
 bool igual = x == 5;      // sin
 ```
@@ -61,34 +85,70 @@ mostran(a || b);   // sin
 mostran(!a);       // nau
 ```
 
-## Operadores de atribuição compostos
+## Operadores de bits
 
-| Operador | Equivalente a  |
-|----------|----------------|
-| `+=`     | `x = x + val`  |
-| `-=`     | `x = x - val`  |
-| `*=`     | `x = x * val`  |
-| `/=`     | `x = x / val`  |
+Os operadores de bits atuam sobre cada bit de um inteiro, e só aceitam operandos inteiros (não aceitam `bool` nem números reais). Para valores lógicos usa `&&`, `||` e `!`.
+
+| Operador | Descrição            | Exemplo   |
+|----------|----------------------|-----------|
+| `&`      | E bit a bit          | `a & b`   |
+| `\|`     | Ou bit a bit         | `a \| b`  |
+| `^`      | Ou exclusivo bit a bit | `a ^ b` |
+| `~`      | Complemento (unário) | `~a`      |
 
 ```kriol
-nter n = 10;
+mostran(12 & 10);   // 8
+mostran(12 | 10);   // 14
+mostran(12 ^ 10);   // 6
+mostran(~0);        // -1
+
+u8 mascara = 15;
+mostran(~mascara);  // 240
+```
+
+Ao contrário do C, os operadores de bits têm **maior** precedência do que as comparações, por isso `x & 1 == 1` lê-se `(x & 1) == 1`.
+
+## Operadores de atribuição compostos
+
+| Operador | Equivalente a  | Aplica-se a     |
+|----------|----------------|-----------------|
+| `+=`     | `x = x + val`  | números         |
+| `-=`     | `x = x - val`  | números         |
+| `*=`     | `x = x * val`  | números         |
+| `/=`     | `x = x / val`  | só números reais |
+| `%=`     | `x = x % val`  | números         |
+| `&=`     | `x = x & val`  | inteiros        |
+| `\|=`    | `x = x \| val` | inteiros        |
+| `^=`     | `x = x ^ val`  | inteiros        |
+
+```kriol
+int n = 10;
 n += 5;    // n == 15
 n -= 3;    // n == 12
 n *= 2;    // n == 24
-n /= 4;    // n == 6
+n %= 5;    // n == 4
+n |= 8;    // n == 12
+
+num m = 10.0;
+m /= 4;    // m == 2.5
 ```
+
+Como `/` devolve sempre um número real, `/=` só pode ser usado com variáveis reais. Num inteiro, `n /= 2` é um erro de compilação.
 
 ## Precedência de operadores
 
 Do maior para o menor precedência:
 
-1. Negação unária `-`, `!`
-2. `*`, `/`
+1. Operadores unários `-`, `!`, `~`
+2. `*`, `/`, `%`
 3. `+`, `-`
-4. `<`, `>`, `<=`, `>=`
-5. `==`, `!=`
-6. `&&`
-7. `||`
-8. `=`, `+=`, `-=`, `*=`, `/=`
+4. `&`
+5. `^`
+6. `|`
+7. `<`, `>`, `<=`, `>=`
+8. `==`, `!=`
+9. `&&`
+10. `||`
+11. `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`
 
 Usa parênteses `()` para forçar a ordem de avaliação desejada.
