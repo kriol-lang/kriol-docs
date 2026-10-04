@@ -126,6 +126,7 @@ não está implementada na versão atual.
 <unary_expression>      ::= <primary_expression>
                           | T_NOT <unary_expression>
                           | T_BIT_NOT <unary_expression>
+                          | T_TENTA <unary_expression>
                           | T_MINUS <unary_expression>
 
 <primary_expression>    ::= <postfix_expression>
@@ -150,6 +151,7 @@ não está implementada na versão atual.
                               | <record_field_initializers> ',' T_IDENT ':' <initializer>
 
 <assignment_expression> ::= <constant_expression>
+                          | <constant_expression> T_SINON <constant_expression>
                           | <primary_expression> <assignment_operator> <assignment_expression>
 
 <assignment_operator>   ::= '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '|=' | '^='
@@ -180,6 +182,8 @@ não está implementada na versão atual.
 ```bnf
 <function_declaration> ::= T_FN <declarator> '(' <parameter_optional_list> ')' <type_specifier> <compound_statement>
                          | T_FN <declarator> '(' <parameter_optional_list> ')' <compound_statement>
+                         | T_FN <declarator> '(' <parameter_optional_list> ')' <type_specifier> ':' T_TYPE_IDENT <compound_statement>
+                         | T_FN <declarator> '(' <parameter_optional_list> ')' ':' T_TYPE_IDENT <compound_statement>
 
 <parameter_optional_list> ::= <parameter_list> | λ
 
@@ -221,7 +225,13 @@ não está implementada na versão atual.
                    | T_KONTINUA ';'
                    | T_DIVOLVI <expression> ';'
                    | T_DIVOLVI ';'
+                   | T_LANSA <expression> ';'
 ```
+
+**Notas sobre erros:**
+- `Erru` é um molde predefinido (`molda Erru { textu mensage; }`) e é o único tipo aceite depois de `:` na assinatura de uma função.
+- `T_SINON` como operador de valor por omissão tem a precedência mais baixa das expressões (acima da atribuição). O operando esquerdo, e o de `tenta`, tem de ser uma chamada a uma função que pode falhar.
+- A gramática aceita estas construções em qualquer sítio, e a análise semântica verifica onde são válidas: `tenta` e `lansa` só dentro de funções que declaram `: Erru`.
 
 ## Limites
 

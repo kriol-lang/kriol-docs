@@ -62,6 +62,7 @@ fn inisiu() {
 - sai: exit
 - konfirma: assert, with an optional message: konfirma(cond, "message")
 - paniku: abort the program with a message: paniku("message")
+- Recoverable errors: `fn f() int : Erru`, `lansa Erru::{mensage: "..."};`, `tenta f()` (propagate), `f() sinon value` (default)
 
 ## Documentation Structure
 

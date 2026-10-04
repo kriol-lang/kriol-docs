@@ -60,6 +60,7 @@ export default defineConfig({
 						{ label: 'Operadores', slug: 'linguagem/operadores' },
 						{ label: 'Controlo de Fluxo', slug: 'linguagem/controlo-de-fluxo' },
 						{ label: 'Funções', slug: 'linguagem/funcoes' },
+						{ label: 'Erros', slug: 'linguagem/erros' },
 						{ label: 'Arrays', slug: 'linguagem/arrays' },
 						{ label: 'Strings e Interpolação', slug: 'linguagem/strings' },
 						{ label: 'Estruturas (molda) - Em Desenvolvimento', slug: 'linguagem/estruturas' },

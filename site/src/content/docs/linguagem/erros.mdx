@@ -1,0 +1,103 @@
+---
+title: Erros
+description: Erros de execução no Kriol, e como declarar, lançar e tratar erros recuperáveis.
+---
+
+O Kriol distingue duas espécies de erros de execução:
+
+- **Bugs do programa**, como um índice fora dos limites, um resto por zero ou uma condição de `konfirma` falsa. Terminam o programa de imediato com um *panic*.
+- **Falhas esperadas**, como uma entrada inválida ou um ficheiro que não existe. A função que falha **declara** que pode falhar, e quem a chama **decide** o que fazer.
+
+## Bugs: `konfirma` e `paniku`
+
+```kriol
+konfirma(idadi >= 0, "a idade não pode ser negativa");
+
+si estadu == 0 {
+    // ...
+} sinon {
+    paniku(f"estado inválido: {estadu}");
+}
+```
+
+Um *panic* escreve `kriol: panic at line N: mensagem` e termina o programa com o código 1. Vê [Controlo de fluxo](/linguagem/controlo-de-fluxo/).
+
+## Falhas: o tipo `Erru`
+
+`Erru` é um molde que já existe em todos os programas:
+
+```kriol
+molda Erru {
+    textu mensage;
+}
+```
+
+Uma função que pode falhar declara-o a seguir ao tipo de retorno, depois de `:`:
+
+```kriol
+fn metadi(int a, int b) num : Erru {
+    si b == 0 {
+        lansa Erru::{mensage: "divizon pa zero"};
+    }
+    divolvi a / b;
+}
+```
+
+- `fn nome() int : Erru` devolve um `int` ou falha com um `Erru`.
+- `fn nome() : Erru` não devolve valor, mas pode falhar.
+- `lansa <erru>;` falha a função de imediato. Só pode ser usado numa função que declare `: Erru`.
+- Por agora `Erru` é o único tipo de erro aceite depois de `:`.
+
+## Tratar uma falha
+
+Uma chamada a uma função que pode falhar **não pode ser ignorada**: o compilador exige que o erro seja tratado de uma de duas formas.
+
+### `tenta`: passar o erro a quem chamou
+
+`tenta chamada` devolve o valor da chamada, ou, se ela falhar, falha também a função atual com o mesmo erro. Por isso só pode ser usado dentro de uma função que declare `: Erru`.
+
+```kriol
+fn valida(int n) : Erru {
+    si n < 0 {
+        lansa Erru::{mensage: f"negativu: {n}"};
+    }
+}
+
+fn kaminhu(int n) num : Erru {
+    tenta valida(n);
+    num m = tenta metadi(n, 4);
+    divolvi m + 1;
+}
+```
+
+### `sinon`: usar um valor por omissão
+
+`chamada sinon valor` dá o valor da chamada, ou `valor` se ela falhar. O valor depois de `sinon` só é calculado quando a chamada falha, e tem de ser compatível com o tipo devolvido.
+
+```kriol
+num m = metadi(7, 0) sinon -1.0;   // -1.0
+```
+
+`sinon` tem a precedência mais baixa de todos os operadores (acima só da atribuição), por isso usa parênteses para o combinar com outros operadores: `(metadi(7, 2) sinon 0.0) == 3.5`.
+
+## A função `inisiu`
+
+`inisiu` também pode declarar `: Erru`. Se um erro chegar até ela sem ser tratado, o programa escreve `kriol: err: mensagem` e termina com o código 1:
+
+```kriol
+fn inisiu() : Erru {
+    num x = tenta metadi(1, 0);
+}
+```
+
+## Regras
+
+- Chamar uma função que pode falhar sem `tenta` nem `sinon` é um erro de compilação.
+- `tenta` e `sinon` só se aplicam a chamadas de funções que podem falhar.
+- `sinon` não se aplica a funções que não devolvem valor.
+- `Erru` não pode ser redeclarado.
+- O tipo de uma chamada que pode falhar não se pode escrever numa declaração: o resultado só existe para `tenta` e `sinon` o consumirem.
+
+:::note
+Funções embutidas como `toma` ainda terminam o programa quando falham. Passarão a poder falhar de forma recuperável numa fase futura.
+:::

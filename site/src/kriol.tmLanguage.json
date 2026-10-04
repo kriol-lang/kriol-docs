@@ -53,7 +53,7 @@
       "patterns": [
         {
           "name": "keyword.control.kriol",
-          "match": "\\b(si|sinon|pa|nkuantu|para|kontinua|divolvi)\\b"
+          "match": "\\b(si|sinon|pa|nkuantu|para|kontinua|divolvi|tenta|lansa)\\b"
         },
         {
           "name": "keyword.other.kriol",

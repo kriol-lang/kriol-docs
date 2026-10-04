@@ -34,6 +34,8 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 | `para`       | `break`          | Interromper ciclo      |
 | `kontinua`   | `continue`       | Continuar ciclo        |
 | `divolvi`    | `return`         | Retornar valor         |
+| `lansa`      | `throw`          | Falhar a função com um `Erru` |
+| `tenta`      | `try` / `?`      | Passar adiante o erro de uma chamada |
 | `molda`      | `struct`         | Declara um molde       |
 | `inpristan`  | `#include`       | Importar módulo (reservado; ainda não implementado) |
 
