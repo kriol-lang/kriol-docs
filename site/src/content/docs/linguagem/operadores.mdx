@@ -106,6 +106,14 @@ u8 mascara = 15;
 mostran(~mascara);  // 240
 ```
 
+Tal como um literal inteiro, `~` aplicado a um literal adapta-se ao tipo onde é usado. Num tipo sem sinal, troca os bits dentro da largura desse tipo:
+
+```kriol
+u8 tudu = ~0;            // 255
+u8 par = mascara & ~1;   // 14: limpa o bit menos significativo
+i8 menos = ~0;           // -1
+```
+
 Ao contrário do C, os operadores de bits têm **maior** precedência do que as comparações, por isso `x & 1 == 1` lê-se `(x & 1) == 1`.
 
 ## Operadores de atribuição compostos

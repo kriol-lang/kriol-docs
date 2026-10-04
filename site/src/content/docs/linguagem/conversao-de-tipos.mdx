@@ -89,9 +89,9 @@ Funciona com todos os tipos numéricos (`int`, `num`, `i8`, `u8`, `f32`, ...) e 
 | Tipo | Texto aceite |
 |------|--------------|
 | inteiros | Sinal opcional (`+` ou `-`) e dígitos (`42`, `-17`). O valor tem de caber no tipo: `u8::konverti("256")` falha |
-| `num`, `f32`, `f64` | Sinal opcional, dígitos, parte decimal opcional e expoente opcional (`3.25`, `-2e3`). `1.` e `nan` são inválidos |
+| `num`, `f32`, `f64` | Sinal opcional, dígitos, parte decimal opcional e expoente opcional (`3.25`, `-2e3`). `1.` e `nan` são inválidos. O valor tem de caber no tipo: `f32::konverti("1e300")` falha |
 | `bool` | `sin` ou `nau` |
 
-Os espaços no início e no fim do texto são ignorados. As mensagens de erro dizem o que correu mal, por exemplo `invalid integer 'abc'`, `'256' does not fit in 'u8'` ou `invalid number 'x'`.
+Os espaços no início e no fim do texto são ignorados. As mensagens de erro dizem o que correu mal, por exemplo `invalid integer 'abc'`, `'256' does not fit in 'u8'` ou `invalid number 'x'`. Um texto com mais de 40 bytes aparece cortado e termina em `...`.
 
 Como acontece com `toma`, se o erro não for tratado com `tenta` ou `sinon` o programa termina nessa chamada com a mensagem do erro.

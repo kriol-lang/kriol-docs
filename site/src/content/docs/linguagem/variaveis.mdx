@@ -30,6 +30,17 @@ pa i = 0; i < 10; i += 1 {
 mostra(i);
 ```
 
+O valor inicial não pode usar a própria variável, nem quando ela esconde outra com o mesmo nome num bloco exterior:
+
+```kriol
+int x = x + 1;      // ERRO: variable 'x' is used in its own initializer
+
+int y = 1;
+si sin {
+    int y = y + 1;  // ERRO: o 'y' de dentro ainda não tem valor
+}
+```
+
 ## Tamanho das variáveis locais
 
 As variáveis declaradas dentro de uma função (e os parâmetros) ficam na pilha do programa, por isso cada uma pode ocupar no máximo **1 MiB** (1 048 576 bytes). Um valor maior, como um array grande, deve ser declarado fora das funções:

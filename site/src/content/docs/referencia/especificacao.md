@@ -71,7 +71,7 @@ não está implementada na versão atual.
 ```
 
 **Notas:**
-- Toda a declaração de variável exige um inicializador.
+- Toda a declaração de variável exige um inicializador, que não pode referir a variável declarada.
 - A sintaxe de repetição `[valor; N]` requer um literal inteiro `N`, igual ao tamanho do array.
 - A sintaxe `(tipo[]) [...]` cria um literal de array com tipo explícito.
 - Um literal `[ ... ]` sem tipo explícito precisa de contexto, como uma variável
@@ -230,7 +230,7 @@ não está implementada na versão atual.
 ```
 
 **Notas sobre erros:**
-- `Erru` é um molde predefinido (`molda Erru { textu mensage; }`) e é o único tipo aceite depois de `:` na assinatura de uma função.
+- `Erru` é um molde predefinido (`molda Erru { textu mensage; }`) e é o único tipo aceite depois de `:` na assinatura de uma função. O nome é reservado e não pode ser redeclarado.
 - `T_SINON` como operador de valor por omissão tem a precedência mais baixa das expressões (acima da atribuição). O operando esquerdo, e o de `tenta`, tem de ser uma chamada a uma função que pode falhar.
 - A gramática aceita estas construções em qualquer sítio, e a análise semântica verifica onde são válidas: `tenta` e `lansa` só dentro de funções que declaram `: Erru`.
 
