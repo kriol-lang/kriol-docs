@@ -40,7 +40,7 @@ não está implementada na versão atual.
 
 ```bnf
 <type_specifier> ::= T_TYPE_NUM
-                   | T_TYPE_NTER
+                   | T_TYPE_INT
                    | T_TYPE_BOOL
                    | T_TYPE_TEXTU
                    | T_TYPE_PRIMITIVE
@@ -54,24 +54,28 @@ não está implementada na versão atual.
 
 <identifier>      ::= T_IDENT
 <declarator>      ::= <identifier>
-<array_declarator>::= '[' T_INT_LIT ']' <declarator>
+<array_dims>      ::= '[' T_INT_LIT ']'
+                    | <array_dims> '[' T_INT_LIT ']'
 
 <declaration> ::= <type_specifier> <declarator> '=' <initializer> ';'
-                | <type_specifier> <array_declarator> '=' <initializer> ';'
+                | <type_specifier> <array_dims> <declarator> '=' <initializer> ';'
 
 <initializer> ::= <expression>
-                | <array_initializer>
-                | '[' <value_expression> ';' T_INT_LIT ']'
+                | <array_value>
 
+<array_value>               ::= <array_initializer> | <repeat_initializer>
 <typed_array_initializer>   ::= '(' <type_specifier> '[' ']' ')' <array_initializer>
 <array_initializer>         ::= '[' <array_initializer_elements> ']'
-<array_initializer_elements>::= <value_expression>
-                               | <array_initializer_elements> ',' <value_expression>
+<repeat_initializer>        ::= '[' <element_initializer> ';' T_INT_LIT ']'
+<array_initializer_elements>::= <element_initializer>
+                               | <array_initializer_elements> ',' <element_initializer>
+<element_initializer>       ::= <value_expression> | <array_value>
 <value_expression>          ::= <constant_expression>
 ```
 
 **Notas:**
 - Toda a declaração de variável exige um inicializador, que não pode referir a variável declarada.
+- Em `int[2][3]`, o primeiro tamanho é a dimensão de fora (2 linhas de 3), como em C e em Go. Cada linha de um inicializador aninhado é validada contra o tamanho da sua dimensão.
 - A sintaxe de repetição `[valor; N]` requer um literal inteiro `N`, igual ao tamanho do array.
 - A sintaxe `(tipo[]) [...]` cria um literal de array com tipo explícito.
 - Um literal `[ ... ]` sem tipo explícito precisa de contexto, como uma variável
@@ -153,7 +157,9 @@ não está implementada na versão atual.
 
 <assignment_expression> ::= <constant_expression>
                           | <constant_expression> T_SINON <constant_expression>
+                          | <constant_expression> T_SINON <array_value>
                           | <primary_expression> <assignment_operator> <assignment_expression>
+                          | <primary_expression> <assignment_operator> <array_value>
 
 <assignment_operator>   ::= '=' | '+=' | '-=' | '*=' | '/=' | '%=' | '&=' | '|=' | '^='
 ```
@@ -167,7 +173,7 @@ não está implementada na versão atual.
                              | <molda_field_declarations> <molda_field_declaration>
 
 <molda_field_declaration> ::= <type_specifier> <declarator> ';'
-                            | <type_specifier> <array_declarator> ';'
+                            | <type_specifier> <array_dims> <declarator> ';'
 ```
 
 **Notas:**
@@ -185,6 +191,8 @@ não está implementada na versão atual.
                          | T_FN <declarator> '(' <parameter_optional_list> ')' <compound_statement>
                          | T_FN <declarator> '(' <parameter_optional_list> ')' <type_specifier> ':' T_TYPE_IDENT <compound_statement>
                          | T_FN <declarator> '(' <parameter_optional_list> ')' ':' T_TYPE_IDENT <compound_statement>
+                         | T_FN <declarator> '(' <parameter_optional_list> ')' <type_specifier> <array_dims> <compound_statement>
+                         | T_FN <declarator> '(' <parameter_optional_list> ')' <type_specifier> <array_dims> ':' T_TYPE_IDENT <compound_statement>
 
 <parameter_optional_list> ::= <parameter_list> | λ
 
@@ -192,8 +200,10 @@ não está implementada na versão atual.
                         | <parameter_list> ',' <parameter_declaration>
 
 <parameter_declaration> ::= <type_specifier> <declarator>
+                          | <type_specifier> <array_dims> <declarator>
 
-<argument_list>       ::= <argument_list> ',' <expression> | <expression>
+<argument_list>       ::= <argument_list> ',' <argument> | <argument>
+<argument>            ::= <expression> | <array_value>
 
 <function_call>       ::= <identifier> '(' <argument_list> ')'
                         | <identifier> '(' ')'
@@ -226,6 +236,7 @@ não está implementada na versão atual.
 <jump_statement> ::= T_KEBRA ';'
                    | T_KONTINUA ';'
                    | T_DIVOLVI <expression> ';'
+                   | T_DIVOLVI <array_value> ';'
                    | T_DIVOLVI ';'
                    | T_LANSA <expression> ';'
 ```
@@ -242,7 +253,7 @@ O compilador impõe estes limites para que programas grandes falhem com uma mens
 | Limite | Valor |
 |---|---|
 | Profundidade de uma expressão (operadores, chamadas, parênteses e inicializadores encadeados) | 256 níveis |
-| Elementos de um array | 1 048 576 |
+| Elementos de uma dimensão de um array | 1 048 576 |
 | Tamanho de uma variável local ou parâmetro | 1 MiB |
 | Aninhamento de blocos (`si`, `nkuantu`, `pa`, `{ }`) | cerca de 2 500 níveis |
 | Pilha dos programas compilados (Linux, Windows e WebAssembly) | 8 MiB |

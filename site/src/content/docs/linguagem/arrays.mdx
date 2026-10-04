@@ -39,6 +39,57 @@ O `N` tem de ser igual ao tamanho declarado do array.
 Versões anteriores usavam `[valor] * N`. Essa forma já não é aceite; o compilador indica a nova forma.
 :::
 
+## Arrays multidimensionais
+
+Um array pode ter várias dimensões. Como em C e em Go, o primeiro tamanho é a dimensão de fora: `int[2][3]` tem 2 linhas de 3 elementos.
+
+```kriol
+int[2][3] m = [[1, 2, 3], [4, 5, 6]];
+int[3][2] zeros = [[0; 2]; 3];    // 3 linhas de [0, 0]
+
+mostran(m[1][2]);                 // 6
+zeros[2][1] = 9;
+
+pa int i = 0; i < 2; i += 1 {
+    pa int j = 0; j < 3; j += 1 {
+        mostra(m[i][j]);
+    }
+}
+```
+
+Cada linha é ela própria um array (`m[1]` é um `int[3]`), que se pode copiar, imprimir ou passar a uma função:
+
+```kriol
+m[0] = m[1];          // copia a linha 1 para a linha 0
+int[3] linha = m[1];  // uma cópia da linha
+mostran(m);           // [[4, 5, 6], [4, 5, 6]]
+```
+
+## Arrays como valores
+
+Como os moldes, os arrays são valores: atribuir, passar a uma função ou devolver um array **copia-o** por inteiro.
+
+```kriol
+fn dobra(int[3] v) int[3] {
+    pa int i = 0; i < 3; i += 1 {
+        v[i] *= 2;            // altera a cópia local
+    }
+    divolvi v;
+}
+
+fn inisiu() {
+    int[3] a = [1, 2, 3];
+    int[3] b = dobra(a);      // a continua [1, 2, 3]
+    a = dobra(a);             // atribuição do array inteiro
+    a = [a[2], a[1], a[0]];   // o novo valor é construído antes de ser guardado
+    mostran(dobra([5; 3])[2]); // 10
+}
+```
+
+O tamanho faz parte do tipo, e os tipos têm de ser iguais: um `int[3]` só aceita outro `int[3]`, e não um `int[4]` nem um `u8[3]`. Um literal `[ ... ]` ou `[valor; N]` também pode ser usado diretamente como argumento, valor de `divolvi`, valor de uma atribuição ou valor depois de `sinon`, e recebe o tipo do destino.
+
+Para alterar um array de quem chama, devolve o novo valor e atribui-o, como em `a = dobra(a);`.
+
 ## Acesso a elementos
 
 Os índices começam em `0`:
@@ -112,7 +163,6 @@ pessoa.enderesus[0].numero += 5;
 ## Restrições actuais
 
 - O tamanho do array deve ser um **literal inteiro**. Não pode ser uma variável.
-- Um array pode ter no máximo **1 048 576** elementos.
 - Um array declarado dentro de uma função fica na pilha e pode ocupar no máximo
   **1 MiB** (por exemplo, 131 072 valores `int`). Arrays maiores devem ser
   declarados fora das funções; vê
@@ -124,5 +174,5 @@ pessoa.enderesus[0].numero += 5;
 - Arrays de valores de moldes podem ser usados, mas não podem ser impressos como
   um todo com `mostra`, `mostran` ou f-strings; imprime campos individuais ou
   arrays de tipos primitivos.
-- Arrays de arrays (multidimensionais) ainda não têm sintaxe de declaração
-  direta na versão atual.
+- Um array passado a uma função ou devolvido por ela é copiado, por isso o limite de **1 MiB** aplica-se também aos parâmetros e aos tipos de retorno.
+- Cada dimensão pode ter no máximo **1 048 576** elementos.

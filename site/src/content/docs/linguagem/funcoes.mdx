@@ -79,6 +79,22 @@ fn imprimeSeNaoNegativo(int n) {
 Uma função com tipo de retorno **deve** retornar em todos os caminhos de execução. O compilador verifica isto em tempo de compilação.
 :::
 
+## Arrays como parâmetros e retorno
+
+Um parâmetro ou o tipo de retorno pode ser um array de tamanho fixo. O array é copiado, por isso alterá-lo dentro da função não muda o de quem chamou:
+
+```kriol
+fn soma(int[3] v) int {
+    divolvi v[0] + v[1] + v[2];
+}
+
+fn identidade() int[2][2] {
+    divolvi [[1, 0], [0, 1]];
+}
+```
+
+Vê [Arrays como valores](/linguagem/arrays/#arrays-como-valores).
+
 ## Recursão
 
 O Kriol suporta recursão e recursão mútua. As funções podem ser chamadas antes da sua declaração no ficheiro:
