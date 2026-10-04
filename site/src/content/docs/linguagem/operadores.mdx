@@ -10,7 +10,7 @@ description: Operadores aritméticos, relacionais, lógicos, de bits e de atribu
 | `+`      | Adição          | `a + b`          |
 | `-`      | Subtração       | `a - b`          |
 | `*`      | Multiplicação   | `a * b`          |
-| `/`      | Divisão (real)  | `a / b`          |
+| `/`      | Divisão         | `a / b`          |
 | `%`      | Resto da divisão| `a % b`          |
 | `-` (unário) | Negação    | `-a`             |
 
@@ -24,28 +24,30 @@ mostran(a % b);   // 1
 mostran(-a);      // -10
 ```
 
-### A divisão é sempre real
+### Divisão
 
-O operador `/` nunca trunca: o resultado é sempre um número real, mesmo quando os dois operandos são inteiros. Dois inteiros dividem-se como `f64` (`num`), e se um dos operandos for `f32` o resultado é `f32`.
-
-```kriol
-num a = 7 / 2;       // 3.5
-int x = 8;
-int y = 2;
-num b = x / y;       // 4.0
-```
-
-Como o resultado é real, guardá-lo numa variável inteira é um erro de compilação, porque perderia a parte decimal:
+A divisão segue o C: entre dois inteiros é inteira e trunca em direção a zero; se um dos operandos for real, a divisão é real.
 
 ```kriol
-int c = 7 / 2;       // ERRO: não se pode atribuir 'num' a 'int'
+int a = 7 / 2;       // 3
+int b = -7 / 2;      // -3
+num c = 7 / 2;       // 3.0: a divisão é inteira, e só depois o 3 passa a real
+num d = 7 / 2.0;     // 3.5
+num e = (num) a / 2; // 1.5
 ```
 
-:::note
-A divisão inteira (que trunca) ainda não existe na linguagem. Quando existir, terá um operador próprio, para que `/` tenha sempre o mesmo significado.
-:::
+Para obter a parte decimal entre dois inteiros, converte um deles para real com um *cast*, como no último exemplo.
 
-A divisão real por zero dá `inf` (ou `nan`, no caso de `0 / 0`), como em IEEE 754. Já o resto `a % 0`, entre inteiros, termina o programa com uma mensagem de erro.
+### Divisão por zero
+
+Dividir por zero, ou calcular o resto por zero, termina o programa com uma mensagem de erro, tanto entre inteiros como entre reais:
+
+```kriol
+num x = 1.5;
+mostran(x / 0);      // kriol: panic at line 2: division by zero
+```
+
+Entre inteiros com sinal, `MIN / -1` (por exemplo `i8` `-128 / -1`) também termina o programa, porque o resultado não cabe no tipo.
 
 ## Operadores relacionais
 
@@ -74,7 +76,7 @@ A comparação de strings com `==` / `!=` **não** é suportada na versão atual
 |----------|-------|-----------|
 | E lógico | `&&`  | Verdadeiro se ambos forem verdadeiros |
 | Ou lógico | `\|\|` | Verdadeiro se pelo menos um for verdadeiro |
-| Negação  | `!`   | Inverte o valor booleano |
+| Negação  | `!`   | Inverte o valor lógico |
 
 ```kriol
 bool a = sin;
@@ -84,6 +86,18 @@ mostran(a && b);   // nau
 mostran(a || b);   // sin
 mostran(!a);       // nau
 ```
+
+Tal como numa condição e como em C, os operadores lógicos também aceitam números: um número é verdadeiro quando não é zero. Assim, `!n` é `sin` quando `n == 0` e `nau` caso contrário. O resultado é sempre um `bool`.
+
+```kriol
+int n = 0;
+mostran(!n);       // sin
+mostran(!5);       // nau
+mostran(n || 3);   // sin
+mostran(n && 3);   // nau
+```
+
+`&&` e `||` avaliam o operando da direita só quando é preciso: em `a && b`, `b` só é avaliado se `a` for verdadeiro, e em `a || b`, só se `a` for falso.
 
 ## Operadores de bits
 
@@ -123,7 +137,7 @@ Ao contrário do C, os operadores de bits têm **maior** precedência do que as 
 | `+=`     | `x = x + val`  | números         |
 | `-=`     | `x = x - val`  | números         |
 | `*=`     | `x = x * val`  | números         |
-| `/=`     | `x = x / val`  | só números reais |
+| `/=`     | `x = x / val`  | números         |
 | `%=`     | `x = x % val`  | números         |
 | `&=`     | `x = x & val`  | inteiros        |
 | `\|=`    | `x = x \| val` | inteiros        |
@@ -137,11 +151,18 @@ n *= 2;    // n == 24
 n %= 5;    // n == 4
 n |= 8;    // n == 12
 
+n /= 3;    // n == 4 (divisão inteira)
+
 num m = 10.0;
 m /= 4;    // m == 2.5
 ```
 
-Como `/` devolve sempre um número real, `/=` só pode ser usado com variáveis reais. Num inteiro, `n /= 2` é um erro de compilação.
+Como em C, `x op= v` calcula `x op v` no tipo comum dos dois operandos e guarda o resultado no tipo de `x`. Assim, num inteiro, um valor real é truncado:
+
+```kriol
+int n = 9;
+n /= 2.5;  // 9 / 2.5 = 3.6, guardado como 3
+```
 
 ## Precedência de operadores
 

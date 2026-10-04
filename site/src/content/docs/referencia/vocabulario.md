@@ -73,7 +73,7 @@ Estas funções são chamadas com sintaxe normal de função, mas os nomes são 
 | `+`      | Aritmético      | Adição                |
 | `-`      | Aritmético      | Subtração / Negação   |
 | `*`      | Aritmético      | Multiplicação         |
-| `/`      | Aritmético      | Divisão (resultado sempre real) |
+| `/`      | Aritmético      | Divisão (inteira entre inteiros, como em C) |
 | `%`      | Aritmético      | Resto da divisão      |
 | `==`     | Relacional      | Igual                 |
 | `!=`     | Relacional      | Diferente             |
@@ -92,7 +92,7 @@ Estas funções são chamadas com sintaxe normal de função, mas os nomes são 
 | `+=`     | Atribuição      | Adição e atribuição   |
 | `-=`     | Atribuição      | Subtração e atribuição|
 | `*=`     | Atribuição      | Multiplicação e atribuição |
-| `/=`     | Atribuição      | Divisão e atribuição (só reais) |
+| `/=`     | Atribuição      | Divisão e atribuição  |
 | `%=`     | Atribuição      | Resto e atribuição    |
 | `&=`     | Atribuição      | E bit a bit e atribuição |
 | `\|=`    | Atribuição      | Ou bit a bit e atribuição |

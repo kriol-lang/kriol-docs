@@ -30,16 +30,31 @@ fn inisiu() {
 ```
 
 :::note
-O resultado de uma divisão com `/` é sempre real (`num`), mesmo entre dois inteiros. Por isso `int c = 7 / 2;` é um erro de compilação, e `num c = 7 / 2;` guarda `3.5`. Vê [Operadores](/linguagem/operadores/#a-divisão-é-sempre-real).
+Entre dois inteiros, `/` faz a divisão inteira, como em C: `num c = 7 / 2;` guarda `3.0`. Para obter `3.5`, converte um operando: `(num) 7 / 2`. Vê [Operadores](/linguagem/operadores/#divisão).
 :::
 
 :::note
 O retorno de uma função também suporta alargamento: se a função retorna `num` e fazes `divolvi` de um `int`, o valor é automaticamente convertido.
 :::
 
+## De real para inteiro
+
+Como em C, um valor real também se converte implicitamente num inteiro, truncando em direção a zero. Isto vale em declarações, atribuições, argumentos e retornos:
+
+```kriol
+int a = 3.9;              // 3
+int b = -3.9;             // -3
+
+fn metade(num x) int {
+    divolvi x / 2;        // o resultado real é truncado
+}
+```
+
+Ao contrário do C, onde um valor fora do intervalo do tipo é comportamento indefinido, no Kriol fica no limite do tipo, e `NaN` dá `0`.
+
 ## Conversão explícita (cast)
 
-Uma conversão que pode perder informação tem de ser pedida explicitamente, escrevendo o tipo de destino entre parênteses antes do valor, como em C:
+As outras conversões que podem perder informação, como de um inteiro para um inteiro mais estreito, têm de ser pedidas explicitamente, escrevendo o tipo de destino entre parênteses antes do valor, como em C:
 
 ```kriol
 int a = (int) 3.9;         // 3

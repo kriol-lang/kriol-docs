@@ -81,7 +81,7 @@ num y = x;   // ok, alargamento automático
 ```
 
 :::note
-A conversão inversa (`num` → `int`) **não** é automática. Consulta a página [Conversão de Tipos](/linguagem/conversao-de-tipos/) para detalhes.
+Como em C, um real também passa automaticamente a inteiro, truncando (`int n = 3.9;` guarda `3`). Já um inteiro não passa automaticamente para um inteiro mais estreito (`int` → `u8`). Consulta a página [Conversão de Tipos](/linguagem/conversao-de-tipos/) para detalhes.
 :::
 
 ## Moldes definidos com `molda`
