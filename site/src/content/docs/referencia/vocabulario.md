@@ -45,7 +45,8 @@ description: Mapeamento completo das palavras-chave do Kriol para os seus equiva
 | `mostran`    | `printf + \n`    | Imprimir com newline   |
 | `toma`       | `stdin`          | Ler uma linha como `textu` |
 | `sai`        | `exit()`         | Terminar programa      |
-| `konfirma`   | `assert()`       | Verificar condição     |
+| `konfirma`   | `assert()`       | Verificar condição (com mensagem opcional) |
+| `paniku`     | `panic()`        | Terminar com uma mensagem de erro |
 
 Estas funções são chamadas com sintaxe normal de função, mas os nomes são reservados e não podem ser redefinidos.
 

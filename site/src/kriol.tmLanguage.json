@@ -61,7 +61,7 @@
         },
         {
           "name": "support.function.kriol",
-          "match": "\\b(mostra|mostran|toma|sai|konfirma)\\b"
+          "match": "\\b(mostra|mostran|toma|sai|konfirma|paniku)\\b"
         }
       ]
     },

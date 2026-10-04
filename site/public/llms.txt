@@ -60,7 +60,8 @@ fn inisiu() {
 - para: break
 - kontinua: continue
 - sai: exit
-- konfirma: assert
+- konfirma: assert, with an optional message: konfirma(cond, "message")
+- paniku: abort the program with a message: paniku("message")
 
 ## Documentation Structure
 

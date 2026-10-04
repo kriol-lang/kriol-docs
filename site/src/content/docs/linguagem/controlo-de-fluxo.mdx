@@ -124,4 +124,25 @@ konfirma(1 == 1);         // sempre passa
 konfirma(!nau);           // sempre passa
 ```
 
-Útil para pré-condições e validações durante o desenvolvimento.
+Podes acrescentar uma mensagem (um `textu`, incluindo uma f-string) que é mostrada quando a condição falha:
+
+```kriol
+konfirma(x >= 0, "x não pode ser negativo");
+konfirma(i < tamanho, f"índice {i} fora do limite {tamanho}");
+```
+
+Sem mensagem, o programa indica apenas `assertion failed` e a linha. Útil para pré-condições e validações durante o desenvolvimento.
+
+## `paniku` (panic)
+
+Termina o programa de imediato com uma mensagem de erro e a linha onde foi chamado. Serve para situações que nunca deviam acontecer, isto é, bugs do programa:
+
+```kriol
+fn dia_da_semana(int n) textu {
+    si n == 1 { divolvi "segunda"; }
+    si n == 2 { divolvi "terça"; }
+    paniku(f"dia inválido: {n}");
+}
+```
+
+A saída de `paniku("...")` é `kriol: panic at line N: ...`, e o programa termina com o código 1. Como `paniku` nunca regressa, uma função com tipo de retorno não precisa de `divolvi` depois dele (o mesmo vale para `sai`).
