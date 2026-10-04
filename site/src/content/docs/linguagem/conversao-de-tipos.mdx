@@ -92,11 +92,9 @@ Converter texto em número pode falhar (o texto pode não ser um número), por i
 
 ```kriol
 fn inisiu() : Erru {
-    textu entrada_idadi = tenta toma("Idadi: ");
-    int idadi = tenta int::konverti(entrada_idadi);
+    int idadi = tenta int::konverti("42");
     num altura = num::konverti("1.75") sinon 0.0;
-    bool ativu = bool::konverti("sin") sinon nau;
-    mostran(f"{idadi} {altura} {ativu}");
+    mostran(f"{idadi}; {altura}");   // 42; 1.75
 }
 ```
 
@@ -110,4 +108,4 @@ Funciona com todos os tipos numéricos (`int`, `num`, `i8`, `u8`, `f32`, ...) e 
 
 Os espaços no início e no fim do texto são ignorados. As mensagens de erro dizem o que correu mal, por exemplo `invalid integer 'abc'`, `'256' does not fit in 'u8'` ou `invalid number 'x'`. Um texto com mais de 40 bytes aparece cortado e termina em `...`.
 
-Como acontece com `toma`, se o erro não for tratado com `tenta` ou `sinon` o programa termina nessa chamada com a mensagem do erro.
+Se o erro não for tratado com `tenta` ou `sinon`, o programa termina nessa chamada com a mensagem do erro. Para converter um valor lido do utilizador, vê [Ler números](/linguagem/entrada/#ler-números) em Entrada de Dados.
