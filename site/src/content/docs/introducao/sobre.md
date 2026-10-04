@@ -13,10 +13,10 @@ A sintaxe inspira-se em linguagens como C, Go e Rust, mas distingue-se pelo uso 
 molda Pessoa {
   textu nomi;
   textu apelidu;
-  textu idadi;
+  int idadi;
 }
 
-fn novu_pessoa(textu nomi, textu apelidu, textu idadi) Pessoa {
+fn novu_pessoa(textu nomi, textu apelidu, int idadi) Pessoa {
   divolvi Pessoa::{nomi: nomi, apelidu: apelidu, idadi: idadi};
 }
 
@@ -24,11 +24,23 @@ fn mostra_pessoa(Pessoa p) {
   mostran(f"{p.nomi} {p.apelidu} tem {p.idadi} anos de idade.");
 }
 
+fn compara_idadi(Pessoa a, Pessoa b) {
+  int diferensa = a.idadi - b.idadi;
+
+  si diferensa == 0 {
+    mostran(f"{a.nomi} {a.apelidu} tem a mesma idade que {b.nomi} {b.apelidu}.");
+  } sinon si diferensa > 0 {
+    mostran(f"{a.nomi} {a.apelidu} é maior que {b.nomi} {b.apelidu} por {diferensa} anos.");
+  } sinon {
+    mostran(f"{a.nomi} {a.apelidu} é menor que {b.nomi} {b.apelidu} por {-diferensa} anos.");
+  }
+}
+
 fn inisiu() {
   Pessoa[3] pessoas = [
-    novu_pessoa('José', 'Tavares', '60'),
-    novu_pessoa('Yara', 'Coelho', '44'),
-    novu_pessoa('Clara', 'Sanchez', '71')
+    novu_pessoa('José', 'Tavares', 40),
+    novu_pessoa('Yara', 'Coelho', 16),
+    novu_pessoa('Clara', 'Sanchez', 71)
   ];
 
   pa int i = 0 ; i < 3 ; i += 1 {
@@ -36,17 +48,24 @@ fn inisiu() {
   }
 
   mostran("-----------------");
-  mostran("[[ y abo go? ]]");
+  mostran("[[ E tu? ]]");
 
-  textu nomi = toma("-> nomi: ");
-  textu apelidu = toma("-> apelidu: ");
-  textu idadi = toma("-> idadi: ");
+  textu nomi = toma("-> Nome: ");
+  textu apelidu = toma("-> Apelido: ");
+  textu entrada_idadi = toma("-> Idade: ");
+  int idadi = int::konverti(entrada_idadi);
 
   mostran("-----------------");
 
   Pessoa abo = novu_pessoa(nomi, apelidu, idadi);
 
   mostra_pessoa(abo);
+
+  mostran("-----------------");
+
+  pa int i = 0 ; i < 3 ; i += 1 {
+    compara_idadi(abo, pessoas[i]);
+  }
 }
 ```
 

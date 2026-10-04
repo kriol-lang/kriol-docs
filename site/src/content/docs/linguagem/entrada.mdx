@@ -56,7 +56,8 @@ fn inisiu() {
 
 ```kriol
 fn inisiu() : Erru {
-    int idadi = tenta int::konverti(toma("Idadi: "));
+    textu entrada_idadi = tenta toma("Idadi: ");
+    int idadi = tenta int::konverti(entrada_idadi);
     mostran(f"Para o ano terás {idadi + 1}.");
 }
 ```
@@ -67,7 +68,8 @@ Se o utilizador escrever algo que não é um número, `int::konverti` falha com 
 fn inisiu() {
     int idadi = -1;
     nkuantu idadi < 0 {
-        idadi = int::konverti(toma("Idadi: ")) sinon -1;
+        textu entrada_idadi = toma("Idadi: ");
+        idadi = int::konverti(entrada_idadi) sinon -1;
     }
     mostran(f"Idadi: {idadi}");
 }

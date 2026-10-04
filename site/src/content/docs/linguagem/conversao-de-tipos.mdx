@@ -77,7 +77,8 @@ Converter texto em número pode falhar (o texto pode não ser um número), por i
 
 ```kriol
 fn inisiu() : Erru {
-    int idadi = tenta int::konverti(toma("Idadi: "));
+    textu entrada_idadi = tenta toma("Idadi: ");
+    int idadi = tenta int::konverti(entrada_idadi);
     num altura = num::konverti("1.75") sinon 0.0;
     bool ativu = bool::konverti("sin") sinon nau;
     mostran(f"{idadi} {altura} {ativu}");
