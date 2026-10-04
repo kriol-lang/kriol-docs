@@ -50,7 +50,15 @@ fn metadi(int a, int b) num : Erru {
 
 ## Tratar uma falha
 
-Uma chamada a uma função que pode falhar **não pode ser ignorada**: o compilador exige que o erro seja tratado de uma de duas formas.
+Quem chama uma função que pode falhar pode tratar o erro de duas formas, descritas a seguir. Se não o tratar, **o erro não desaparece**: quando a função falhar, o programa termina nessa chamada com `kriol: panic at line N: mensagem`, tal como acontece com um índice fora dos limites. O compilador avisa disso com um *warning*, mas continua a compilar.
+
+```kriol
+fn inisiu() {
+    num x = metadi(1, 0);   // warning: o erro de 'metadi' não é tratado
+}                           // em execução: kriol: panic at line 2: divizon pa zero
+```
+
+Para o compilador tratar os avisos como erros, compila com `--strict`.
 
 ### `tenta`: passar o erro a quem chamou
 
@@ -90,14 +98,26 @@ fn inisiu() : Erru {
 }
 ```
 
+## Avisos e `--strict`
+
+Ignorar o erro de uma função **declarada por ti** com `: Erru` gera o aviso `the error of 'f' is not handled, so the program stops if it fails`. É provável que seja um esquecimento, porque quem escreveu a função previu esse caminho. `toma` não gera aviso: parar quando a entrada acaba é o comportamento normal, como num índice fora dos limites, e mantém simples os primeiros programas.
+
+```sh
+kriol programa.kriol            # os avisos são mostrados, mas o programa compila
+kriol --strict programa.kriol   # qualquer aviso passa a ser um erro de compilação
+```
+
+Usa `--strict` em projetos e na integração contínua para garantir que nenhum erro é ignorado.
+
 ## Regras
 
-- Chamar uma função que pode falhar sem `tenta` nem `sinon` é um erro de compilação.
+- Um erro não tratado termina o programa na chamada que falhou; só `tenta` e `sinon` o tratam.
 - `tenta` e `sinon` só se aplicam a chamadas de funções que podem falhar.
+- `tenta` só pode ser usado dentro de uma função que declare `: Erru`.
 - `sinon` não se aplica a funções que não devolvem valor.
 - `Erru` não pode ser redeclarado.
 - O tipo de uma chamada que pode falhar não se pode escrever numa declaração: o resultado só existe para `tenta` e `sinon` o consumirem.
 
 :::note
-A função embutida `toma` também pode falhar com um `Erru`: o resultado tem de ser tratado com `tenta` ou `sinon`. Vê [Entrada de dados](/linguagem/entrada/).
+A função embutida `toma` também pode falhar com um `Erru`. Vê [Entrada de dados](/linguagem/entrada/).
 :::

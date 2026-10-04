@@ -56,13 +56,13 @@ fn inisiu() {
 - pa: for loop
 - divolvi: return
 - mostra/mostran: print without/with newline
-- toma: read one line from stdin as textu; it can fail (end of input), so use `tenta toma()` in a function declared `: Erru`, or `toma() sinon "default"`
+- toma: read one line from stdin as textu; it stops the program if the input ends, unless handled: `tenta toma()` in a function declared `: Erru`, or `toma() sinon "default"`
 - para: break
 - kontinua: continue
 - sai: exit
 - konfirma: assert, with an optional message: konfirma(cond, "message")
 - paniku: abort the program with a message: paniku("message")
-- Recoverable errors: `fn f() int : Erru`, `lansa Erru::{mensage: "..."};`, `tenta f()` (propagate), `f() sinon value` (default)
+- Recoverable errors: `fn f() int : Erru`, `lansa Erru::{mensage: "..."};`, `tenta f()` (propagate), `f() sinon value` (default). An unhandled error stops the program at the call, with a warning at compile time; `kriol --strict` turns warnings into errors
 
 ## Documentation Structure
 

@@ -11,19 +11,21 @@ A função `toma` lê uma linha de `stdin` e retorna um valor `textu`. Ela aceit
 
 ## Quando a leitura falha
 
-Ler pode falhar: a entrada pode ter terminado (por exemplo, quando o utilizador fecha a entrada com `Ctrl+D`, ou quando o ficheiro redirecionado acaba) ou pode não ser possível lê-la. Por isso `toma` é uma função que pode falhar, com o erro `Erru`, e o resultado **tem de ser tratado** com `tenta` ou `sinon` (vê [Erros](/linguagem/erros/)):
+Ler pode falhar: a entrada pode ter terminado (por exemplo, quando o utilizador fecha a entrada com `Ctrl+D`, ou quando o ficheiro redirecionado acaba) ou pode não ser possível lê-la. `toma` falha então com um `Erru` cuja mensagem é `end of input` (a entrada acabou sem dados) ou `failed to read from stdin` (a leitura falhou). Uma última linha sem quebra de linha é lida normalmente.
 
-- `tenta toma()` passa o erro a quem chamou, por isso só se usa numa função que declare `: Erru`, como `inisiu`.
+Podes tratar a falha (vê [Erros](/linguagem/erros/)), ou não fazer nada:
+
+- `toma()` sozinho termina o programa com `kriol: panic at line N: end of input` se a entrada acabar. É o mais simples, e adequado para programas curtos.
+- `tenta toma()` passa o erro a quem chamou, por isso só se usa numa função que declare `: Erru`.
 - `toma() sinon "valor"` usa um texto por omissão quando a leitura falha.
-
-A mensagem do erro é `end of input` quando a entrada acabou sem dados, ou `failed to read from stdin` quando a leitura falhou. Uma última linha sem quebra de linha é lida normalmente.
 
 ## Sintaxe
 
 ```kriol
-tenta toma()
-tenta toma("Mensagem para o utilizador: ")
-toma() sinon ""
+toma()
+toma("Mensagem para o utilizador: ")
+tenta toma()        // passa o erro adiante (função com `: Erru`)
+toma() sinon ""     // valor por omissão
 ```
 
 O valor retornado não inclui a quebra de linha final. Em ficheiros com quebras de linha Windows, o `\r` final também é removido.
@@ -33,13 +35,13 @@ O valor retornado não inclui a quebra de linha final. Em ficheiros com quebras 
 ### Leitura de string
 
 ```kriol
-fn inisiu() : Erru {
-    textu nome = tenta toma("Digite o seu nome: ");
+fn inisiu() {
+    textu nome = toma("Digite o seu nome: ");
     mostran(f"Olá, {nome}!");
 }
 ```
 
-### Valor por omissão
+### Valor por omissão se a entrada acabar
 
 ```kriol
 fn inisiu() {
