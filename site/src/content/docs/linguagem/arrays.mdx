@@ -18,10 +18,10 @@ bool[2] flags = [sin, nau];
 
 O literal `[ ... ]` sem tipo explícito é interpretado pelo contexto da variável
 ou campo que o recebe. Quando o contexto não deixa claro o tipo do array, usa
-um literal tipado:
+um literal tipado, escrevendo o tipo dos elementos seguido de `[]` entre parênteses:
 
 ```kriol
-int[3] valores = <int>[1, 2, 3];
+int[3] valores = (int[]) [1, 2, 3];
 ```
 
 ## Inicialização por repetição
@@ -120,7 +120,7 @@ pessoa.enderesus[0].numero += 5;
 - Aceder a um índice fora do array termina o programa com uma mensagem de erro
   que indica a linha e o índice.
 - Literais sem tipo explícito precisam de um contexto de array. Se o compilador
-  não conseguir inferir o alvo, usa `<tipo>[...]`.
+  não conseguir inferir o alvo, usa `(tipo[]) [...]`.
 - Arrays de valores de moldes podem ser usados, mas não podem ser impressos como
   um todo com `mostra`, `mostran` ou f-strings; imprime campos individuais ou
   arrays de tipos primitivos.

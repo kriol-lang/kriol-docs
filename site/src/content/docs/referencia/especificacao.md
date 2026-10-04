@@ -63,7 +63,7 @@ não está implementada na versão atual.
                 | <array_initializer>
                 | '[' <value_expression> ';' T_INT_LIT ']'
 
-<typed_array_initializer>   ::= '<' <type_specifier> '>' <array_initializer>
+<typed_array_initializer>   ::= '(' <type_specifier> '[' ']' ')' <array_initializer>
 <array_initializer>         ::= '[' <array_initializer_elements> ']'
 <array_initializer_elements>::= <value_expression>
                                | <array_initializer_elements> ',' <value_expression>
@@ -73,7 +73,7 @@ não está implementada na versão atual.
 **Notas:**
 - Toda a declaração de variável exige um inicializador.
 - A sintaxe de repetição `[valor; N]` requer um literal inteiro `N`, igual ao tamanho do array.
-- A sintaxe `<tipo>[...]` cria um literal de array com tipo explícito.
+- A sintaxe `(tipo[]) [...]` cria um literal de array com tipo explícito.
 - Um literal `[ ... ]` sem tipo explícito precisa de contexto, como uma variável
   ou campo de array.
 - Nomes de tipos de moldes declarados com `molda` usam `T_TYPE_IDENT`, isto é, começam com
@@ -126,6 +126,7 @@ não está implementada na versão atual.
 <unary_expression>      ::= <primary_expression>
                           | T_NOT <unary_expression>
                           | T_BIT_NOT <unary_expression>
+                          | '(' <type_specifier> ')' <unary_expression>
                           | T_TENTA <unary_expression>
                           | T_MINUS <unary_expression>
 

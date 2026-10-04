@@ -1,6 +1,6 @@
 ---
 title: Conversão de Tipos
-description: Conversão implícita e explícita de tipos no Kriol (em desenvolvimento).
+description: Conversão implícita e explícita de tipos no Kriol do Kriol.
 ---
 
 ## Conversão implícita (widening)
@@ -37,41 +37,38 @@ O resultado de uma divisão com `/` é sempre real (`num`), mesmo entre dois int
 O retorno de uma função também suporta alargamento: se a função retorna `num` e fazes `divolvi` de um `int`, o valor é automaticamente convertido.
 :::
 
-## Conversão explícita (casting)
+## Conversão explícita (cast)
 
-:::caution[Em Desenvolvimento]
-A conversão explícita de tipos ainda está em desenvolvimento. A sintaxe definitiva não está finalizada. Esta página documenta o design em consideração.
-:::
-
-A conversão de `num` para `int` (ou entre outros tipos incompatíveis) requer uma conversão explícita.
-
-### Sintaxe em consideração
-
-Algumas opções em análise (a sintaxe final pode diferir):
+Uma conversão que pode perder informação tem de ser pedida explicitamente, escrevendo o tipo de destino entre parênteses antes do valor, como em C:
 
 ```kriol
-// Opção A: estilo função
-int n = int(3.7);    // n == 3 (truncagem)
-
-// Opção B: estilo prefixo
-int n = (int) 3.7;   // n == 3
-
-// Opção C: keyword komu
-int n = 3.7 komu int;
-
-// Opção D: operador direto
-int n = 3.7 -> int;
-// ou
-int n = 3.7 >> int;
+int a = (int) 3.9;         // 3
+num b = (num) a / 2;       // 1.5
+u8 c = (u8) 300;           // 44
+bool d = (bool) 5;         // sin
 ```
 
-### Conversões previstas
+O *cast* é um operador unário: liga mais forte do que os operadores binários, por isso `(int) 3.9 + 1` é `((int) 3.9) + 1`. Usa parênteses para converter uma expressão inteira: `(int) (x + 1.5)`.
 
-| De      | Para    | Comportamento esperado            |
-|---------|---------|-----------------------------------|
-| `num`   | `int`  | Truncagem (descarta parte decimal)|
-| `int`  | `textu` | Representação textual do número   |
-| `num`   | `textu` | Representação textual do número   |
-| `textu` | `int`  | Interpretação numérica da string  |
-| `textu` | `num`   | Interpretação numérica da string  |
-| `bool`  | `int`  | `sin` vira 1, `nau` vira 0        |
+### O que cada conversão faz
+
+| De                   | Para                 | Comportamento |
+|----------------------|----------------------|---------------|
+| real                 | inteiro              | Trunca em direção a zero (`-3.9` dá `-3`). Valores fora do intervalo ficam no limite do tipo (por exemplo `(u8) 1000.5` dá `255`) e `NaN` dá `0` |
+| inteiro              | inteiro mais estreito | Mantém os bits menos significativos (`(u8) 300` dá `44`, `(i8) 200` dá `-56`) |
+| inteiro              | real                 | O valor mais próximo representável |
+| real                 | outro real           | Arredonda ao tipo de destino (`f64` para `f32`) |
+| `bool`               | número               | `sin` dá `1` e `nau` dá `0` |
+| número               | `bool`               | `nau` se for zero, `sin` caso contrário |
+
+### O que não se pode converter
+
+Só números e `bool` são alvos válidos, e só números e `bool` se convertem. Estas conversões são erros de compilação:
+
+```kriol
+int n = (int) "5";      // ERRO: não se converte texto
+textu t = (textu) 5;    // ERRO: o destino não pode ser textu
+int m = (int) lista;    // ERRO: não se converte um array ou um molde
+```
+
+A conversão entre texto e números pode falhar (o texto pode não ser um número), por isso será uma funcionalidade à parte, que usa o mecanismo de [erros](/linguagem/erros/).
