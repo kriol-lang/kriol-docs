@@ -143,7 +143,7 @@ konfirma(x >= 0, "x não pode ser negativo");
 konfirma(i < tamanho, f"índice {i} fora do limite {tamanho}");
 ```
 
-Sem mensagem, o programa indica apenas `assertion failed` e a linha. Útil para pré-condições e validações durante o desenvolvimento.
+Sem mensagem, o programa indica `a condição de konfirma é falsa` e a linha. Útil para pré-condições e validações durante o desenvolvimento.
 
 ## `paniku` (panic)
 
@@ -157,4 +157,4 @@ fn dia_da_semana(int n) textu {
 }
 ```
 
-A saída de `paniku("...")` é `kriol: panic at line N: ...`, e o programa termina com o código 1. Como `paniku` nunca regressa, uma função com tipo de retorno não precisa de `divolvi` depois dele (o mesmo vale para `sai`).
+A saída de `paniku("...")` é `programa.kriol:N: erro de execução: ...`, e o programa termina com o código 1. Como `paniku` nunca regressa, uma função com tipo de retorno não precisa de `divolvi` depois dele (o mesmo vale para `sai`).

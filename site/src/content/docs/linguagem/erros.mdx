@@ -5,7 +5,7 @@ description: Erros de execução no Kriol, e como declarar, lançar e tratar err
 
 O Kriol distingue duas espécies de erros de execução:
 
-- **Bugs do programa**, como um índice fora dos limites, um resto por zero ou uma condição de `konfirma` falsa. Terminam o programa de imediato com um *panic*.
+- **Bugs do programa**, como um índice fora dos limites, um resto por zero ou uma condição de `konfirma` falsa. Terminam o programa de imediato com um erro de execução.
 - **Falhas esperadas**, como uma entrada inválida ou um ficheiro que não existe. A função que falha **declara** que pode falhar, e quem a chama **decide** o que fazer.
 
 ## Bugs: `konfirma` e `paniku`
@@ -20,7 +20,7 @@ si estadu == 0 {
 }
 ```
 
-Um *panic* escreve `kriol: panic at line N: mensagem` e termina o programa com o código 1. Vê [Controlo de fluxo](/linguagem/controlo-de-fluxo/).
+Um erro de execução escreve `programa.kriol:N: erro de execução: mensagem`, com o ficheiro e a linha, e termina o programa com o código 1. Vê [Controlo de fluxo](/linguagem/controlo-de-fluxo/).
 
 ## Falhas: o tipo `Erru`
 
@@ -51,12 +51,12 @@ fn metadi(int a, int b) num : Erru {
 
 ## Tratar uma falha
 
-Quem chama uma função que pode falhar pode tratar o erro de duas formas, descritas a seguir. Se não o tratar, **o erro não desaparece**: quando a função falhar, o programa termina nessa chamada com `kriol: panic at line N: mensagem`, tal como acontece com um índice fora dos limites. O compilador avisa disso com um *warning*, mas continua a compilar.
+Quem chama uma função que pode falhar pode tratar o erro de duas formas, descritas a seguir. Se não o tratar, **o erro não desaparece**: quando a função falhar, o programa termina nessa chamada com `programa.kriol:N: erro não tratado: mensagem`. O compilador avisa disso, mas continua a compilar.
 
 ```kriol
 fn inisiu() {
-    num x = metadi(1, 0);   // warning: o erro de 'metadi' não é tratado
-}                           // em execução: kriol: panic at line 2: divizon pa zero
+    num x = metadi(1, 0);   // aviso: o erro de 'metadi' não é tratado
+}                           // em execução: programa.kriol:2: erro não tratado: divizon pa zero
 ```
 
 Para o compilador tratar os avisos como erros, compila com `--strict`.
@@ -91,7 +91,7 @@ num m = metadi(7, 0) sinon -1.0;   // -1.0
 
 ## A função `inisiu`
 
-`inisiu` também pode declarar `: Erru`. Se um erro chegar até ela sem ser tratado, o programa escreve `kriol: err: mensagem` e termina com o código 1:
+`inisiu` também pode declarar `: Erru`. Se um erro chegar até ela sem ser tratado, o programa escreve `programa.kriol:N: erro não tratado: mensagem`, com a linha onde o erro saiu de `inisiu`, e termina com o código 1:
 
 ```kriol
 fn inisiu() : Erru {

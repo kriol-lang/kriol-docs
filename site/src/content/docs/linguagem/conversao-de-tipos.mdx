@@ -106,6 +106,6 @@ Funciona com todos os tipos numéricos (`int`, `num`, `i8`, `u8`, `f32`, ...) e 
 | `num`, `f32`, `f64` | Sinal opcional, dígitos, parte decimal opcional e expoente opcional (`3.25`, `-2e3`). `1.` e `nan` são inválidos. O valor tem de caber no tipo: `f32::konverti("1e300")` falha |
 | `bool` | `sin` ou `nau` |
 
-Os espaços no início e no fim do texto são ignorados. As mensagens de erro dizem o que correu mal, por exemplo `invalid integer 'abc'`, `'256' does not fit in 'u8'` ou `invalid number 'x'`. Um texto com mais de 40 bytes aparece cortado e termina em `...`.
+Os espaços no início e no fim do texto são ignorados. As mensagens de erro dizem o que correu mal, por exemplo `'abc' não é um número inteiro válido`, `'256' não cabe no tipo 'u8'` ou `'x' não é um número válido`. Um texto com mais de 40 bytes aparece cortado e termina em `...`.
 
 Se o erro não for tratado com `tenta` ou `sinon`, o programa termina nessa chamada com a mensagem do erro. Para converter um valor lido do utilizador, vê [Ler números](/linguagem/entrada/#ler-números) em Entrada de Dados.

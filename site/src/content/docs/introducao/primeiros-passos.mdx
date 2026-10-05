@@ -125,6 +125,22 @@ Os programas são otimizados por omissão (nível 2). Podes escolher outro níve
 Kualeh, Mundu!
 ```
 
+### Mensagens de erro
+
+Quando o programa tem um erro, o compilador indica o ficheiro, a linha e o que está mal, e muitas vezes sugere como corrigir:
+
+```
+ola-mundu.kriol:2: erro: a variável 'nomi' não foi declarada; declara-a antes de a usar, por exemplo 'int nomi = 0;'
+```
+
+Os erros que só acontecem com o programa a correr, como um índice fora dos limites de um array, seguem o mesmo formato:
+
+```
+ola-mundu.kriol:5: erro de execução: o índice 3 está fora do array, que vai de 0 a 2
+```
+
+Os editores de código reconhecem o formato `ficheiro:linha:` e permitem saltar para a linha indicada.
+
 ## Estrutura básica de um programa
 
 Todo programa Kriol precisa de uma função `inisiu` sem parâmetros:

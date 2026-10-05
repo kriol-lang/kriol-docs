@@ -44,7 +44,7 @@ Dividir por zero, ou calcular o resto por zero, termina o programa com uma mensa
 
 ```kriol
 num x = 1.5;
-mostran(x / 0);      // kriol: panic at line 2: division by zero
+mostran(x / 0);      // programa.kriol:2: erro de execução: divisão por zero
 ```
 
 Entre inteiros com sinal, `MIN / -1` (por exemplo `i8` `-128 / -1`) também termina o programa, porque o resultado não cabe no tipo.

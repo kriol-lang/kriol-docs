@@ -29,13 +29,13 @@ toma() sinon ""     // valor por omissão
 
 ## Quando a leitura falha
 
-Ler pode falhar: a entrada pode ter terminado ou pode não ser possível lê-la. `toma` falha então com um `Erru` cuja mensagem é `end of input` (a entrada acabou sem dados) ou `failed to read from stdin` (a leitura falhou).
+Ler pode falhar: a entrada pode ter terminado ou pode não ser possível lê-la. `toma` falha então com um `Erru` cuja mensagem é `a entrada terminou e não há mais linhas para ler` ou `não foi possível ler a entrada`.
 
 A entrada termina quando o ficheiro redirecionado chega ao fim, ou quando o utilizador a fecha no terminal: `Ctrl+D` em Linux e macOS, ou `Ctrl+Z` seguido de `Enter` no início de uma linha na consola do Windows.
 
 Podes tratar a falha (vê [Erros](/linguagem/erros/)), ou não fazer nada:
 
-- `toma()` sozinho termina o programa com `kriol: panic at line N: end of input` se a entrada acabar. É o mais simples, e adequado para programas curtos.
+- `toma()` sozinho termina o programa com `programa.kriol:N: erro não tratado: a entrada terminou e não há mais linhas para ler` se a entrada acabar. É o mais simples, e adequado para programas curtos.
 - `tenta toma()` passa o erro a quem chamou, por isso só se usa numa função que declare `: Erru`.
 - `toma() sinon "valor"` usa um texto por omissão quando a leitura falha.
 
@@ -55,7 +55,7 @@ fn inisiu() : Erru {
 }
 ```
 
-Se o utilizador escrever algo que não é um número, `int::konverti` falha com um erro como `invalid integer 'abc'`. Para voltar a pedir o valor, usa `sinon` num ciclo:
+Se o utilizador escrever algo que não é um número, `int::konverti` falha com um erro como `'abc' não é um número inteiro válido`. Para voltar a pedir o valor, usa `sinon` num ciclo:
 
 ```kriol
 fn inisiu() {
