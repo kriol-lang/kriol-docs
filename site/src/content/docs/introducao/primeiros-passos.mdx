@@ -23,7 +23,7 @@ Também podes testar a linguagem no [playground Kriol](https://play.kriol.dev) a
 A forma mais fácil de instalar o Kriol é através do script de instalação:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.sh | sh -s -- --pre
+curl -fsSL https://kriol.dev/install.sh | sh -s -- --pre
 ```
 
 Depois, adiciona o Kriol ao teu PATH. Adiciona esta linha ao ficheiro de configuração do teu shell (como `~/.bashrc` ou `~/.zshrc`):
@@ -47,7 +47,7 @@ Os executáveis para Windows ainda não têm assinatura digital, por isso o Wind
 No PowerShell, executa:
 
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.ps1))) -Pre
+& ([scriptblock]::Create((irm https://kriol.dev/install.ps1))) -Pre
 ```
 
 O Kriol fica instalado em `%LOCALAPPDATA%\Programs\kriol` e é adicionado ao teu `PATH`. Abre um novo terminal e verifica se funcionou:
@@ -80,7 +80,7 @@ Como o `kriol.exe` e o `ld.lld.exe` não têm assinatura digital, ao executá-lo
 
    ```bash
    sudo apt update && sudo apt install -y gcc curl
-   curl -fsSL https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.sh | sh -s -- --pre
+   curl -fsSL https://kriol.dev/install.sh | sh -s -- --pre
    ```
 
 3. Caso contrário, por agora a única forma de contornar o Controlo Inteligente de Aplicações é desativá-lo no mesmo sítio. Em muitas versões do Windows 11 não é possível voltar a ativá-lo sem reinstalar o Windows, por isso pensa bem antes. Também podes [compilar o Kriol de origem](#compilar-de-origem-opcional).

@@ -22,14 +22,14 @@ KriolLang is designed to make programming accessible to Cape Verdean Creole spea
 Linux:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.sh | sh -s -- --pre
+curl -fsSL https://kriol.dev/install.sh | sh -s -- --pre
 export PATH="$HOME/.kriol:$PATH"
 ```
 
 Windows (PowerShell; installs kriol.exe and ld.lld.exe, programs run on Windows 7+):
 
 ```powershell
-& ([scriptblock]::Create((irm https://raw.githubusercontent.com/kriol-lang/kriol/refs/heads/main/install.ps1))) -Pre
+& ([scriptblock]::Create((irm https://kriol.dev/install.ps1))) -Pre
 ```
 
 ## Basic Syntax
