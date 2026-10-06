@@ -1,5 +1,8 @@
 .env
-node_modules/
-dist/
-.astro/
+# At any depth: the site lives in site/, and its local dependencies and caches
+# (such as the rendered Markdown in .astro/data-store.json) must not reach the
+# image, where they would override `npm ci` and serve stale pages.
+**/node_modules/
+**/dist/
+**/.astro/
 **/.sourced
