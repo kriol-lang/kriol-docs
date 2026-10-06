@@ -3,6 +3,7 @@ import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
+import { kriolDark, kriolLight } from './src/kriol-themes.mjs';
 
 const kriolGrammar = JSON.parse(
   readFileSync(fileURLToPath(new URL('./src/kriol.tmLanguage.json', import.meta.url)), 'utf-8')
@@ -40,6 +41,7 @@ export default defineConfig({
 				SocialIcons: './src/components/SocialIcons.astro',
 			},
 			expressiveCode: {
+				themes: [kriolDark, kriolLight],
 				shiki: {
 					langs: [kriolGrammar],
 				},

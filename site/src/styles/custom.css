@@ -1,66 +1,144 @@
-/* KriolLang custom styles */
+/* The colours of kriol.dev and the playground, after the logo's teal, with
+   the page title underlined with the logo's waves. As in the playground, the
+   rest stays plain, so that nothing distracts from the text. */
+:root {
+  /* Corners that are not quite equal, like the logo's strokes; kept subtle. */
+  --kriol-hand: 10px 14px 9px 15px / 14px 9px 15px 10px;
+  --kriol-hand-sm: 7px 10px 6px 11px / 10px 6px 11px 7px;
+}
+
+/* Dark theme: neutral greys, so that the teal is the only colour that stands
+   out. */
 :root,
 ::backdrop {
-  --sl-color-accent-low: #092f4a;
-  --sl-color-accent: #1486bd;
-  --sl-color-accent-high: #74d7ee;
+  --kriol-ink-shadow: rgba(0, 0, 0, 0.55);
 
-  --sl-color-white: #f4f7fb;
-  --sl-color-gray-1: #e3eaf4;
-  --sl-color-gray-2: #b8c4d5;
-  --sl-color-gray-3: #8998aa;
-  --sl-color-gray-4: #5c6c80;
-  --sl-color-gray-5: #253b55;
-  --sl-color-gray-6: #0c2036;
-  --sl-color-black: #061326;
+  --sl-color-accent-low: #123c47;
+  --sl-color-accent: #2a9fc0;
+  --sl-color-accent-high: #8fd3e6;
+
+  --sl-color-white: #f2f0eb;
+  --sl-color-gray-1: #e2e0db;
+  --sl-color-gray-2: #c4c6c4;
+  --sl-color-gray-3: #9a9f9f;
+  --sl-color-gray-4: #6b7172;
+  --sl-color-gray-5: #3a3f42;
+  --sl-color-gray-6: #222629;
+  --sl-color-black: #121416;
 
   --sl-color-text: var(--sl-color-gray-2);
   --sl-color-text-accent: var(--sl-color-accent-high);
   --sl-color-text-invert: var(--sl-color-black);
-  --sl-color-bg: #061326;
-  --sl-color-bg-nav: #061326;
-  --sl-color-bg-sidebar: #08182b;
-  --sl-color-bg-inline-code: #10253d;
+  --sl-color-bg: #121416;
+  --sl-color-bg-nav: #121416;
+  --sl-color-bg-sidebar: #16191c;
+  --sl-color-bg-inline-code: #23282b;
   --sl-color-bg-accent: var(--sl-color-accent-high);
-  --sl-color-hairline-light: #1d344e;
-  --sl-color-hairline: #172b43;
-  --sl-color-hairline-shade: #1a2e47;
-  --sl-color-backdrop-overlay: rgb(6 19 38 / 72%);
+  --sl-color-hairline-light: #2c3236;
+  --sl-color-hairline: #24292c;
+  --sl-color-hairline-shade: #24292c;
+  --sl-color-backdrop-overlay: rgb(10 12 14 / 72%);
 }
 
 :root[data-theme='light'],
 [data-theme='light'] ::backdrop {
-  --sl-color-accent-low: #dbeeff;
-  --sl-color-accent: #145db2;
-  --sl-color-accent-high: #0f448f;
+  --kriol-ink-shadow: rgba(0, 102, 128, 0.22);
 
-  --sl-color-white: #071326;
-  --sl-color-gray-1: #111c2e;
-  --sl-color-gray-2: #27354a;
-  --sl-color-gray-3: #5d6b7e;
-  --sl-color-gray-4: #8d99a8;
-  --sl-color-gray-5: #d8e0ea;
-  --sl-color-gray-6: #eef3f9;
-  --sl-color-gray-7: #f8fafc;
-  --sl-color-black: #ffffff;
+  --sl-color-accent-low: #d5ecf0;
+  --sl-color-accent: #00708c;
+  --sl-color-accent-high: #005a71;
+
+  --sl-color-white: #12292e;
+  --sl-color-gray-1: #1d3439;
+  --sl-color-gray-2: #34494d;
+  --sl-color-gray-3: #536a6e;
+  --sl-color-gray-4: #8a9fa2;
+  --sl-color-gray-5: #d5dfdc;
+  --sl-color-gray-6: #edf4f2;
+  --sl-color-gray-7: #f4f8f6;
+  --sl-color-black: #fffefb;
 
   --sl-color-text: var(--sl-color-gray-2);
   --sl-color-text-accent: var(--sl-color-accent-high);
   --sl-color-text-invert: #ffffff;
-  --sl-color-bg: #f8fafc;
-  --sl-color-bg-nav: #f8fafc;
-  --sl-color-bg-sidebar: #ffffff;
-  --sl-color-bg-inline-code: #eef3f9;
+  --sl-color-bg: #f8f6f2;
+  --sl-color-bg-nav: #f8f6f2;
+  --sl-color-bg-sidebar: #f4f2ed;
+  --sl-color-bg-inline-code: #e3efee;
   --sl-color-bg-accent: var(--sl-color-accent-high);
-  --sl-color-hairline-light: #e5eaf1;
-  --sl-color-hairline: #d8e0ea;
-  --sl-color-hairline-shade: #d8e0ea;
-  --sl-color-backdrop-overlay: rgb(7 19 38 / 36%);
+  --sl-color-hairline-light: #dde6e3;
+  --sl-color-hairline: #d5dfdc;
+  --sl-color-hairline-shade: #d5dfdc;
+  --sl-color-backdrop-overlay: rgb(8 34 40 / 36%);
 }
 
-/* Code blocks */
+/* The page title is underlined with the logo's waves, like the headings of
+   kriol.dev. */
+h1#_top {
+  position: relative;
+  padding-bottom: 0.6rem;
+}
+
+h1#_top::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 72px;
+  height: 9px;
+  background: url('../assets/waves.svg') center / 100% 100% no-repeat;
+}
+
+/* The logo sits close to the name, as on kriol.dev. */
+.site-title {
+  gap: 0.5rem;
+}
+
+/* Code blocks: a plain outline, with the subtle uneven corners. */
 .expressive-code .frame {
-  border-radius: 0.5rem;
+  border: 1px solid var(--sl-color-hairline-light);
+  border-radius: var(--kriol-hand);
+  overflow: hidden;
+  box-shadow: none;
+}
+
+.expressive-code .frame pre,
+.expressive-code .frame .header {
+  border: 0 !important;
+  border-radius: 0 !important;
+}
+
+.expressive-code .frame .header {
+  border-bottom: 1px solid var(--sl-color-hairline-light) !important;
+}
+
+.expressive-code .frame .header::before,
+.expressive-code .frame .header::after {
+  border-radius: 0 !important;
+}
+
+.sl-markdown-content :not(pre) > code,
+.starlight-aside,
+.sidebar-content a,
+site-search button[data-open-modal] {
+  border-radius: var(--kriol-hand-sm);
+}
+
+.pagination-links a {
+  border-radius: var(--kriol-hand);
+}
+
+/* In the dark theme the current page is marked with a deep teal, rather than
+   Starlight's bright one. */
+:root:not([data-theme='light']) .sidebar-content a[aria-current='page'] {
+  color: var(--sl-color-white);
+  background-color: var(--sl-color-accent-low);
+}
+
+/* The one main action of a page, as the playground's compile button. */
+.sl-link-button.primary {
+  border-radius: var(--kriol-hand-sm) !important;
+  box-shadow: 2px 2px 0 var(--kriol-ink-shadow);
 }
 
 /* TBD badge styling */
