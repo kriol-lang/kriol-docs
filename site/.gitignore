@@ -19,6 +19,3 @@ pnpm-debug.log*
 
 # macOS-specific files
 .DS_Store
-
-# sourced.net: the private signing keys stay on the author's machine
-.sourced/

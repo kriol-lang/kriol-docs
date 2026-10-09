@@ -78,22 +78,6 @@ npm run build
 
 Os ficheiros compilados ficam em `dist/`
 
-## Assinatura (sourced.net)
-
-As páginas são assinadas com [sourced.net](https://github.com/sourcednet), para que assistentes de IA possam citá-las de forma verificável (resolver em `snet.kriol.dev`). A assinatura é feita localmente e os ficheiros assinados vão no repositório, em `site/public/.well-known/sourced/`; o deploy não muda.
-
-Depois de alterar a documentação:
-
-```bash
-cd site
-npm run sign        # astro build, depois sourced-publisher build .
-git add public/.well-known/sourced
-```
-
-Precisa do `sourced-publisher` no `PATH` e da chave privada em `site/.sourced/keys/`, que nunca vai para o repositório (está no `.gitignore`). Configuração em `site/sourced.json`.
-
-Para não esquecer, ativa o hook de pre-commit uma vez por clone: `git config core.hooksPath .githooks`. Quando um commit muda `site/src/`, `site/public/` ou `astro.config.mjs`, ele corre `npm run sign` e junta os ficheiros assinados ao commit. Sem a chave ou sem o `sourced-publisher`, só avisa e não bloqueia o commit; `SOURCED_SKIP_SIGN=1 git commit …` salta a assinatura uma vez.
-
 ## Realce de sintaxe
 
 O site mantém a sua própria gramática Shiki em `site/src/kriol.tmLanguage.json`
