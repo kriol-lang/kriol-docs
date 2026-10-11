@@ -101,6 +101,20 @@ fn inisiu() {
 A função `inisiu` é o ponto de entrada de qualquer programa Kriol, equivalente ao `main` em C.
 :::
 
+### O que diz cada linha
+
+Se é a primeira vez que vês código, vale a pena ler este programa palavra a palavra:
+
+| Pedaço             | Significado |
+|--------------------|-------------|
+| `fn`               | "aqui começa uma função", isto é, um bloco de código com nome |
+| `inisiu`           | o nome da função; é este nome que o Kriol procura para começar |
+| `()`               | a lista de parâmetros, aqui vazia: `inisiu` não recebe nada |
+| `{` … `}`          | o corpo da função, tudo o que ela faz |
+| `mostran(...)`     | escreve no ecrã e muda de linha no fim |
+| `"Kualeh, Mundu!"` | o texto a escrever, entre aspas |
+| `;`                | fim da instrução; todas as instruções terminam com ponto e vírgula |
+
 ### Compilar e executar
 
 Compila o programa:
@@ -117,6 +131,8 @@ Executa:
 
 No Windows, o compilador acrescenta `.exe` ao nome, e o programa executa-se com `.\ola-mundu.exe`.
 
+Se não indicares `-o`, o resultado fica em `./a.out` (o nome tradicional dos compiladores de C), o que é prático para experiências rápidas.
+
 Os programas são otimizados por omissão (nível 2). Podes escolher outro nível com `--opt-lvl <n>`, de `0` (sem otimização) a `3`.
 
 **Saída:**
@@ -124,6 +140,26 @@ Os programas são otimizados por omissão (nível 2). Podes escolher outro níve
 ```
 Kualeh, Mundu!
 ```
+
+### Comentários
+
+Comentários são notas para quem lê o código; o compilador ignora-os por completo. O Kriol aceita as duas formas do C:
+
+```kriol
+fn inisiu() {
+    // Até ao fim da linha.
+
+    /* Em várias linhas,
+       útil para explicar um bloco inteiro
+       ou para desligar código temporariamente. */
+
+    mostran("Kualeh!");   // também pode vir depois de código
+}
+```
+
+:::caution
+Um `/*` sem o `*/` correspondente é um erro de compilação: *o comentário não foi fechado; falta '\*/'*. Comentários `/* ... */` também não se podem encaixar um dentro do outro.
+:::
 
 ### Mensagens de erro
 
@@ -139,6 +175,8 @@ Os erros que só acontecem com o programa a correr, como um índice fora dos lim
 ola-mundu.kriol:5: erro de execução: o índice 3 está fora do array, que vai de 0 a 2
 ```
 
+Um **erro de compilação** impede que o executável seja criado; um **erro de execução** só aparece quando o programa corre, e termina-o com o código de saída 1. Vê [Erros](/linguagem/erros/) para saber quais se podem tratar.
+
 Os editores de código reconhecem o formato `ficheiro:linha:` e permitem saltar para a linha indicada.
 
 ## Estrutura básica de um programa
@@ -153,9 +191,49 @@ fn inisiu() {
 
 Podes declarar outras funções antes ou depois de `inisiu`. A ordem não importa para chamadas entre funções do mesmo ficheiro.
 
+A função `inisiu` não pode ter parâmetros nem declarar um tipo de retorno; o compilador recusa as duas coisas. Dentro dela, um `divolvi;` sem valor termina o programa com sucesso:
+
+```kriol
+fn inisiu() {
+    si nau {
+        mostran("isto não acontece");
+        divolvi;              // sai de inisiu, com sucesso
+    }
+    mostran("fim");
+}
+```
+
 ## Extensões de ficheiro
 
-Os ficheiros Kriol usam `.kriol` (preferida) ou `.kr` (abreviada).
+Os ficheiros Kriol usam `.kriol` (preferida) ou `.kr` (abreviada). Com outra extensão, o compilador recusa o ficheiro e sugere `--ignore-extension`, que o aceita na mesma.
+
+## Opções do compilador
+
+Estas são as opções que o `kriol --help` lista. As três primeiras são as que vais usar no dia a dia:
+
+| Opção                   | Para que serve |
+|-------------------------|----------------|
+| `-o`, `--output FICH`   | Onde escrever o resultado (por omissão `./a.out`, ou `./a.wasm` para `wasm32-wasi`) |
+| `--opt-lvl N`           | Nível de otimização, de `0` (nenhuma) a `3`; por omissão `2` |
+| `--strict`              | Trata os avisos como erros de compilação; vê [Erros](/linguagem/erros/#avisos-e---strict) |
+| `--text CÓDIGO`         | Compila o código indicado em vez de um ficheiro |
+| `--target ALVO`         | `native` (por omissão) ou `wasm32-wasi`, para WebAssembly |
+| `--emit-ir`             | Escreve o IR do LLVM em vez do executável, no ecrã ou no ficheiro de `-o` |
+| `--ignore-extension`    | Aceita ficheiros sem a extensão `.kriol` ou `.kr` |
+| `-h`, `--help`          | Mostra a ajuda |
+| `-v`, `--version`       | Mostra a versão do compilador |
+
+Para testar uma ideia sem criar ficheiro nenhum, usa `--text`:
+
+```bash
+kriol --text 'fn inisiu() { mostran(1 + 2); }' -o soma && ./soma
+```
+
+O alvo `wasm32-wasi` produz um módulo WebAssembly em vez de um executável do sistema. É assim que o [playground](https://play.kriol.dev) corre Kriol dentro do navegador:
+
+```bash
+kriol ola-mundu.kriol --target wasm32-wasi -o ola-mundu.wasm
+```
 
 ## Exemplo: Fibonacci recursivo
 
@@ -180,6 +258,8 @@ fn inisiu() {
     mostran(f"A sequência de Fibonacci até o 10º elemento é {seq}");
 }
 ```
+
+Neste exemplo, `konfirma` verifica uma condição em execução (vê [`konfirma`](/linguagem/controlo-de-fluxo/#konfirma-assert)), `[0; 10]` cria um array de 10 zeros (vê [Arrays](/linguagem/arrays/)) e `f"... {seq}"` é uma *f-string* (vê [Strings e Interpolação](/linguagem/strings/)).
 
 ## Compilar de origem (opcional)
 

@@ -7,6 +7,8 @@ description: Tipos compostos com campos nomeados no Kriol.
 
 Um molde é um tipo composto que agrupa campos de diferentes tipos, semelhante a uma `struct` em C. A palavra-chave `molda` declara um novo molde: isto é, define a forma que valores desse tipo devem ter. O suporte atual inclui declaração de tipos, literais com campos nomeados, arrays como campos, acesso com `.` e atribuição a campos.
 
+A vantagem prática é não andar com valores soltos: se uma pessoa é um nome, um apelido e uma idade, num molde essas três coisas passam a uma função como um argumento só.
+
 ## Declaração
 
 ```kriol
@@ -18,7 +20,13 @@ molda Pessoa {
 
 Cada campo usa a mesma forma de declaração de tipo e nome usada em parâmetros e variáveis. O bloco declarado com `molda` não precisa de `;` depois de `}`.
 
-Nomes de tipos definidos pelo utilizador começam com letra maiúscula. Variáveis, funções e campos continuam a usar identificadores iniciados por letra minúscula ou `_`.
+Nomes de tipos definidos pelo utilizador começam com letra maiúscula. Variáveis, funções e campos continuam a usar identificadores iniciados por letra minúscula ou `_`. O compilador diz-te quando erras: *o nome do molde 'pessoa' tem de começar por uma letra maiúscula, por exemplo 'Pessoa'*.
+
+Um molde tem de ter pelo menos um campo, e cada molde só se pode declarar uma vez.
+
+:::caution
+O `molda` só funciona no topo do ficheiro, ao lado das funções. Escrito dentro de uma função, é ignorado em silêncio e o tipo não passa a existir; depois, ao usá-lo, aparece *o tipo 'P' não existe*.
+:::
 
 Campos também podem ser arrays de tamanho fixo:
 
@@ -37,7 +45,17 @@ Valores de um molde são criados com um literal associado ao tipo:
 Pessoa pessoa = Pessoa{nomi = "jose", idadi = 60};
 ```
 
-Todos os campos são obrigatórios por agora. Campos repetidos, campos desconhecidos ou valores com tipos incompatíveis são erros em tempo de compilação.
+Todos os campos são obrigatórios por agora. Campos repetidos, campos desconhecidos ou valores com tipos incompatíveis são erros em tempo de compilação:
+
+```kriol
+Pessoa a = Pessoa{nomi = "jose"};               // ERRO: falta o campo 'idadi' na
+                                                //        criação de 'Pessoa'
+Pessoa b = Pessoa{nomi = "jose", idadi = 60,
+                  altura = 1.8};                // ERRO: o molde 'Pessoa' não tem
+                                                //        o campo 'altura'
+```
+
+A ordem dos campos no literal não tem de ser a da declaração, porque cada um vem com o seu nome.
 
 Se um campo for array, o literal `[ ... ]` recebe o tipo esperado a partir do
 campo:
@@ -70,20 +88,75 @@ molda Pessoa {
     Enderesu[2] enderesus;
 }
 
-Pessoa pessoa = Pessoa{
-    enderesus = [
-        Enderesu{rua = "antigu", numero = 10},
-        Enderesu{rua = "nobu", numero = 44}
-    ]
-};
+fn inisiu() {
+    Pessoa pessoa = Pessoa{
+        enderesus = [
+            Enderesu{rua = "antigu", numero = 10},
+            Enderesu{rua = "nobu", numero = 44}
+        ]
+    };
 
-pessoa.enderesus[0].rua = "medio";
-pessoa.enderesus[0].numero += 5;
+    pessoa.enderesus[0].rua = "medio";
+    pessoa.enderesus[0].numero += 5;
+
+    mostran(pessoa.enderesus[0].rua);      // medio
+    mostran(pessoa.enderesus[0].numero);   // 15
+}
 ```
+
+## Moldes são valores
 
 Valores de moldes são passados para funções por cópia. Alterar um parâmetro
 dentro de uma função não altera o valor original fora dela. O uso de referências
 explícitas com `ref` será tratado numa fase futura.
+
+A atribuição entre variáveis também copia:
+
+```kriol
+Pessoa x = Pessoa{nomi = "jose", idadi = 60};
+Pessoa y = x;        // uma cópia independente
+
+y.idadi = 99;
+mostran(x.idadi);    // 60, não foi tocado
+mostran(y.idadi);    // 99
+```
+
+Para alterar um valor dentro de uma função, devolve a versão nova e atribui-a:
+
+```kriol
+fn fazi_anos(Pessoa p) Pessoa {
+    p.idadi += 1;
+    divolvi p;
+}
+
+fn inisiu() {
+    Pessoa jose = Pessoa{nomi = "jose", idadi = 60};
+    jose = fazi_anos(jose);
+    mostran(jose.idadi);   // 61
+}
+```
+
+## Funções que trabalham com um molde
+
+Enquanto não houver métodos, o padrão é escrever funções normais que recebem o molde como primeiro parâmetro:
+
+```kriol
+molda Retangulu {
+    num largura;
+    num altura;
+}
+
+fn area(Retangulu r) num {
+    divolvi r.largura * r.altura;
+}
+
+fn inisiu() {
+    Retangulu r = Retangulu{largura = 3.0, altura = 2.5};
+    mostran(f"{r.largura} x {r.altura}, área {area(r)}");   // 3 x 2.5, área 7.5
+}
+```
+
+O tipo de erro embutido, `molda Erru { textu mensage; }`, é um molde como qualquer outro; vê [Erros](/linguagem/erros/).
 
 ## Exemplo completo
 
@@ -107,10 +180,13 @@ fn inisiu() {
 
 ## Limitações atuais
 
-- Métodos e blocos `fazi` ainda não estão implementados.
-- Valores de moldes ainda não têm uma representação direta em `mostra` ou f-strings; imprime campos individuais.
+- Métodos e blocos `fazi` ainda não estão implementados; usa funções que recebem o molde.
+- Um molde declarado dentro de uma função é ignorado; declara-o no topo do ficheiro.
+- Todos os campos são obrigatórios no literal: não há valores por omissão.
+- Valores de moldes ainda não têm uma representação direta em `mostra` ou f-strings; imprime campos individuais. O compilador recusa com *não se pode escrever um valor do tipo 'Pessoa' de uma só vez; escreve os campos do molde um a um*.
 - Arrays de valores de moldes podem ser guardados e indexados, mas não são
   imprimíveis como um todo.
+- Dois valores de molde não se comparam com `==`.
 - Herança não está prevista.
 - Um molde usado como variável local ou parâmetro pode ocupar no máximo 1 MiB,
   contando os arrays que contém; vê

@@ -67,7 +67,7 @@ export default defineConfig({
 						{ label: 'Strings e Interpolação', slug: 'linguagem/strings' },
 						{ label: 'Conversão de Tipos', slug: 'linguagem/conversao-de-tipos' },
 						{ label: 'Entrada de Dados', slug: 'linguagem/entrada' },
-						{ label: 'Estruturas (molda) - Em Desenvolvimento', slug: 'linguagem/estruturas' },
+						{ label: 'Moldes (molda)', slug: 'linguagem/estruturas' },
 					],
 				},
 				{

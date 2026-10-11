@@ -5,6 +5,49 @@ description: Gramática formal da linguagem KriolLang em forma BNF modificada.
 
 Esta especificação descreve a gramática da linguagem KriolLang usando uma forma modificada de **Backus-Naur Form (BNF)**.
 
+É a referência exacta da sintaxe, e pressupõe que já conheces as páginas de [A Linguagem](/linguagem/tipos/). Se estás a aprender, lê-as primeiro: aqui não há explicações, só regras.
+
+Na notação, `<regra>` é um símbolo não terminal, `T_NOME` é um token produzido pelo analisador léxico, os caracteres entre `'` são literais, `|` separa alternativas e `λ` representa a ausência de conteúdo.
+
+## Léxico
+
+Antes de a gramática ser aplicada, o analisador léxico corta o ficheiro em tokens e descarta o que não conta.
+
+### Espaços e comentários
+
+Espaços, tabulações e mudanças de linha separam tokens e não têm outro significado: a indentação é livre. Estas duas formas de comentário são descartadas por completo:
+
+| Forma       | Alcance |
+|-------------|---------|
+| `// ...`    | Até ao fim da linha |
+| `/* ... */` | Até ao primeiro `*/`, atravessando linhas |
+
+Como termina no primeiro `*/`, um `/* ... */` não se encaixa dentro de outro. Um `/*` sem fecho é um erro: *o comentário não foi fechado; falta '\*/'*.
+
+### Identificadores
+
+```bnf
+IDENT      ::= [a-z_][a-zA-Z0-9_]*
+TYPE_IDENT ::= [A-Z][a-zA-Z0-9_]*
+```
+
+A primeira letra decide o papel do nome: `IDENT` (minúscula ou `_`) para variáveis, funções, parâmetros e campos, e `TYPE_IDENT` (maiúscula) para nomes de moldes. Os identificadores distinguem maiúsculas de minúsculas.
+
+### Literais numéricos
+
+```bnf
+INT   ::= [0-9]+
+FLOAT ::= INT '.' [0-9]+
+```
+
+Um literal real precisa de dígitos nos dois lados do ponto, por isso `4.` e `.5` não são válidos, e não há notação de expoente nem separadores de dígitos. Também não há literais hexadecimais, octais ou binários. O maior literal inteiro aceito é `9223372036854775807`; acima disso o compilador recusa com *o número inteiro é demasiado grande*.
+
+Um literal inteiro adapta-se ao tipo do destino quando o valor cabe nele; caso contrário mantém-se `int`, e o erro aparece na atribuição.
+
+### Literais de texto
+
+Um `T_STR_LIT` é delimitado por `"` ou `'`, e um `T_FSTR_LIT` começa por `f"` ou `f'`. Numa f-string, cada `{ ... }` contém uma expressão, e as chavetas do literal de um molde dentro dela não fecham a interpolação. Os escapes reconhecidos são `\n`, `\t`, `\r`, `\\`, `\"`, `\'`, `\0`, `\{` e `\}`; uma barra invertida seguida de outro carácter fica no texto tal como está.
+
 ## Programa
 
 ```bnf
@@ -178,6 +221,11 @@ não está implementada na versão atual.
 
 **Notas:**
 - Um molde declarado com `molda` deve declarar pelo menos um campo.
+- A gramática aceita `molda` como instrução em qualquer sítio, mas só um `molda`
+  no topo do ficheiro registra um tipo novo. Dentro de uma função é ignorado, e
+  o tipo não passa a existir.
+- Todos os campos são obrigatórios no literal; campos em falta, repetidos ou
+  desconhecidos são erros de análise semântica.
 - Atribuição a campos usa a mesma regra de assignment de outros alvos
   atribuíveis, como `valor.campo = expr`.
 - Campos podem ser arrays de tamanho fixo.
@@ -240,6 +288,14 @@ não está implementada na versão atual.
                    | T_DIVOLVI ';'
                    | T_LANSA <expression> ';'
 ```
+
+**Notas sobre saltos:**
+- `kebra` e `kontinua` só são válidos dentro de um `pa` ou de um `nkuantu`, e
+  afetam o ciclo mais interior onde aparecem.
+- `divolvi` sem expressão é válido numa função sem tipo de retorno, e também em
+  `inisiu`, onde termina o programa com sucesso.
+- `paniku` e `sai` nunca regressam, por isso uma função com tipo de retorno não
+  precisa de `divolvi` depois deles.
 
 **Notas sobre erros:**
 - `Erru` é um molde predefinido (`molda Erru { textu mensage; }`) e é o único tipo aceite depois de `:` na assinatura de uma função. O nome é reservado e não pode ser redeclarado.

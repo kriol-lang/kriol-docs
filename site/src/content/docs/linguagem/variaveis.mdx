@@ -18,6 +18,18 @@ bool ativo = sin;
 textu mensagem = "Kualeh!";
 ```
 
+## Nomes de variáveis
+
+Um nome de variável começa por uma **letra minúscula** ou por `_`, e depois pode ter letras, dígitos e `_`:
+
+```kriol
+int idadi = 20;
+int idadi_maxima = 120;
+int _resto = 1;
+```
+
+Começar por maiúscula está reservado para nomes de moldes, por isso `int Idadi = 20;` é um erro de compilação. Os nomes também distinguem maiúsculas de minúsculas: `total` e `totaL` são duas variáveis diferentes.
+
 ## Variáveis sem valor inicial
 
 O Kriol não tem variáveis por inicializar: toda a declaração leva um valor. Quando só sabes o valor mais tarde, declara a variável com um valor neutro e atribui-lhe depois:
@@ -33,13 +45,37 @@ mostra(i);
 O valor inicial não pode usar a própria variável, nem quando ela esconde outra com o mesmo nome num bloco exterior:
 
 ```kriol
-int x = x + 1;      // ERRO: variable 'x' is used in its own initializer
+int x = x + 1;      // ERRO: a variável 'x' é usada no seu próprio valor inicial
 
 int y = 1;
 si sin {
     int y = y + 1;  // ERRO: o 'y' de dentro ainda não tem valor
 }
 ```
+
+## Variáveis no topo do ficheiro
+
+Uma declaração escrita fora de qualquer função cria uma variável visível a todas as funções declaradas **depois** dela. Serve para valores partilhados por todo o programa e para dados grandes demais para a pilha:
+
+```kriol
+int contador = 0;
+
+fn conta() {
+    contador += 1;    // altera a mesma variável que inisiu vê
+}
+
+fn inisiu() {
+    conta();
+    conta();
+    mostran(contador);   // 2
+}
+```
+
+O valor inicial pode ser uma expressão qualquer, incluindo uma chamada de função. A ordem no ficheiro conta: usar uma variável de topo declarada mais abaixo é um erro de compilação, ao contrário do que acontece com as funções, que se podem chamar em qualquer ordem.
+
+:::caution
+Uma variável de topo é escrita e lida por qualquer função, o que torna mais difícil perceber quem a mudou e quando. Usa-a para configuração, para contadores globais ou para arrays grandes, e prefere parâmetros e valores de retorno no resto do código.
+:::
 
 ## Tamanho das variáveis locais
 
@@ -66,6 +102,8 @@ x *= 3;   // x == 18
 x -= 9;   // x == 9
 ```
 
+O tipo não muda na atribuição: `x = "oi";` numa variável `int` é um erro de compilação. Vê [Conversão de Tipos](/linguagem/conversao-de-tipos/) para saber que valores o compilador aceita converter sozinho.
+
 ## Âmbito (scope)
 
 As variáveis têm âmbito de bloco `{ }`. Uma variável declarada dentro de um bloco não é acessível fora dele:
@@ -84,8 +122,25 @@ fn inisiu() {
 }
 ```
 
+Vale também para o `pa`: a variável declarada na inicialização do ciclo só existe dentro dele.
+
+Um bloco interior pode declarar uma variável com o nome de outra de fora, que fica escondida até ao fim do bloco. É legal, mas raramente é o que queres: se o objectivo era mudar a de fora, escreve `n = 99;` sem repetir o tipo.
+
 ## Nomes reservados
 
 Os seguintes nomes **não podem** ser usados como identificadores de variáveis:
 
-`fn`, `molda`, `int`, `num`, `bool`, `textu`, `i8`, `i16`, `i32`, `i64`, `u8`, `u16`, `u32`, `u64`, `f32`, `f64`, `isize`, `usize`, `si`, `sinon`, `pa`, `nkuantu`, `kebra`, `kontinua`, `divolvi`, `mostra`, `mostran`, `toma`, `sai`, `konfirma`, `paniku`, `tenta`, `lansa`, `inisiu`, `sin`, `nau`, `inpristan`
+`fn`, `molda`, `int`, `num`, `bool`, `textu`, `i8`, `i16`, `i32`, `i64`, `u8`, `u16`, `u32`, `u64`, `f32`, `f64`, `isize`, `usize`, `si`, `sinon`, `pa`, `nkuantu`, `kebra`, `kontinua`, `divolvi`, `mostra`, `mostran`, `toma`, `sai`, `konfirma`, `paniku`, `tenta`, `lansa`, `sin`, `nau`, `inpristan`
+
+Entre eles, `mostra`, `mostran`, `toma`, `sai`, `konfirma` e `paniku` são as funções embutidas do prelúdio: não são palavras-chave da gramática, mas o compilador não deixa redefini-las. A mensagem é clara quando tentas:
+
+```kriol
+int mostra = 1;   // ERRO: 'mostra' é um nome reservado do Kriol
+                  //        e não pode ser usado como nome de variável
+```
+
+O nome de molde `Erru` também está reservado, porque o tipo de erro já existe em todos os programas; vê [Erros](/linguagem/erros/#falhas-o-tipo-erru).
+
+:::note
+`inisiu` **não** está nesta lista. É o nome que o compilador procura para começar o programa, mas nada impede uma variável de se chamar `inisiu`. Ainda assim, não o faças: só confunde quem lê.
+:::

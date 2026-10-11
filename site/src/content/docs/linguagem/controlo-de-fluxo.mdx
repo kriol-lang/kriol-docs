@@ -23,6 +23,16 @@ si x > 5 {
 }
 ```
 
+A condição tem de ser um `bool` ou um número. Um número conta como verdadeiro quando não é zero, como em C. Um `textu` não serve, e o compilador recusa com *a condição tem de ser um valor lógico ou um número*:
+
+```kriol
+int n = 3;
+
+si n {                       // o mesmo que si n != 0
+    mostran("não é zero");
+}
+```
+
 ### `sinon si` (else if)
 
 ```kriol
@@ -35,8 +45,14 @@ si x > 100 {
 }
 ```
 
+Os ramos são testados pela ordem em que aparecem, e **só o primeiro que der verdadeiro é executado**. Por isso a ordem importa: se trocasses os dois primeiros ramos, um `x` de 200 cairia logo no `x > 10` e nunca chegaria a "grande".
+
 :::note
 As chavetas `{ }` são **sempre obrigatórias**, mesmo para blocos de uma só instrução.
+:::
+
+:::note[Não há `switch`]
+O Kriol ainda não tem `switch`, `case` nem `match`. Para escolher entre vários valores, usa uma cadeia de `sinon si`.
 :::
 
 ## Ciclo `nkuantu` (while)
@@ -57,6 +73,23 @@ nkuantu i < 5 {
 }
 ```
 
+A condição é testada **antes** de cada passagem, por isso um `nkuantu` cuja condição começa falsa nunca corre o corpo. Não existe a variante `do ... while`, que testaria no fim.
+
+Repara no `i += 1`: é a tua responsabilidade, e esquecê-lo é a forma mais comum de criar um ciclo que nunca termina.
+
+Um ciclo propositadamente infinito escreve-se `nkuantu sin`, e sai-se dele com `kebra`, `divolvi` ou `sai`:
+
+```kriol
+int i = 0;
+nkuantu sin {
+    i += 1;
+    si i == 3 {
+        kebra;
+    }
+}
+mostran(i);   // 3
+```
+
 ## Ciclo `pa` (for)
 
 ```kriol
@@ -71,6 +104,8 @@ pa int i = 0; i < 10; i += 1 {
 }
 ```
 
+As três partes correm em momentos diferentes: a inicialização uma vez antes de tudo, a condição antes de cada passagem, e o incremento no fim de cada passagem. É um `nkuantu` com a contagem arrumada no cabeçalho, e por isso prefere-se quando sabes quantas vezes queres repetir.
+
 O incremento pode ficar de fora. Nesse caso o `pa` tem só a inicialização e a condição, e é o corpo que atualiza a variável:
 
 ```kriol
@@ -81,7 +116,7 @@ pa int i = 0; i < 10 {
 // imprime 02468
 ```
 
-A variável declarada na inicialização só existe dentro do ciclo.
+A variável declarada na inicialização só existe dentro do ciclo. Se precisares do valor dela depois do ciclo, declara-a antes e usa `pa i = 0; ...` sem repetir o tipo.
 
 ## `kebra` (break)
 
@@ -114,8 +149,22 @@ pa int i = 0; i < 10; i += 1 {
 ```
 
 :::caution
-`kebra` e `kontinua` fora de um ciclo são erros de compilação.
+`kebra` e `kontinua` fora de um ciclo são erros de compilação: *'kebra' só pode ser usado dentro de um ciclo 'pa' ou 'nkuantu'*.
 :::
+
+Em ciclos encaixados, `kebra` e `kontinua` afetam **só o ciclo mais interior** onde estão escritos. Não há forma de sair de dois ciclos de uma vez; para isso, usa uma variável de controlo, ou passa os ciclos para uma função e sai dela com `divolvi`.
+
+```kriol
+pa int i = 0; i < 2; i += 1 {
+    pa int j = 0; j < 5; j += 1 {
+        si j == 1 {
+            kebra;          // sai do ciclo do j, não do ciclo do i
+        }
+        mostra(f"{i}{j} ");
+    }
+}
+// imprime 00 10
+```
 
 ## `sai` (exit)
 
@@ -125,6 +174,10 @@ Termina o programa com um código de saída:
 sai(0);    // saída com sucesso
 sai(1);    // saída com erro
 ```
+
+Sem argumento, `sai()` é o mesmo que `sai(0)`. Por convenção, `0` significa que tudo correu bem e qualquer outro valor significa falha; é por este número que um script no terminal sabe se o teu programa funcionou.
+
+O `sai` termina o programa a partir de **qualquer** ponto, mesmo no fundo de várias funções, sem passar pelo resto do código.
 
 ## `konfirma` (assert)
 
@@ -145,6 +198,8 @@ konfirma(i < tamanho, f"índice {i} fora do limite {tamanho}");
 
 Sem mensagem, o programa indica `a condição de konfirma é falsa` e a linha. Útil para pré-condições e validações durante o desenvolvimento.
 
+Como numa condição de `si`, a expressão de `konfirma` pode ser um número, verdadeiro quando não é zero.
+
 ## `paniku` (panic)
 
 Termina o programa de imediato com uma mensagem de erro e a linha onde foi chamado. Serve para situações que nunca deviam acontecer, isto é, bugs do programa:
@@ -158,3 +213,16 @@ fn dia_da_semana(int n) textu {
 ```
 
 A saída de `paniku("...")` é `programa.kriol:N: erro de execução: ...`, e o programa termina com o código 1. Como `paniku` nunca regressa, uma função com tipo de retorno não precisa de `divolvi` depois dele (o mesmo vale para `sai`).
+
+## Qual usar para terminar o programa
+
+As três formas de parar parecem-se, mas dizem coisas diferentes a quem lê o código:
+
+| Usa        | Quando                                               | Código de saída |
+|------------|------------------------------------------------------|-----------------|
+| `sai(n)`   | O programa acabou o seu trabalho, bem ou mal         | `n`             |
+| `konfirma` | Queres confirmar uma suposição tua enquanto desenvolves | 1            |
+| `paniku`   | Chegaste a um ponto impossível, logo há um bug       | 1              |
+| `lansa`    | A falha era previsível e quem chamou deve decidir    | depende de quem trata |
+
+As três primeiras não se podem apanhar: o programa para ali. O `lansa` é diferente, e é o assunto da página [Erros](/linguagem/erros/).

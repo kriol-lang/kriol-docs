@@ -3,6 +3,8 @@ title: Funções
 description: Declaração, chamada e retorno de funções no Kriol.
 ---
 
+Uma função é um pedaço de código com nome, que recebe valores e devolve um resultado. Serve para não repetir o mesmo código em vários sítios: se a conta estiver numa função, corriges num lugar só.
+
 ## Declaração
 
 ```
@@ -18,6 +20,8 @@ fn <nome>(<parâmetros>) {
     // corpo
 }
 ```
+
+Repara que o tipo de retorno vem **depois** da lista de parâmetros, como em Go, e não antes do nome como em C.
 
 ## Exemplos
 
@@ -46,6 +50,8 @@ fn inisiu() {
 }
 ```
 
+`inisiu` é a única função com regras próprias: não pode ter parâmetros nem declarar um tipo de retorno.
+
 ## Chamada de funções
 
 ```kriol
@@ -53,6 +59,8 @@ soma(10, 20);
 saudacao("Mundo");
 int r = soma(1, 2);
 ```
+
+Os argumentos são ligados aos parâmetros **pela posição**, não pelo nome: em `soma(10, 20)`, o `10` vai para `a` e o `20` para `b`. Não há argumentos com nome nem valores por omissão, por isso tens de passar sempre todos os parâmetros, e com os tipos certos.
 
 ## `divolvi` (return)
 
@@ -63,6 +71,8 @@ fn dobro(int n) int {
     divolvi n * 2;
 }
 ```
+
+O `divolvi` termina a função ali mesmo: o código escrito depois dele nunca corre.
 
 Numa função sem tipo de retorno, `divolvi` pode aparecer sem valor para saída antecipada:
 
@@ -76,8 +86,28 @@ fn imprimeSeNaoNegativo(int n) {
 ```
 
 :::caution
-Uma função com tipo de retorno **deve** retornar em todos os caminhos de execução. O compilador verifica isto em tempo de compilação.
+Uma função com tipo de retorno **deve** retornar em todos os caminhos de execução. O compilador verifica isto em tempo de compilação, e recusa com *a função 'f' nem sempre devolve um valor; garante que todos os caminhos terminam com 'divolvi'*.
 :::
+
+Na prática, um `si` sem `sinon` não chega: precisas de um `divolvi` final fora do `si`, mesmo que saibas que a condição cobre todos os casos.
+
+## Parâmetros são cópias
+
+Cada parâmetro recebe uma **cópia** do valor passado. Alterá-lo dentro da função não muda a variável de quem chamou:
+
+```kriol
+fn tenta_mudar(int n) {
+    n = 99;
+}
+
+fn inisiu() {
+    int x = 1;
+    tenta_mudar(x);
+    mostran(x);     // 1, não 99
+}
+```
+
+Vale para tudo, incluindo arrays e moldes, que também são valores. Para alterar algo de quem chamou, devolve o novo valor e atribui-o: `x = muda(x);`. Referências explícitas (`ref`) estão planeadas para o futuro.
 
 ## Arrays como parâmetros e retorno
 
@@ -93,7 +123,9 @@ fn identidade() int[2][2] {
 }
 ```
 
-Vê [Arrays como valores](/linguagem/arrays/#arrays-como-valores).
+O tamanho faz parte do tipo: uma função que recebe `int[3]` não aceita um `int[4]`. Vê [Arrays como valores](/linguagem/arrays/#arrays-como-valores).
+
+Um molde declarado com `molda` também se usa como tipo de parâmetro e de retorno, e também é copiado; vê [Moldes (`molda`)](/linguagem/estruturas/).
 
 ## Recursão
 
@@ -116,23 +148,54 @@ fn inisiu() {
 }
 ```
 
+Uma função recursiva precisa sempre de um caso que **não** chama a si mesma, como o `n == 0` destes exemplos. Sem ele, a recursão não para e o programa esgota a pilha de 8 MiB que os programas Kriol recebem.
+
+Uma função declara que pode falhar escrevendo `: Erru` depois do tipo de retorno, e quem a chama trata a falha com `tenta` ou `sinon`; vê [Erros](/linguagem/erros/).
+
 ## Funções embutidas
 
 | Função       | Descrição                                         |
 |--------------|---------------------------------------------------|
-| `mostra(x)`  | Imprime `x` sem nova linha                        |
-| `mostran(x)` | Imprime `x` seguido de nova linha                 |
+| `mostra(...)`  | Imprime os argumentos, sem nova linha no fim    |
+| `mostran(...)` | Imprime os argumentos, seguidos de nova linha   |
 | `toma()`     | Lê uma linha de `stdin` e retorna `textu`; pode falhar com `Erru` (termina o programa se não for tratado; vê `tenta` e `sinon`) |
 | `konfirma(e)`, `konfirma(e, m)` | Verifica que `e` é verdadeiro; termina se falso, com a mensagem `m` se existir |
 | `paniku(m)`  | Termina o programa de imediato com a mensagem `m` |
-| `sai(código)`| Termina o programa com o código de saída dado     |
+| `sai()`, `sai(código)` | Termina o programa com o código de saída dado, ou `0` sem argumento |
 
 :::note
 Estas funções são embutidas do prelúdio. Usam sintaxe normal de chamada, mas os nomes são reservados e não podem ser redefinidos.
 :::
 
+### `mostra` e `mostran` aceitam vários valores
+
+Ao contrário das funções que escreves, `mostra` e `mostran` recebem quantos argumentos quiseres, de tipos diferentes, e escrevem-nos seguidos sem nada entre eles:
+
+```kriol
+textu nomi = "Ana";
+int idadi = 30;
+
+mostran("Nome: ", nomi, ", idade: ", idadi);
+// Nome: Ana, idade: 30
+```
+
+Sem argumento nenhum, `mostran()` escreve apenas uma linha vazia, prático para separar blocos de saída:
+
+```kriol
+mostran("primeiro bloco");
+mostran();
+mostran("segundo bloco");
+```
+
+Isto e uma f-string com os mesmos valores dão o mesmo resultado; escolhe a forma que se lê melhor em cada caso.
+
+Um valor de molde não se pode escrever de uma vez em nenhuma das formas; escreve os campos um a um. Vê [Strings e Interpolação](/linguagem/strings/).
+
 ## Regras
 
-- Não é permitida a duplicação de funções com o mesmo nome.
+- Não é permitida a duplicação de funções com o mesmo nome, nem com parâmetros diferentes: não há sobrecarga (*overloading*).
+- Não há parâmetros com valor por omissão nem argumentos passados por nome.
 - Os parâmetros são passados por valor.
 - A ordem de declaração no ficheiro não afeta a capacidade de chamada entre funções do mesmo ficheiro.
+- Uma função não pode ser declarada dentro de outra; todas vivem no topo do ficheiro.
+- Cada parâmetro e cada valor devolvido ocupa no máximo 1 MiB, porque vive na pilha.

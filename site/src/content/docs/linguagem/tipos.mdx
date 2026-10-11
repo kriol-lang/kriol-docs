@@ -27,6 +27,31 @@ sinal quando isso é importante:
 
 Ao contrário do `int` do C, cuja largura depende da plataforma (tipicamente 32 bits), o `int` do Kriol tem **sempre 64 bits**. Para um inteiro de outra largura usa `i8`, `i16`, `i32`, `u8`, `u16`, `u32` ou `u64`; para números reais de 32 bits usa `f32`.
 
+Se não tiveres uma razão concreta para escolher outro, usa `int` e `num`. Os tipos de largura fixa servem quando o tamanho em bits importa: ler um formato de ficheiro, falar com hardware, ou poupar memória num array grande.
+
+### Intervalo de cada tipo inteiro
+
+Um valor que não caiba no tipo ou é recusado pelo compilador (se for um literal) ou dá a volta em execução, por isso vale saber os limites:
+
+| Tipo              | Mínimo                       | Máximo                       |
+|-------------------|------------------------------|------------------------------|
+| `i8`              | -128                         | 127                          |
+| `u8`              | 0                            | 255                          |
+| `i16`             | -32 768                      | 32 767                       |
+| `u16`             | 0                            | 65 535                       |
+| `i32`             | -2 147 483 648               | 2 147 483 647                |
+| `u32`             | 0                            | 4 294 967 295                |
+| `i64` / `int`     | -9 223 372 036 854 775 808   | 9 223 372 036 854 775 807    |
+| `u64`             | 0                            | 18 446 744 073 709 551 615   |
+
+`isize` e `usize` são do tamanho de um ponteiro; na versão atual comportam-se como `i64` e `u64`.
+
+:::note
+O maior literal inteiro que podes escrever é `9223372036854775807`, o máximo do `int`. Acima disso o compilador recusa com *o número inteiro é demasiado grande*, mesmo numa variável `u64`. Para chegar à metade de cima do `u64`, calcula o valor, por exemplo com `u64 tudu = ~0;`, que dá `18446744073709551615`.
+:::
+
+Os reais seguem o padrão IEEE 754: `f32` tem cerca de 7 dígitos decimais de precisão e `f64` (`num`) cerca de 15.
+
 ## Literais
 
 ### Inteiros (`int`)
@@ -40,6 +65,14 @@ i32 delta = -12;
 usize tamanho = 3;
 ```
 
+Um literal inteiro adapta-se ao tipo onde é usado, desde que caiba nele. Por isso `u8 byte = 255;` funciona sem *cast*. Se não couber, o literal fica `int` e o compilador recusa a atribuição:
+
+```kriol
+u8 byte = 255;     // ok
+u8 fora = 256;     // ERRO: não se pode guardar um valor do tipo 'int'
+                   //        na variável 'fora', que é do tipo 'u8'
+```
+
 ### Números reais (`num`)
 
 ```kriol
@@ -49,6 +82,8 @@ num inteiro_como_num = 4.0;
 f32 pequeno = 1.5;
 f64 grande = 10.25;
 ```
+
+Um literal real precisa de pelo menos um dígito antes e depois do ponto: `4.0` é válido, `4.` e `.5` não. Também **não** há notação de expoente nos literais, por isso `1e10` não é código Kriol válido; escreve o número por extenso, ou converte um texto com [`num::konverti("1e10")`](/linguagem/conversao-de-tipos/#texto-para-número-tkonverti).
 
 ### Booleanos (`bool`)
 
@@ -68,6 +103,20 @@ textu nome = "Kriol";
 textu outro = 'Cabo Verde';
 textu saudacao = f"Olá, {nome}!";
 ```
+
+Um `textu` guarda e imprime-se bem, mas na versão atual ainda não tem operações próprias: não se junta com `+`, não se compara com `==` e não se acede a um carácter com `[ ]`. A f-string é a forma de juntar texto. Vê [Strings e Interpolação](/linguagem/strings/#o-que-ainda-não-existe).
+
+### Como cada tipo aparece no ecrã
+
+Saber isto evita surpresas quando o número que imprimes não tem o aspeto que escreveste:
+
+| Valor            | `mostran` escreve | Porquê |
+|------------------|-------------------|--------|
+| `42`             | `42`              | tal e qual |
+| `sin` / `nau`    | `sin` / `nau`     | as mesmas palavras da linguagem |
+| `2.0`            | `2`               | os zeros à direita não são escritos |
+| `1.0 / 3.0`      | `0.333333`        | os reais saem com 6 dígitos significativos |
+| `[1, 2, 3]`      | `[1, 2, 3]`       | um array sai inteiro, entre parênteses rectos |
 
 ## Alargamento de tipos (widening)
 
@@ -106,3 +155,11 @@ Arrays são colecções de tamanho fixo do mesmo tipo. Consulta a página [Array
 ```kriol
 int[5] numeros = [1, 2, 3, 4, 5];
 ```
+
+## O que o Kriol não tem
+
+Nenhuma destas ausências é um esquecimento; todas estão na lista de trabalho futuro.
+
+- **Nenhum valor nulo**: não existe `null`, `nil` nem `None`, e toda a declaração leva um valor inicial.
+- **Nenhum tipo de carácter individual**: não há `char`; um carácter sozinho é um `textu` de um carácter.
+- **Nenhuma colecção de tamanho variável**: os arrays têm tamanho fixo, decidido na compilação.

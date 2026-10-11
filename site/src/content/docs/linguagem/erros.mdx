@@ -8,6 +8,17 @@ O Kriol distingue duas espécies de erros de execução:
 - **Bugs do programa**, como um índice fora dos limites, um resto por zero ou uma condição de `konfirma` falsa. Terminam o programa de imediato com um erro de execução.
 - **Falhas esperadas**, como uma entrada inválida ou um ficheiro que não existe. A função que falha **declara** que pode falhar, e quem a chama **decide** o que fazer.
 
+A diferença é de intenção. Um bug é uma coisa que tu fizeste mal, e não há nada de útil a fazer em execução a não ser parar e mostrar onde. Uma falha esperada vem de fora do programa, e um programa bem feito tem uma resposta para ela.
+
+| Situação | Espécie | O que o Kriol faz |
+|---|---|---|
+| Índice de array fora dos limites | Bug | Termina o programa |
+| Divisão ou resto por zero | Bug | Termina o programa |
+| `konfirma` falso, ou `paniku` | Bug | Termina o programa |
+| Texto que não é um número em `int::konverti` | Falha esperada | Devolve um `Erru` a quem chamou |
+| Entrada que acabou, em `toma` | Falha esperada | Devolve um `Erru` a quem chamou |
+| `lansa` numa função tua com `: Erru` | Falha esperada | Devolve um `Erru` a quem chamou |
+
 ## Bugs: `konfirma` e `paniku`
 
 ```kriol
@@ -49,6 +60,12 @@ fn metadi(int a, int b) num : Erru {
 - Por agora `Erru` é o único tipo de erro aceite depois de `:`.
 - `Erru` é um nome reservado: um programa não pode declarar outro `molda Erru`.
 
+A mensagem é texto livre, e pode ser uma f-string, o que é a forma de incluir o valor que causou a falha:
+
+```kriol
+lansa Erru{mensage = f"mês inválido: {m}"};
+```
+
 ## Tratar uma falha
 
 Quem chama uma função que pode falhar pode tratar o erro de duas formas, descritas a seguir. Se não o tratar, **o erro não desaparece**: quando a função falhar, o programa termina nessa chamada com `programa.kriol:N: erro não tratado: mensagem`. O compilador avisa disso, mas continua a compilar.
@@ -89,6 +106,18 @@ num m = metadi(7, 0) sinon -1.0;   // -1.0
 
 `sinon` tem a precedência mais baixa de todos os operadores (acima só da atribuição), por isso usa parênteses para o combinar com outros operadores: `(metadi(7, 2) sinon 0.0) == 3.5`.
 
+:::note
+A mesma palavra `sinon` serve de `else` num `si` e de valor por omissão numa chamada. O compilador distingue os dois pelo sítio onde aparecem, e nunca se confundem no mesmo código.
+:::
+
+### Qual escolher
+
+| Queres | Usa |
+|---|---|
+| Continuar com um valor razoável | `chamada sinon valor` |
+| Desistir e deixar quem chamou decidir | `tenta chamada` |
+| Parar o programa aqui, porque a falha não devia acontecer | não trates, ou converte num `paniku` |
+
 ## A função `inisiu`
 
 `inisiu` também pode declarar `: Erru`. Se um erro chegar até ela sem ser tratado, o programa escreve `programa.kriol:N: erro não tratado: mensagem`, com a linha onde o erro saiu de `inisiu`, e termina com o código 1:
@@ -99,9 +128,20 @@ fn inisiu() : Erru {
 }
 ```
 
+É o atalho habitual para programas pequenos: usa `tenta` em todas as chamadas que podem falhar, e deixa a mensagem aparecer se algo correr mal.
+
 ## Avisos e `--strict`
 
-Ignorar o erro de uma função **declarada por ti** com `: Erru` gera o aviso `the error of 'f' is not handled, so the program stops if it fails`. É provável que seja um esquecimento, porque quem escreveu a função previu esse caminho. `toma` não gera aviso: parar quando a entrada acaba é o comportamento normal, como num índice fora dos limites, e mantém simples os primeiros programas.
+Ignorar o erro de uma função **declarada por ti** com `: Erru` gera um aviso:
+
+```
+programa.kriol:9: aviso: o erro de 'metadi' não é tratado, por isso o programa
+termina se a função falhar; usa 'tenta' ou 'sinon'
+```
+
+É provável que seja um esquecimento, porque quem escreveu a função previu esse caminho.
+
+As funções embutidas que podem falhar, `toma` e `tipo::konverti`, **não** geram aviso, nem com `--strict`. Parar quando a entrada acaba, ou quando o texto não é um número, é um comportamento aceitável, como num índice fora dos limites, e mantém simples os primeiros programas.
 
 ```sh
 kriol programa.kriol            # os avisos são mostrados, mas o programa compila
@@ -118,7 +158,8 @@ Usa `--strict` em projetos e na integração contínua para garantir que nenhum 
 - `sinon` não se aplica a funções que não devolvem valor.
 - `Erru` não pode ser redeclarado.
 - O tipo de uma chamada que pode falhar não se pode escrever numa declaração: o resultado só existe para `tenta` e `sinon` o consumirem.
+- Não há forma de ler a mensagem de um erro que apanhaste: `sinon` dá-te um valor alternativo, não o `Erru`. Se precisares da mensagem, escreve-a no `lansa` ou deixa o erro subir.
 
 :::note
-A função embutida `toma` também pode falhar com um `Erru`. Vê [Entrada de dados](/linguagem/entrada/).
+As funções embutidas `toma` e `tipo::konverti` também podem falhar com um `Erru`. Vê [Entrada de dados](/linguagem/entrada/) e [Conversão de Tipos](/linguagem/conversao-de-tipos/#texto-para-número-tkonverti).
 :::

@@ -5,6 +5,8 @@ description: Declaração, inicialização e uso de arrays no Kriol.
 
 Os arrays no Kriol são colecções de **tamanho fixo** de elementos do mesmo tipo.
 
+Serve para quando tens muitos valores da mesma espécie: em vez de `nota1`, `nota2`, `nota3`, tens um `nota` com um índice.
+
 ## Declaração com inicialização
 
 ```
@@ -15,6 +17,8 @@ Os arrays no Kriol são colecções de **tamanho fixo** de elementos do mesmo ti
 int[3] nums = [10, 20, 30];
 bool[2] flags = [sin, nau];
 ```
+
+O número entre `[ ]` faz parte do **tipo**, não do nome: `int[3]` lê-se "array de 3 inteiros". Tem de ser um literal, e o número de valores entre `[ ]` tem de corresponder exactamente.
 
 O literal `[ ... ]` sem tipo explícito é interpretado pelo contexto da variável
 ou campo que o recebe. Quando o contexto não deixa claro o tipo do array, usa
@@ -33,11 +37,61 @@ int[5] zeros = [0; 5];
 num[10] uns = [1.0; 10];
 ```
 
-O `N` tem de ser igual ao tamanho declarado do array.
+O `N` tem de ser igual ao tamanho declarado do array. É a forma habitual de criar um array que vais preencher depois num ciclo, já que no Kriol nenhuma variável fica sem valor inicial.
 
 :::note
 Versões anteriores usavam `[valor] * N`. Essa forma já não é aceite; o compilador indica a nova forma.
 :::
+
+## Acesso a elementos
+
+Os índices começam em `0`:
+
+```kriol
+int[5] seq = [1, 2, 3, 4, 5];
+mostran(seq[0]);   // 1
+mostran(seq[4]);   // 5
+seq[2] = 99;
+mostran(seq[2]);   // 99
+```
+
+Num array de `N` elementos, o último índice válido é `N - 1`, e é por isso que um ciclo sobre um array se escreve `i < N` e não `i <= N`.
+
+O índice pode ser qualquer expressão de tipo inteiro, com ou sem sinal, mas não pode ser um real:
+
+```kriol
+int[3] v = [1, 2, 3];
+int i = 1;
+u8 j = 2;
+
+mostran(v[i + 1]);   // 3
+mostran(v[j]);       // 3
+// mostran(v[1.0]);  // ERRO: o índice de um array tem de ser um número inteiro
+```
+
+### Índices fora dos limites
+
+Um índice fora do array termina o programa com uma mensagem que indica a linha, o índice e os limites:
+
+```
+programa.kriol:5: erro de execução: o índice 3 está fora do array, que vai de 0 a 2
+```
+
+Essa verificação acontece em **execução**, a cada acesso, mesmo quando o índice é um literal: `v[7]` num `int[3]` compila sem queixas e falha ao correr. Em troca, nunca lês nem escreves memória que não é tua, ao contrário do que acontece em C.
+
+## Uso com ciclos
+
+```kriol
+int[10] seq = [0; 10];
+
+pa int i = 0; i < 10; i += 1 {
+    seq[i] = i * i;
+}
+
+mostran(f"Quadrados: {seq}");
+```
+
+O tamanho não se pode perguntar ao array: não há `seq.tamanho` nem `konta(seq)`. Como é fixo e conhecido na compilação, o costume é guardá-lo numa variável de topo, como `int tamanho = 10;`, e usá-la no ciclo. Note-se que o nome não pode ser `TAMANHO`: começar por maiúscula está reservado para moldes, por isso não há a convenção de constantes em maiúsculas de outras linguagens.
 
 ## Arrays multidimensionais
 
@@ -86,33 +140,11 @@ fn inisiu() {
 }
 ```
 
+Isto distingue o Kriol do C, onde um array passado a uma função é um ponteiro e a função altera o original. Aqui é mais fácil de prever, mas copiar um array grande a cada chamada leva tempo e ocupa pilha.
+
 O tamanho faz parte do tipo, e os tipos têm de ser iguais: um `int[3]` só aceita outro `int[3]`, e não um `int[4]` nem um `u8[3]`. Um literal `[ ... ]` ou `[valor; N]` também pode ser usado diretamente como argumento, valor de `divolvi`, valor de uma atribuição ou valor depois de `sinon`, e recebe o tipo do destino.
 
 Para alterar um array de quem chama, devolve o novo valor e atribui-o, como em `a = dobra(a);`.
-
-## Acesso a elementos
-
-Os índices começam em `0`:
-
-```kriol
-int[5] seq = [1, 2, 3, 4, 5];
-mostran(seq[0]);   // 1
-mostran(seq[4]);   // 5
-seq[2] = 99;
-mostran(seq[2]);   // 99
-```
-
-## Uso com ciclos
-
-```kriol
-int[10] seq = [0; 10];
-
-pa int i = 0; i < 10; i += 1 {
-    seq[i] = i * i;
-}
-
-mostran(f"Quadrados: {seq}");
-```
 
 ## Impressão de arrays
 
@@ -120,9 +152,11 @@ Podes passar um array diretamente a `mostra` / `mostran` ou usá-lo numa f-strin
 
 ```kriol
 int[3] a = [1, 2, 3];
-mostran(a);                    // imprime os elementos
-mostran(f"Array: {a}");        // interpolação de array
+mostran(a);                    // [1, 2, 3]
+mostran(f"Array: {a}");        // Array: [1, 2, 3]
 ```
+
+Os elementos aparecem entre `[ ]`, separados por vírgula e espaço, e cada um é escrito como se fosse impresso sozinho: um `num[2]` sai `[1.5, 2]`, um `bool[2]` sai `[sin, nau]` e um `int[2][2]` sai `[[1, 2], [3, 4]]`.
 
 Arrays também podem aparecer como campos de um molde:
 
@@ -132,8 +166,10 @@ molda Pessoa {
     int[2] flags;
 }
 
-Pessoa pessoa = Pessoa{nomi = "jose", flags = [0, 1]};
-mostran(f"Flags: {pessoa.flags}");
+fn inisiu() {
+    Pessoa pessoa = Pessoa{nomi = "jose", flags = [0, 1]};
+    mostran(f"Flags: {pessoa.flags}");   // Flags: [0, 1]
+}
 ```
 
 Arrays de valores de moldes podem ser guardados e indexados. Isto permite encadear
@@ -149,20 +185,27 @@ molda Pessoa {
     Enderesu[2] enderesus;
 }
 
-Pessoa pessoa = Pessoa{
-    enderesus = [
-        Enderesu{rua = "antigu", numero = 10},
-        Enderesu{rua = "nobu", numero = 44}
-    ]
-};
+fn inisiu() {
+    Pessoa pessoa = Pessoa{
+        enderesus = [
+            Enderesu{rua = "antigu", numero = 10},
+            Enderesu{rua = "nobu", numero = 44}
+        ]
+    };
 
-pessoa.enderesus[0].rua = "medio";
-pessoa.enderesus[0].numero += 5;
+    pessoa.enderesus[0].rua = "medio";
+    pessoa.enderesus[0].numero += 5;
+
+    mostran(pessoa.enderesus[0].rua);      // medio
+    mostran(pessoa.enderesus[0].numero);   // 15
+}
 ```
 
 ## Restrições actuais
 
 - O tamanho do array deve ser um **literal inteiro**. Não pode ser uma variável.
+- Não há arrays de tamanho variável, nem forma de crescer ou encurtar um array.
+- O array não guarda o seu tamanho: não há `tamanho` nem `konta()`.
 - Um array declarado dentro de uma função fica na pilha e pode ocupar no máximo
   **1 MiB** (por exemplo, 131 072 valores `int`). Arrays maiores devem ser
   declarados fora das funções; vê

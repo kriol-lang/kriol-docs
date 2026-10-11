@@ -24,6 +24,13 @@ mostran(a % b);   // 1
 mostran(-a);      // -10
 ```
 
+O `%` também funciona entre reais, onde dá o resto da divisão real:
+
+```kriol
+num x = 7.5;
+mostran(x % 2.0);   // 1.5
+```
+
 ### Divisão
 
 A divisão segue o C: entre dois inteiros é inteira e trunca em direção a zero; se um dos operandos for real, a divisão é real.
@@ -38,6 +45,10 @@ num e = (num) a / 2; // 1.5
 
 Para obter a parte decimal entre dois inteiros, converte um deles para real com um *cast*, como no último exemplo.
 
+:::caution[A armadilha mais comum]
+`num media = (a + b) / 2;` com `a` e `b` inteiros dá um resultado inteiro, mesmo que a variável seja `num`. A divisão acontece primeiro, entre inteiros, e só o resultado já truncado é que passa a real. Escreve `(num) (a + b) / 2` para fazer a conta em reais.
+:::
+
 ### Divisão por zero
 
 Dividir por zero, ou calcular o resto por zero, termina o programa com uma mensagem de erro, tanto entre inteiros como entre reais:
@@ -47,7 +58,30 @@ num x = 1.5;
 mostran(x / 0);      // programa.kriol:2: erro de execução: divisão por zero
 ```
 
-Entre inteiros com sinal, `MIN / -1` (por exemplo `i8` `-128 / -1`) também termina o programa, porque o resultado não cabe no tipo.
+Entre inteiros com sinal, `MIN / -1` (por exemplo `i8` `-128 / -1`) também termina o programa, com *o resultado da divisão não cabe no tipo do número inteiro*: o valor positivo correspondente ao mínimo não existe no tipo.
+
+### Quando a conta transborda
+
+Ao contrário da divisão por zero, uma soma ou multiplicação que não caiba no tipo **não** para o programa: o valor dá a volta, como em C. Convém saber, porque o programa continua a correr com um número errado:
+
+```kriol
+u8 cheiu = 255;
+cheiu += 1;
+mostran(cheiu);      // 0: deu a volta ao início
+
+int maximu = 9223372036854775807;
+maximu += 1;
+mostran(maximu);     // -9223372036854775808
+```
+
+O mesmo acontece com o `-` unário num tipo sem sinal, que não tem onde guardar o sinal:
+
+```kriol
+u8 a = 5;
+mostran(-a);         // 251, isto é 256 - 5
+```
+
+Se um valor puder chegar perto do limite do tipo, escolhe um tipo mais largo ou verifica-o antes da conta com um `si` ou um [`konfirma`](/linguagem/controlo-de-fluxo/#konfirma-assert).
 
 ## Operadores relacionais
 
@@ -67,7 +101,7 @@ bool igual = x == 5;      // sin
 ```
 
 :::caution
-A comparação de strings com `==` / `!=` **não** é suportada na versão atual. Usa funções de biblioteca quando disponíveis.
+A comparação de strings com `==` / `!=` **não** é suportada na versão atual. O compilador recusa com *ainda não é possível comparar textos com '=='*, e por agora não há função de biblioteca que o faça.
 :::
 
 ## Operadores lógicos
@@ -99,6 +133,8 @@ mostran(n && 3);   // nau
 
 `&&` e `||` avaliam o operando da direita só quando é preciso: em `a && b`, `b` só é avaliado se `a` for verdadeiro, e em `a || b`, só se `a` for falso.
 
+Essa regra, a *avaliação em curto-circuito*, é o que torna seguro pôr a verificação e o uso na mesma condição: em `si i < 3 && v[i] > 0`, o `v[i]` nunca é lido quando `i` é 3 ou mais.
+
 ## Operadores de bits
 
 Os operadores de bits atuam sobre cada bit de um inteiro, e só aceitam operandos inteiros (não aceitam `bool` nem números reais). Para valores lógicos usa `&&`, `||` e `!`.
@@ -129,6 +165,10 @@ i8 menos = ~0;           // -1
 ```
 
 Ao contrário do C, os operadores de bits têm **maior** precedência do que as comparações, por isso `x & 1 == 1` lê-se `(x & 1) == 1`.
+
+:::note
+Os deslocamentos `<<` e `>>` ainda não existem no Kriol. Enquanto não existirem, multiplica ou divide por uma potência de dois: `n * 2` em vez de `n << 1`, e `n / 2` em vez de `n >> 1`.
+:::
 
 ## Operadores de atribuição compostos
 
@@ -164,6 +204,10 @@ int n = 9;
 n /= 2.5;  // 9 / 2.5 = 3.6, guardado como 3
 ```
 
+:::note
+Não existem `++` nem `--`. Para somar um, escreve `i += 1`, que é o que os ciclos `pa` desta documentação usam.
+:::
+
 ## Precedência de operadores
 
 Do maior para o menor precedência:
@@ -178,6 +222,7 @@ Do maior para o menor precedência:
 8. `==`, `!=`
 9. `&&`
 10. `||`
-11. `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`
+11. `sinon` (valor por omissão de uma chamada que pode falhar)
+12. `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`
 
-Usa parênteses `()` para forçar a ordem de avaliação desejada.
+Usa parênteses `()` para forçar a ordem de avaliação desejada: `2 + 3 * 4` dá `14`, e `(2 + 3) * 4` dá `20`. Em caso de dúvida, põe os parênteses.

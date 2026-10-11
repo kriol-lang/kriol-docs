@@ -34,12 +34,18 @@ Windows (PowerShell; installs kriol.exe and ld.lld.exe, programs run on Windows 
 
 ## Basic Syntax
 
-Entry point function:
+Entry point function (it takes no parameters and declares no return type):
 ```kriol
 fn inisiu() {
     mostran("Kualeh, Mundu!");
 }
 ```
+
+Comments: `// to end of line` and `/* across lines */` (they do not nest).
+
+Identifiers: variables, functions, parameters and fields start with a lowercase letter or `_`; molda type names start with an uppercase letter.
+
+Top-level variables: a declaration outside any function is visible to the functions declared after it, and any of them can assign to it.
 
 ## Data Types
 
@@ -55,11 +61,11 @@ fn inisiu() {
 - nkuantu: while loop
 - pa: for loop, `pa int i = 0; i < 10; i += 1 { }`; the step is optional (`pa int i = 0; i < 10 { }`)
 - divolvi: return
-- mostra/mostran: print without/with newline
+- mostra/mostran: print without/with newline; both take any number of arguments, written one after another with no separator, and `mostran()` with none prints an empty line
 - toma: read one line from stdin as textu; it stops the program if the input ends, unless handled: `tenta toma()` in a function declared `: Erru`, or `toma() sinon "default"`
 - kebra: break
-- kontinua: continue
-- sai: exit
+- kontinua: continue; both kebra and kontinua affect only the innermost loop
+- sai: exit; `sai()` without an argument exits with code 0
 - konfirma: assert, with an optional message: konfirma(cond, "message")
 - paniku: abort the program with a message: paniku("message")
 - molda: struct; literal `Pessoa{nomi = "Ana", idadi = 30}`, fields read and written with `.`
@@ -85,17 +91,25 @@ fn inisiu() {
 ## Features
 
 Currently supported:
-- Typed variables (int, num, bool, textu)
-- Functions with return types
+- Typed variables (int, num, bool, textu, i8..u64, f32, f64, isize, usize)
+- Top-level variables shared by every function declared after them
+- Functions with return types, recursion and mutual recursion
 - Control flow (si/sinon, nkuantu, pa)
 - Arrays (fixed size, multi-dimensional, passed and returned by value)
 - String interpolation (f-strings)
+- Structures (molda): fields, literals, `.` access, value semantics
+- Recoverable errors (Erru, lansa, tenta, sinon) and text-to-number conversion
 - Input/output (mostra, mostran, toma)
+- Native targets (Linux, Windows) and wasm32-wasi
 
 In development:
-- Structures (molda)
 - macOS support
-- Standard library
+- Methods and type-associated functions (fazi, Type::function(), value.method())
+- Explicit references (ref)
+- Modules and imports (inpristan)
+- Variable-size collections
+- C interoperability
+- Standard library, including text functions and file handling
 
 ## Example Programs
 
@@ -136,7 +150,14 @@ fn inisiu() {
 - No null types and no uninitialized variables (every declaration has an initial value)
 - Division as in C: two integers divide as integers (`7 / 2` is 3), a real operand makes it real; `x op= v` computes in the common type and stores into x's type
 - Division or remainder by zero stops the program, for integers and reals
-- `!`, `&&` and `||` accept numbers, which are true when not zero
+- `!`, `&&` and `||` accept numbers, which are true when not zero, and `&&`/`||` short-circuit
+- Integer overflow wraps silently, as in C; only division or remainder by zero (and signed MIN / -1) stops the program
+- textu has no operations yet: no `+` to concatenate, no `==` to compare, no indexing, no length; join text with an f-string, `f"{a}{b}"`
+- Integer literals adapt to the target type when the value fits; the largest writable integer literal is 9223372036854775807
+- Float literals need digits on both sides of the point and have no exponent form; `tipo::konverti("1e3")` does accept exponents
+- No `++`, `--`, `<<`, `>>` or ternary `? :`; no switch/case/match and no do-while
+- Values are printed with %g for reals (`2.0` prints `2`), `sin`/`nau` for bool, and `[1, 2, 3]` for arrays
+- An unhandled error from a function you declared `: Erru` warns at compile time; the builtins `toma` and `tipo::konverti` never warn, not even with --strict
 - Arrays and molda are values: assigning, passing and returning copy them; `int[2][3]` has 2 rows of 3 (outermost dimension first)
 - Bitwise operators on integers: `&`, `|`, `^`, `~` (and `&=`, `|=`, `^=`); they bind tighter than comparisons
 
@@ -149,10 +170,15 @@ fn inisiu() {
 
 ## Compilation
 
-Compile: `kriol file.kr -o output`
+Compile: `kriol file.kr -o output` (without -o the result is ./a.out)
 Optimization: `--opt-lvl <n>`, 0 to 3 (default 2)
 Run: `./output`
+Compile a snippet with no file: `kriol --text 'fn inisiu() { mostran(1); }'`
+WebAssembly: `kriol file.kr --target wasm32-wasi -o file.wasm` (this is what the playground runs)
 Emit IR: `kriol file.kr --emit-ir`
+Warnings as errors: `kriol --strict file.kr`
+Other extensions: `--ignore-extension`
+Runtime errors are reported as `file.kr:LINE: erro de execução: message` and exit with code 1; compiler diagnostics are in Portuguese
 
 ## Contributing
 

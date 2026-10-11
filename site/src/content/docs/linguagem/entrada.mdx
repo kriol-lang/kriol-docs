@@ -68,6 +68,8 @@ fn inisiu() {
 }
 ```
 
+O valor impossível `-1` marca "ainda não tenho resposta válida", e o ciclo repete-se até ter uma.
+
 ## Exemplos
 
 ### Leitura de string
@@ -102,11 +104,45 @@ fn inisiu() : Erru {
 }
 ```
 
+### Vários valores num ciclo
+
+Quando o número de valores é conhecido, lê-os num `pa`:
+
+```kriol title="soma.kriol"
+fn inisiu() : Erru {
+    int total = 0;
+
+    pa int i = 0; i < 3; i += 1 {
+        textu linha = tenta toma(f"Valor {i + 1}: ");
+        total += tenta int::konverti(linha);
+    }
+
+    mostran(f"Total: {total}");
+}
+```
+
+## Correr com um ficheiro em vez do teclado
+
+Qualquer programa que use `toma` também aceita as linhas de um ficheiro, sem mudar uma linha de código. No terminal, usa `<` para redirecionar a entrada:
+
+```bash
+kriol soma.kriol -o soma
+printf '10\n20\n30\n' > dados.txt
+./soma < dados.txt
+```
+
+```
+Valor 1: Valor 2: Valor 3: Total: 60
+```
+
+As mensagens aparecem seguidas porque ninguém escreve entre elas. É a forma mais prática de testar um programa interativo muitas vezes, e também funciona com um *pipe*: `printf '10\n20\n30\n' | ./soma`.
+
 :::note
 No [playground](https://play.kriol.dev), quando o programa chama `toma` aparece uma caixa **Entrada padrão** na consola; o valor escrito é enviado como uma linha.
 :::
 
 ## Limitações atuais
 
-- Cada chamada lê uma linha inteira: ainda não há forma de ler vários valores numa só linha, nem um carácter de cada vez.
-- Não há leitura de ficheiros; só a entrada padrão.
+- Cada chamada lê uma linha inteira: ainda não há forma de ler vários valores numa só linha, nem um carácter de cada vez. Se precisares de dois números, pede-os em duas linhas.
+- Não há leitura de ficheiros; só a entrada padrão, eventualmente redirecionada de um ficheiro pelo terminal.
+- Não há forma de saber de antemão se há mais entrada para ler: descobres ao tentar, e a leitura falha com um `Erru`.

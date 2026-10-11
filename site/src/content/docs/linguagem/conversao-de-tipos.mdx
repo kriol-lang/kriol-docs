@@ -1,7 +1,15 @@
 ---
 title: Conversão de Tipos
-description: Conversão implícita e explícita de tipos no Kriol do Kriol.
+description: Conversão implícita e explícita de tipos no Kriol.
 ---
+
+Passar um valor de um tipo para outro cai num destes três grupos, por ordem de risco:
+
+| Grupo | Quando acontece | Como se escreve |
+|---|---|---|
+| Alargamento | Nenhuma informação se perde | Automático, não escreves nada |
+| *Cast* | Pode perder informação, mas nunca falha | `(tipo) valor` |
+| Conversão de texto | Pode falhar, porque o texto pode não ser um número | `tipo::konverti(texto)` |
 
 ## Conversão implícita (widening)
 
@@ -29,6 +37,15 @@ fn inisiu() {
 }
 ```
 
+O caminho contrário nunca é automático. Estreitar um inteiro, ou passar de `num` para `f32`, exige um *cast*:
+
+```kriol
+int grande = 200;
+u8 pequeno = grande;         // ERRO: não se pode guardar um valor do tipo 'int'
+                             //        na variável 'pequeno', que é do tipo 'u8'
+u8 certo = (u8) grande;      // ok, pedido explicitamente
+```
+
 :::note
 Entre dois inteiros, `/` faz a divisão inteira, como em C: `num c = 7 / 2;` guarda `3.0`. Para obter `3.5`, converte um operando: `(num) 7 / 2`. Vê [Operadores](/linguagem/operadores/#divisão).
 :::
@@ -50,6 +67,8 @@ fn metade(num x) int {
 }
 ```
 
+Truncar não é arredondar: `3.9` dá `3` e `-3.9` dá `-3`. Para arredondar valores positivos, soma meio antes de converter: `(int) (x + 0.5)`.
+
 Ao contrário do C, onde um valor fora do intervalo do tipo é comportamento indefinido, no Kriol fica no limite do tipo, e `NaN` dá `0`.
 
 ## Conversão explícita (cast)
@@ -65,6 +84,8 @@ bool d = (bool) 5;         // sin
 
 O *cast* é um operador unário: liga mais forte do que os operadores binários, por isso `(int) 3.9 + 1` é `((int) 3.9) + 1`. Usa parênteses para converter uma expressão inteira: `(int) (x + 1.5)`.
 
+Um *cast* nunca falha e nunca para o programa, mas pode dar-te um valor que não querias, como no `(u8) 300` acima.
+
 ### O que cada conversão faz
 
 | De                   | Para                 | Comportamento |
@@ -76,6 +97,8 @@ O *cast* é um operador unário: liga mais forte do que os operadores binários,
 | `bool`               | número               | `sin` dá `1` e `nau` dá `0` |
 | número               | `bool`               | `nau` se for zero, `sin` caso contrário |
 
+Repara na diferença entre as duas primeiras linhas: de real para inteiro o valor fica no limite do tipo, mas de inteiro para inteiro os bits que não caibam são descartados, e é por isso que `(u8) 300` dá `44` e não `255`.
+
 ### O que não se pode converter
 
 Só números e `bool` são alvos válidos, e só números e `bool` se convertem. Estas conversões são erros de compilação:
@@ -85,6 +108,8 @@ int n = (int) "5";      // ERRO: não se converte texto
 textu t = (textu) 5;    // ERRO: o destino não pode ser textu
 int m = (int) lista;    // ERRO: não se converte um array ou um molde
 ```
+
+Para escrever um número como texto, usa uma f-string: `textu t = f"{5}";`.
 
 ## Texto para número: `T::konverti`
 
@@ -106,6 +131,12 @@ Funciona com todos os tipos numéricos (`int`, `num`, `i8`, `u8`, `f32`, ...) e 
 | `num`, `f32`, `f64` | Sinal opcional, dígitos, parte decimal opcional e expoente opcional (`3.25`, `-2e3`). `1.` e `nan` são inválidos. O valor tem de caber no tipo: `f32::konverti("1e300")` falha |
 | `bool` | `sin` ou `nau` |
 
+:::tip
+O `konverti` aceita a notação de expoente (`"1e3"` dá `1000`), que os literais do código não aceitam. É a forma de escrever números muito grandes ou muito pequenos enquanto não houver literais com expoente.
+:::
+
 Os espaços no início e no fim do texto são ignorados. As mensagens de erro dizem o que correu mal, por exemplo `'abc' não é um número inteiro válido`, `'256' não cabe no tipo 'u8'` ou `'x' não é um número válido`. Um texto com mais de 40 bytes aparece cortado e termina em `...`.
 
-Se o erro não for tratado com `tenta` ou `sinon`, o programa termina nessa chamada com a mensagem do erro. Para converter um valor lido do utilizador, vê [Ler números](/linguagem/entrada/#ler-números) em Entrada de Dados.
+Se o erro não for tratado com `tenta` ou `sinon`, o programa termina nessa chamada com a mensagem do erro. Ao contrário de uma função tua declarada com `: Erru`, o `konverti` não gera aviso de compilação quando o erro fica sem tratamento, nem com `--strict`.
+
+Para converter um valor lido do utilizador, vê [Ler números](/linguagem/entrada/#ler-números) em Entrada de Dados.

@@ -3,6 +3,8 @@ title: Strings e Interpolação
 description: Literais de string, f-strings e interpolação de expressões no Kriol.
 ---
 
+Um `textu` guarda uma sequência de caracteres: um nome, uma mensagem, uma linha lida do teclado.
+
 ## Literais de string
 
 As strings podem ser delimitadas por aspas duplas ou aspas simples:
@@ -12,20 +14,39 @@ textu a = "Kualeh, Mundu!";
 textu b = 'Cabo Verde';
 ```
 
+As duas formas são equivalentes, o que é prático quando o texto contém um dos tipos de aspas: `'ele disse "oi"'` dispensa escapes.
+
+Um literal pode conter acentos e qualquer outro carácter UTF-8, incluindo emoji:
+
+```kriol
+mostran("Olá, São Vicente! 🦈");
+```
+
 ## Sequências de escape
+
+Para escrever um carácter que não se pode teclar dentro de aspas, usa uma barra invertida:
 
 | Sequência | Significado      |
 |-----------|------------------|
 | `\n`      | Nova linha       |
 | `\t`      | Tabulação        |
+| `\r`      | Retorno de carro |
 | `\\`      | Barra invertida  |
 | `\"`      | Aspas duplas     |
 | `\'`      | Aspas simples    |
+| `\0`      | Carácter nulo    |
+| `\{`      | Chaveta `{` numa f-string |
+| `\}`      | Chaveta `}` numa f-string |
 
 ```kriol
 mostran("Linha 1\nLinha 2");
 mostra("coluna1\tcoluna2");
+mostran('it\'s');
 ```
+
+:::note
+Uma barra invertida seguida de um carácter que não está nesta tabela fica como está: `"a\qb"` escreve literalmente `a\qb`. Não é um erro, mas também não é um escape.
+:::
 
 ## F-strings (strings interpoladas)
 
@@ -36,6 +57,8 @@ int n = 42;
 textu nome = "Kriol";
 mostran(f"O valor é {n} e a linguagem é {nome}.");
 ```
+
+O que está entre `{ }` é calculado quando o programa chega ali, e o resultado é convertido em texto e inserido na posição. Sem o `f` inicial, `{n}` não é nada de especial: aparece tal e qual no ecrã.
 
 ### Interpolação de vários tipos
 
@@ -50,13 +73,15 @@ mostran(f"b = {b}");
 mostran(f"n={n} x={x} b={b}");
 ```
 
+Cada valor é escrito como se fosse impresso sozinho: um `num` sai com 6 dígitos significativos e um `bool` sai como `sin` ou `nau`. Vê [como cada tipo aparece no ecrã](/linguagem/tipos/#como-cada-tipo-aparece-no-ecrã).
+
 ### Interpolação de arrays
 
 Podes interpolar um array inteiro numa f-string:
 
 ```kriol
 int[3] nums = [1, 2, 3];
-mostran(f"Números: {nums}");
+mostran(f"Números: {nums}");   // Números: [1, 2, 3]
 ```
 
 ### Interpolação de chamadas de função
@@ -72,18 +97,35 @@ fn inisiu() {
 }
 ```
 
+Dentro de `{ }` cabe qualquer expressão, não só um nome: contas, comparações, acessos a campo e índices de array, como em `f"{v[i] * 2}"` ou `f"{v[i] > 0}"`.
+
 ### Chavetas literais
 
-Para incluir uma chaveta literal `{` ou `}` numa f-string, usa o escape `\` antes do carácter:
+Para incluir uma chaveta literal `{` ou `}` numa f-string, escapa **cada uma** delas com `\`:
 
 ```kriol
-mostran(f"Usa \{chavetas}\ assim.");
+mostran(f"Usa \{chavetas\} assim.");
 // saída: Usa {chavetas} assim.
 ```
 
 :::caution
+Escapar só a primeira não basta. `f"Usa \{chavetas}\ assim."` escreve `Usa {chavetas}\ assim.`, com uma barra invertida a mais, porque o `\` antes do espaço não é um escape conhecido e fica no texto.
+:::
+
+:::caution
 Variáveis usadas dentro de `{ }` numa f-string devem estar declaradas e inicializadas. Referenciar uma variável não declarada é um erro de compilação.
 :::
+
+## Juntar texto
+
+Não há operador de concatenação: a f-string é a forma de juntar valores num `textu`. O resultado é um `textu` como qualquer outro, que se guarda numa variável, se passa a uma função ou se devolve de uma:
+
+```kriol
+textu nomi = "Ana";
+textu apelidu = "Silva";
+textu completu = f"{nomi} {apelidu}";
+mostran(completu);                       // Ana Silva
+```
 
 ## `mostra` vs `mostran`
 
@@ -104,3 +146,19 @@ mostran("linha2");
 // linha1
 // linha2
 ```
+
+Ambas aceitam vários valores separados por vírgula, e `mostran()` sem nada escreve uma linha vazia. Vê [`mostra` e `mostran` aceitam vários valores](/linguagem/funcoes/#mostra-e-mostran-aceitam-vários-valores).
+
+## O que ainda não existe
+
+O `textu` da versão atual serve para guardar, juntar com f-strings e imprimir. Tudo o resto está por fazer, e convém saber antes de desenhar um programa:
+
+| O que gostarias de escrever | Estado |
+|---|---|
+| `a + b` para juntar texto | Não existe; usa `f"{a}{b}"` |
+| `a == b` para comparar texto | Não existe; o compilador recusa com *ainda não é possível comparar textos com '=='* |
+| `t[0]` para um carácter | Não existe; `[ ]` só funciona com arrays |
+| O comprimento de um texto | Não existe |
+| Procurar, cortar, substituir, mudar de caixa | Não existe |
+
+Uma biblioteca padrão com funções de texto está nos planos do projeto. Até lá, muito do que parece precisar de comparar texto resolve-se a converter a entrada num número ou num `bool` logo à entrada, com [`tipo::konverti`](/linguagem/conversao-de-tipos/#texto-para-número-tkonverti), e a decidir sobre esse valor.

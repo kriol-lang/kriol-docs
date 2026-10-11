@@ -76,6 +76,24 @@ O Criolo é naturalmente adequado para programação. Tal como o inglês, tem ba
 - Em português: `se/senão` precisa de ser escrito `se/senao` (sem acento)
 - Em Criolo: `si/sinon` já é naturalmente ASCII e soa relativamente mais natural
 
+## As palavras lado a lado
+
+Se já viste código noutra linguagem, esta tabela dá-te a tradução imediata. A página [Vocabulário](/referencia/vocabulario/) tem a lista completa.
+
+| Kriol      | C / Go          | Python     | O que faz                      |
+|------------|-----------------|------------|--------------------------------|
+| `fn`       | `func`          | `def`      | Declara uma função             |
+| `inisiu`   | `main`          | *não tem*  | Onde o programa começa         |
+| `si`       | `if`            | `if`       | Decide                         |
+| `sinon`    | `else`          | `else`     | O caso contrário               |
+| `pa`       | `for`           | `for`      | Repete um número de vezes      |
+| `nkuantu`  | `while`         | `while`    | Repete enquanto for verdade    |
+| `divolvi`  | `return`        | `return`   | Devolve um valor               |
+| `mostran`  | `printf`        | `print`    | Escreve no ecrã                |
+| `toma`     | `scanf`/`gets`  | `input`    | Lê uma linha escrita por quem usa |
+| `sin`/`nau`| `true`/`false`  | `True`/`False` | Verdadeiro e falso         |
+| `molda`    | `struct`        | `class`    | Agrupa campos num tipo novo    |
+
 ## Objectivo
 
 O Kriol serve como porta de entrada à programação para falantes de Criolo cabo-verdiano. Permite ensinar lógica e programação numa língua próxima do quotidiano.
@@ -85,19 +103,28 @@ O Kriol serve como porta de entrada à programação para falantes de Criolo cab
 A linguagem já suporta:
 
 - Variáveis tipadas (`int`, `num`, `textu`, `bool` e tipos primitivos explícitos como `i32`, `u64`, `f32`)
-- Funções com retorno tipado
+- Variáveis no topo do ficheiro, partilhadas por todas as funções
+- Funções com retorno tipado, recursão e recursão mútua
 - Estruturas de controlo (`si/sinon`, `nkuantu`, `pa`)
-- Arrays e strings
+- Arrays de tamanho fixo, incluindo multidimensionais, passados e devolvidos por valor
+- Strings e interpolação com f-strings
+- Moldes (`molda`), com campos, literais, acesso com `.` e semântica de valor
+- Erros recuperáveis com `Erru`, `lansa`, `tenta` e `sinon`
+- Conversão de texto para número com `tipo::konverti`
+- Conversões de tipos implícitas e explícitas, com *casts* no estilo do C
 - Operadores aritméticos, lógicos, relacionais e de bits (`&`, `|`, `^`, `~`)
 - Input/output (`mostra`, `mostran`, `toma`)
+- Compilação para executável nativo (Linux e Windows) e para WebAssembly (`wasm32-wasi`), que é o que faz o [playground](https://play.kriol.dev) funcionar
 
 ## Planos futuros
 
 - Suporte para macOS
-- Biblioteca padrão mais completa
-- Gestão de ficheiros
-- Módulos e imports
-- Estruturas (molda)
+- Métodos e funções associadas a um tipo (`fazi`, `Tipo::funson()`, `valor.metodu()`)
+- Referências explícitas (`ref`), para alterar um valor sem o copiar
+- Módulos e imports (`inpristan`, já reconhecido pela gramática)
+- Colecções de tamanho variável, a par dos arrays de tamanho fixo
+- Interoperabilidade com C, para reutilizar bibliotecas existentes
+- Biblioteca padrão mais completa, incluindo gestão de ficheiros e funções de texto
 - Melhorias no sistema de tipos
 
 O projecto é **Open Source** sob licença MIT. Contribuições são bem-vindas no [GitHub](https://github.com/kriol-lang).
