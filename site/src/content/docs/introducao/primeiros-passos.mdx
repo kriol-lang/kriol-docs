@@ -5,10 +5,11 @@ description: Como instalar e executar o teu primeiro programa Kriol.
 
 ## Pré-requisitos
 
-O Kriol funciona em **Linux** e **Windows** (x86_64). O suporte para Windows é experimental. Suporte para macOS está planeado para o futuro.
+O Kriol funciona em **Linux** e **Windows** (x86_64) e em **macOS** nos Mac com Apple silicon (M1 ou mais recente). O suporte para Windows é experimental, e os Mac com processador Intel ainda não são suportados.
 
 Precisas ter:
 - No Linux, um compilador C (GCC ou Clang), usado para ligar os programas
+- No macOS, as Xcode Command Line Tools, que trazem o Clang usado para ligar os programas
 - No Windows, nada mais: o compilador já traz tudo o que precisa
 - Uma conexão à internet para a instalação
 
@@ -37,6 +38,34 @@ Fecha e reabre o terminal, e verifica se funcionou:
 ```bash
 kriol --version
 ```
+
+### macOS
+
+Se ainda não tens as Xcode Command Line Tools, instala-as primeiro. O Kriol usa o Clang que vem com elas para ligar os programas:
+
+```bash
+xcode-select --install
+```
+
+Depois, instala o Kriol com o mesmo script do Linux:
+
+```bash
+curl -fsSL https://kriol.dev/install.sh | sh -s -- --pre
+```
+
+Adiciona o Kriol ao teu PATH, acrescentando esta linha ao ficheiro `~/.zshrc` (o shell predefinido do macOS é o zsh):
+
+```bash
+export PATH="$HOME/.kriol:$PATH"
+```
+
+Fecha e reabre o terminal, e verifica se funcionou:
+
+```bash
+kriol --version
+```
+
+No macOS, o Kriol compila apenas programas nativos: a compilação para WebAssembly (`--target wasm32-wasi`) ainda não está disponível.
 
 ### Windows (experimental)
 

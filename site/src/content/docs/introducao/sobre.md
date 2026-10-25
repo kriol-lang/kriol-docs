@@ -114,11 +114,10 @@ A linguagem já suporta:
 - Conversões de tipos implícitas e explícitas, com *casts* no estilo do C
 - Operadores aritméticos, lógicos, relacionais e de bits (`&`, `|`, `^`, `~`)
 - Input/output (`mostra`, `mostran`, `toma`)
-- Compilação para executável nativo (Linux e Windows) e para WebAssembly (`wasm32-wasi`), que é o que faz o [playground](https://play.kriol.dev) funcionar
+- Compilação para executável nativo (Linux, Windows e macOS) e para WebAssembly (`wasm32-wasi`), que é o que faz o [playground](https://play.kriol.dev) funcionar
 
 ## Planos futuros
 
-- Suporte para macOS
 - Métodos e funções associadas a um tipo (`fazi`, `Tipo::funson()`, `valor.metodu()`)
 - Referências explícitas (`ref`), para alterar um valor sem o copiar
 - Módulos e imports (`inpristan`, já reconhecido pela gramática)

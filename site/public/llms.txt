@@ -14,7 +14,7 @@ KriolLang is designed to make programming accessible to Cape Verdean Creole spea
 - Compilation: Native code via LLVM/C
 - File extensions: .kriol (preferred), .kr
 - License: MIT
-- Platforms: Linux and Windows, x86_64 (macOS support planned)
+- Platforms: Linux and Windows on x86_64, macOS on Apple silicon (arm64)
 - Repository: https://github.com/kriol-lang/kriol
 
 ## Installation
@@ -22,6 +22,14 @@ KriolLang is designed to make programming accessible to Cape Verdean Creole spea
 Linux:
 
 ```bash
+curl -fsSL https://kriol.dev/install.sh | sh -s -- --pre
+export PATH="$HOME/.kriol:$PATH"
+```
+
+macOS (Apple silicon; links with clang from the Xcode Command Line Tools, no wasm32-wasi target):
+
+```bash
+xcode-select --install
 curl -fsSL https://kriol.dev/install.sh | sh -s -- --pre
 export PATH="$HOME/.kriol:$PATH"
 ```
@@ -100,10 +108,9 @@ Currently supported:
 - Structures (molda): fields, literals, `.` access, value semantics
 - Recoverable errors (Erru, lansa, tenta, sinon) and text-to-number conversion
 - Input/output (mostra, mostran, toma)
-- Native targets (Linux, Windows) and wasm32-wasi
+- Native targets (Linux, Windows, macOS) and wasm32-wasi
 
 In development:
-- macOS support
 - Methods and type-associated functions (fazi, Type::function(), value.method())
 - Explicit references (ref)
 - Modules and imports (inpristan)
