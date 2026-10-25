@@ -13,7 +13,7 @@ RUN npm run build
 # Distroless: no shell, no package manager, only the node runtime and the
 # static site. `serve` is dropped in favor of a small built-in-only static
 # file server (site/serve.mjs), since there's no npm here to install it.
-FROM gcr.io/distroless/nodejs24-debian12 AS runtime
+FROM gcr.io/distroless/nodejs24-debian13 AS runtime
 
 WORKDIR /app
 
