@@ -3,7 +3,7 @@ title: Arrays
 description: Declaração, inicialização e uso de arrays no Kriol.
 ---
 
-Os arrays no Kriol são colecções de **tamanho fixo** de elementos do mesmo tipo.
+Os arrays no Kriol são coleções de **tamanho fixo** de elementos do mesmo tipo.
 
 Serve para quando tens muitos valores da mesma espécie: em vez de `nota1`, `nota2`, `nota3`, tens um `nota` com um índice.
 
@@ -18,7 +18,7 @@ int[3] nums = [10, 20, 30];
 bool[2] flags = [sin, nau];
 ```
 
-O número entre `[ ]` faz parte do **tipo**, não do nome: `int[3]` lê-se "array de 3 inteiros". Tem de ser um literal, e o número de valores entre `[ ]` tem de corresponder exactamente.
+O número entre `[ ]` faz parte do **tipo**, não do nome: `int[3]` lê-se "array de 3 inteiros". Tem de ser um literal, e o número de valores entre `[ ]` tem de corresponder exatamente.
 
 O literal `[ ... ]` sem tipo explícito é interpretado pelo contexto da variável
 ou campo que o recebe. Quando o contexto não deixa claro o tipo do array, usa
@@ -77,7 +77,7 @@ Um índice fora do array termina o programa com uma mensagem que indica a linha,
 programa.kriol:5: erro de execução: o índice 3 está fora do array, que vai de 0 a 2
 ```
 
-Essa verificação acontece em **execução**, a cada acesso, mesmo quando o índice é um literal: `v[7]` num `int[3]` compila sem queixas e falha ao correr. Em troca, nunca lês nem escreves memória que não é tua, ao contrário do que acontece em C.
+Essa verificação acontece em **execução**, a cada acesso, mesmo quando o índice é um literal: `v[7]` num `int[3]` compila sem queixas e falha ao correr. Em troca, o programa nunca lê nem escreve fora do array.
 
 ## Uso com ciclos
 
@@ -95,7 +95,7 @@ O tamanho não se pode perguntar ao array: não há `seq.tamanho` nem `konta(seq
 
 ## Arrays multidimensionais
 
-Um array pode ter várias dimensões. Como em C e em Go, o primeiro tamanho é a dimensão de fora: `int[2][3]` tem 2 linhas de 3 elementos.
+Um array pode ter várias dimensões. O primeiro tamanho é a dimensão de fora: `int[2][3]` tem 2 linhas de 3 elementos.
 
 ```kriol
 int[2][3] m = [[1, 2, 3], [4, 5, 6]];
@@ -140,7 +140,11 @@ fn inisiu() {
 }
 ```
 
-Isto distingue o Kriol do C, onde um array passado a uma função é um ponteiro e a função altera o original. Aqui é mais fácil de prever, mas copiar um array grande a cada chamada leva tempo e ocupa pilha.
+Assim é fácil prever o que acontece, mas copiar um array grande a cada chamada leva tempo e ocupa memória (vê [Tamanho das variáveis locais](/linguagem/variaveis/#tamanho-das-variáveis-locais)).
+
+:::note[Para quem já programa]
+Isto distingue o Kriol do C, onde um array passado a uma função é um ponteiro e a função altera o original.
+:::
 
 O tamanho faz parte do tipo, e os tipos têm de ser iguais: um `int[3]` só aceita outro `int[3]`, e não um `int[4]` nem um `u8[3]`. Um literal `[ ... ]` ou `[valor; N]` também pode ser usado diretamente como argumento, valor de `divolvi`, valor de uma atribuição ou valor depois de `sinon`, e recebe o tipo do destino.
 
@@ -201,7 +205,7 @@ fn inisiu() {
 }
 ```
 
-## Restrições actuais
+## Restrições atuais
 
 - O tamanho do array deve ser um **literal inteiro**. Não pode ser uma variável.
 - Não há arrays de tamanho variável, nem forma de crescer ou encurtar um array.

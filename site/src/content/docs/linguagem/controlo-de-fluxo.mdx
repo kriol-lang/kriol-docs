@@ -3,6 +3,8 @@ title: Controlo de Fluxo
 description: Condicionais, ciclos, break, continue e outras instruções de salto no Kriol.
 ---
 
+Um programa corre de cima para baixo, uma instrução de cada vez. O controlo de fluxo muda essa ordem: `si` decide se um bloco corre ou não, e `nkuantu` e `pa` repetem um bloco várias vezes. O resto da página mostra como sair de um ciclo, ou do programa, mais cedo.
+
 ## Condicional `si` / `sinon`
 
 ```kriol
@@ -23,7 +25,7 @@ si x > 5 {
 }
 ```
 
-A condição tem de ser um `bool` ou um número. Um número conta como verdadeiro quando não é zero, como em C. Um `textu` não serve, e o compilador recusa com *a condição tem de ser um valor lógico ou um número*:
+A condição tem de ser um `bool` ou um número. Um número conta como verdadeiro quando não é zero. Um `textu` não serve, e o compilador recusa com *a condição tem de ser um valor lógico ou um número*:
 
 ```kriol
 int n = 3;

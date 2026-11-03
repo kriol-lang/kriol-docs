@@ -3,6 +3,8 @@ title: Variáveis
 description: Declaração, inicialização e atribuição de variáveis no Kriol.
 ---
 
+Uma variável é um nome para um valor que o programa guarda, para o usar ou mudar mais tarde. Em `int idadi = 16;`, `idadi` é o nome, `int` é o tipo (vê [Tipos de Dados](/linguagem/tipos/)) e `16` é o valor inicial.
+
 ## Declaração com inicialização
 
 A forma padrão de declarar uma variável exige sempre um valor inicial:
@@ -79,6 +81,8 @@ Uma variável de topo é escrita e lida por qualquer função, o que torna mais 
 
 ## Tamanho das variáveis locais
 
+*Só precisas disto se declarares um array muito grande.*
+
 As variáveis declaradas dentro de uma função (e os parâmetros) ficam na pilha do programa, por isso cada uma pode ocupar no máximo **1 MiB** (1 048 576 bytes). Um valor maior, como um array grande, deve ser declarado fora das funções:
 
 ```kriol
@@ -124,7 +128,7 @@ fn inisiu() {
 
 Vale também para o `pa`: a variável declarada na inicialização do ciclo só existe dentro dele.
 
-Um bloco interior pode declarar uma variável com o nome de outra de fora, que fica escondida até ao fim do bloco. É legal, mas raramente é o que queres: se o objectivo era mudar a de fora, escreve `n = 99;` sem repetir o tipo.
+Um bloco interior pode declarar uma variável com o nome de outra de fora, que fica escondida até ao fim do bloco. É legal, mas raramente é o que queres: se o objetivo era mudar a de fora, escreve `n = 99;` sem repetir o tipo.
 
 ## Nomes reservados
 

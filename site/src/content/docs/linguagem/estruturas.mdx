@@ -5,7 +5,11 @@ description: Tipos compostos com campos nomeados no Kriol.
 
 ## O que são moldes?
 
-Um molde é um tipo composto que agrupa campos de diferentes tipos, semelhante a uma `struct` em C. A palavra-chave `molda` declara um novo molde: isto é, define a forma que valores desse tipo devem ter. O suporte atual inclui declaração de tipos, literais com campos nomeados, arrays como campos, acesso com `.` e atribuição a campos.
+Um molde é um tipo novo, feito de vários valores com nome, os *campos*, que podem ser de tipos diferentes. A palavra-chave `molda` declara um novo molde: isto é, define a forma que valores desse tipo devem ter. O suporte atual inclui declaração de tipos, literais com campos nomeados, arrays como campos, acesso com `.` e atribuição a campos.
+
+:::note[Para quem já programa]
+Um molde é semelhante a uma `struct` em C.
+:::
 
 A vantagem prática é não andar com valores soltos: se uma pessoa é um nome, um apelido e uma idade, num molde essas três coisas passam a uma função como um argumento só.
 

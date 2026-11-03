@@ -62,12 +62,17 @@ export default defineConfig({
 						{ label: 'Operadores', slug: 'linguagem/operadores' },
 						{ label: 'Controlo de Fluxo', slug: 'linguagem/controlo-de-fluxo' },
 						{ label: 'Funções', slug: 'linguagem/funcoes' },
-						{ label: 'Erros', slug: 'linguagem/erros' },
-						{ label: 'Arrays', slug: 'linguagem/arrays' },
 						{ label: 'Strings e Interpolação', slug: 'linguagem/strings' },
-						{ label: 'Conversão de Tipos', slug: 'linguagem/conversao-de-tipos' },
 						{ label: 'Entrada de Dados', slug: 'linguagem/entrada' },
+						{ label: 'Arrays', slug: 'linguagem/arrays' },
 						{ label: 'Moldes (molda)', slug: 'linguagem/estruturas' },
+					],
+				},
+				{
+					label: 'Mais a fundo',
+					items: [
+						{ label: 'Conversão de Tipos', slug: 'linguagem/conversao-de-tipos' },
+						{ label: 'Erros', slug: 'linguagem/erros' },
 					],
 				},
 				{
@@ -75,6 +80,7 @@ export default defineConfig({
 					items: [
 						{ label: 'Vocabulário', slug: 'referencia/vocabulario' },
 						{ label: 'Especificação Formal', slug: 'referencia/especificacao' },
+						{ label: 'Compilador', slug: 'referencia/compilador' },
 					],
 				},
 			],

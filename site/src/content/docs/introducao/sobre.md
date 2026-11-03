@@ -5,9 +5,46 @@ description: O que é o KriolLang e porquê existe.
 
 ## O que é o Kriol?
 
-**KriolLang** (ou **Kriol**) é uma linguagem de programação imperativa, de tipagem estática e compilada. Foi criada usando palavras-chave do **Criolo cabo-verdiano**, a língua materna de Cabo Verde.
+O **Kriol** (ou **KriolLang**) é uma linguagem de programação cujas palavras-chave vêm do **Criolo cabo-verdiano**, a língua materna de Cabo Verde.
 
-A sintaxe inspira-se em linguagens como C, Go e Rust, mas distingue-se pelo uso da língua criola para tornar a programação mais acessível aos cabo-verdianos e falantes de criolo.
+Serve de porta de entrada à programação para quem fala Criolo: permite aprender e ensinar lógica e programação numa língua próxima do dia a dia.
+
+### Em termos técnicos
+
+O Kriol é uma linguagem imperativa, de tipagem estática e compilada, com uma sintaxe inspirada no C, no Go e no Rust. Em palavras simples:
+
+- **Imperativa**: escreves os passos que o computador deve dar, um a um e pela ordem em que acontecem.
+- **Tipagem estática**: cada variável tem um tipo fixo e o compilador verifica-o *antes* de o programa correr, por isso muitos erros aparecem enquanto escreves.
+- **Compilada**: o `kriol` traduz o teu ficheiro para um executável, que depois corre sozinho.
+
+## Porque usar Criolo?
+
+O Criolo adapta-se bem à programação porque, tal como o inglês, se escreve quase sem acentos, e as palavras-chave de uma linguagem não podem ter acentos. Por exemplo:
+
+- Em português, `se/senão` teria de ser escrito `se/senao`, sem o acento
+- Em Criolo, `si/sinon` já se escreve assim, sem perder nada
+
+## As palavras lado a lado
+
+Se já viste código noutra linguagem, esta tabela dá-te a tradução imediata. A página [Vocabulário](/referencia/vocabulario/) tem a lista completa.
+
+| Kriol      | C / Go          | Python     | O que faz                      |
+|------------|-----------------|------------|--------------------------------|
+| `fn`       | `func`          | `def`      | Declara uma função             |
+| `inisiu`   | `main`          | *não tem*  | Onde o programa começa         |
+| `si`       | `if`            | `if`       | Decide                         |
+| `sinon`    | `else`          | `else`     | O caso contrário               |
+| `pa`       | `for`           | `for`      | Repete um número de vezes      |
+| `nkuantu`  | `while`         | `while`    | Repete enquanto for verdade    |
+| `divolvi`  | `return`        | `return`   | Devolve um valor               |
+| `mostran`  | `printf`        | `print`    | Escreve no ecrã                |
+| `toma`     | `scanf`/`gets`  | `input`    | Lê uma linha escrita por quem usa |
+| `sin`/`nau`| `true`/`false`  | `True`/`False` | Verdadeiro e falso         |
+| `molda`    | `struct`        | `class`    | Agrupa campos num tipo novo    |
+
+## Um programa maior
+
+Este programa junta quase tudo o que o Kriol já tem: moldes, arrays, ciclos e leitura do que quem usa o programa escreve. Não precisas de o perceber já; cada parte é explicada nas páginas de *A Linguagem*.
 
 ```kriol
 molda Pessoa {
@@ -69,35 +106,6 @@ fn inisiu() {
 }
 ```
 
-## Porque usar Criolo?
-
-O Criolo é naturalmente adequado para programação. Tal como o inglês, tem baixa dependência de acentos e caracteres especiais. Exemplo:
-
-- Em português: `se/senão` precisa de ser escrito `se/senao` (sem acento)
-- Em Criolo: `si/sinon` já é naturalmente ASCII e soa relativamente mais natural
-
-## As palavras lado a lado
-
-Se já viste código noutra linguagem, esta tabela dá-te a tradução imediata. A página [Vocabulário](/referencia/vocabulario/) tem a lista completa.
-
-| Kriol      | C / Go          | Python     | O que faz                      |
-|------------|-----------------|------------|--------------------------------|
-| `fn`       | `func`          | `def`      | Declara uma função             |
-| `inisiu`   | `main`          | *não tem*  | Onde o programa começa         |
-| `si`       | `if`            | `if`       | Decide                         |
-| `sinon`    | `else`          | `else`     | O caso contrário               |
-| `pa`       | `for`           | `for`      | Repete um número de vezes      |
-| `nkuantu`  | `while`         | `while`    | Repete enquanto for verdade    |
-| `divolvi`  | `return`        | `return`   | Devolve um valor               |
-| `mostran`  | `printf`        | `print`    | Escreve no ecrã                |
-| `toma`     | `scanf`/`gets`  | `input`    | Lê uma linha escrita por quem usa |
-| `sin`/`nau`| `true`/`false`  | `True`/`False` | Verdadeiro e falso         |
-| `molda`    | `struct`        | `class`    | Agrupa campos num tipo novo    |
-
-## Objectivo
-
-O Kriol serve como porta de entrada à programação para falantes de Criolo cabo-verdiano. Permite ensinar lógica e programação numa língua próxima do quotidiano.
-
 ## Estado atual
 
 A linguagem já suporta:
@@ -126,4 +134,4 @@ A linguagem já suporta:
 - Biblioteca padrão mais completa, incluindo gestão de ficheiros e funções de texto
 - Melhorias no sistema de tipos
 
-O projecto é **Open Source** sob licença MIT. Contribuições são bem-vindas no [GitHub](https://github.com/kriol-lang).
+O projeto é **Open Source** sob licença MIT. Contribuições são bem-vindas no [GitHub](https://github.com/kriol-lang).
