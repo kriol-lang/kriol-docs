@@ -14,8 +14,8 @@ A função `toma` lê uma linha da entrada padrão (`stdin`) e devolve-a como `t
 ```kriol
 toma()
 toma("Mensagem para o utilizador: ")
-tenta toma()        // passa o erro adiante (função com `: Erru`)
-toma() sinon ""     // valor por omissão
+toma() sinon ""     // valor por omissão, se a leitura falhar
+tenta toma()        // passa o erro a quem chamou (vê Erros)
 ```
 
 ## Regras
@@ -36,8 +36,8 @@ A entrada termina quando o ficheiro redirecionado chega ao fim, ou quando o util
 Podes tratar a falha (vê [Erros](/linguagem/erros/)), ou não fazer nada:
 
 - `toma()` sozinho termina o programa com `programa.kriol:N: erro não tratado: a entrada terminou e não há mais linhas para ler` se a entrada acabar. É o mais simples, e adequado para programas curtos.
-- `tenta toma()` passa o erro a quem chamou, por isso só se usa numa função que declare `: Erru`.
 - `toma() sinon "valor"` usa um texto por omissão quando a leitura falha.
+- `tenta toma()` passa o erro a quem chamou, por isso só se usa numa função que declare `: Erru`.
 
 :::note
 Ao contrário das funções declaradas com `: Erru`, um `toma` não tratado não gera aviso do compilador, nem com `--strict`, para manter simples os primeiros programas.
@@ -45,17 +45,19 @@ Ao contrário das funções declaradas com `: Erru`, um `toma` não tratado não
 
 ## Ler números
 
-Lê primeiro o texto numa linha e converte-o na seguinte, com `tipo::konverti` (vê [Conversão de tipos](/linguagem/conversao-de-tipos/#texto-para-número-tkonverti)). Os espaços no início e no fim do texto são ignorados na conversão.
+`toma` devolve sempre texto. Para ter um número, converte esse texto com `int::konverti` (ou `num::konverti`, para números reais):
 
 ```kriol
-fn inisiu() : Erru {
-    textu entrada_idadi = tenta toma("Idadi: ");
-    int idadi = tenta int::konverti(entrada_idadi);
+fn inisiu() {
+    textu entrada_idadi = toma("Idadi: ");
+    int idadi = int::konverti(entrada_idadi);
     mostran(f"Para o ano terás {idadi + 1}.");
 }
 ```
 
-Se o utilizador escrever algo que não é um número, `int::konverti` falha com um erro como `'abc' não é um número inteiro válido`. Para voltar a pedir o valor, usa `sinon` num ciclo:
+Os espaços no início e no fim do texto são ignorados. Se quem usa o programa escrever algo que não é um número, o programa termina com uma mensagem como `programa.kriol:3: erro não tratado: 'abc' não é um número inteiro válido`.
+
+Para voltar a pedir o valor em vez de terminar, junta `sinon` e um valor de reserva, e repete a pergunta num ciclo:
 
 ```kriol
 fn inisiu() {
@@ -68,7 +70,9 @@ fn inisiu() {
 }
 ```
 
-O valor impossível `-1` marca "ainda não tenho resposta válida", e o ciclo repete-se até ter uma.
+`int::konverti(entrada_idadi) sinon -1` quer dizer: converte o texto e, se não for um número, usa `-1`. Como uma idade não pode ser `-1`, esse valor marca "ainda não tenho uma resposta válida", e o ciclo repete-se até ter uma.
+
+Mais detalhes sobre a conversão estão em [Conversão de Tipos](/linguagem/conversao-de-tipos/#texto-para-número-tkonverti), e sobre `sinon` e `tenta` em [Erros](/linguagem/erros/).
 
 ## Exemplos
 
@@ -93,12 +97,12 @@ fn inisiu() {
 ### Vários valores, um por linha
 
 ```kriol
-fn inisiu() : Erru {
-    textu entrada_a = tenta toma("Primeiro númeru: ");
-    num a = tenta num::konverti(entrada_a);
+fn inisiu() {
+    textu entrada_a = toma("Primeiro númeru: ");
+    num a = num::konverti(entrada_a);
 
-    textu entrada_b = tenta toma("Segundo númeru: ");
-    num b = tenta num::konverti(entrada_b);
+    textu entrada_b = toma("Segundo númeru: ");
+    num b = num::konverti(entrada_b);
 
     mostran(f"{a} + {b} = {a + b}");
 }
@@ -109,12 +113,12 @@ fn inisiu() : Erru {
 Quando o número de valores é conhecido, lê-os num `pa`:
 
 ```kriol title="soma.kriol"
-fn inisiu() : Erru {
+fn inisiu() {
     int total = 0;
 
     pa int i = 0; i < 3; i += 1 {
-        textu linha = tenta toma(f"Valor {i + 1}: ");
-        total += tenta int::konverti(linha);
+        textu linha = toma(f"Valor {i + 1}: ");
+        total += int::konverti(linha);
     }
 
     mostran(f"Total: {total}");
