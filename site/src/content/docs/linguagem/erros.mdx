@@ -70,7 +70,7 @@ lansa Erru{mensage = f"mês inválido: {m}"};
 
 Quem chama uma função que pode falhar pode tratar o erro de duas formas, descritas a seguir. Se não o tratar, **o erro não desaparece**: quando a função falhar, o programa termina nessa chamada com `programa.kriol:N: erro não tratado: mensagem`. O compilador avisa disso, mas continua a compilar.
 
-```kriol
+```kriol no-playground
 fn inisiu() {
     num x = metadi(1, 0);   // aviso: o erro de 'metadi' não é tratado
 }                           // em execução: programa.kriol:2: erro não tratado: divizon pa zero
@@ -122,7 +122,7 @@ A mesma palavra `sinon` serve de `else` num `si` e de valor por omissão numa ch
 
 `inisiu` também pode declarar `: Erru`. Se um erro chegar até ela sem ser tratado, o programa escreve `programa.kriol:N: erro não tratado: mensagem`, com a linha onde o erro saiu de `inisiu`, e termina com o código 1:
 
-```kriol
+```kriol no-playground
 fn inisiu() : Erru {
     num x = tenta metadi(1, 0);
 }

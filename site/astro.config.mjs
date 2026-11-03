@@ -4,6 +4,7 @@ import starlight from '@astrojs/starlight';
 import { readFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import { kriolDark, kriolLight } from './src/kriol-themes.mjs';
+import remarkPlaygroundLinks, { PLAYGROUND_URL } from './src/remark-playground-links.mjs';
 
 // The grammar comes from kriol-syntax, the single source of the language syntax.
 const kriolGrammar = JSON.parse(
@@ -14,6 +15,10 @@ kriolGrammar.aliases = ['kr', 'source.kriol'];
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://docs.kriol.dev',
+	markdown: {
+		// KRIOL_PLAYGROUND_URL points the links at another playground, such as a local one.
+		remarkPlugins: [[remarkPlaygroundLinks, { base: process.env.KRIOL_PLAYGROUND_URL ?? PLAYGROUND_URL }]],
+	},
 	integrations: [
 		starlight({
 			title: 'Kriol',

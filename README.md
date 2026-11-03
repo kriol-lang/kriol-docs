@@ -86,6 +86,29 @@ sintaxe da linguagem, e é carregada em `site/astro.config.mjs`. Blocos Markdown
 marcados como `kriol`, `kr` ou `source.kriol` usam essa gramática. Para mudar
 o realce, altera o kriol-syntax e atualiza a versão em `site/package.json`.
 
+## Abrir no playground
+
+Cada bloco `kriol` com uma função `inisiu` ganha, por baixo, a ligação «Abrir
+no playground», que abre o programa no [playground](https://play.kriol.dev) sem
+o copiar. O código vai na própria ligação (`#code=...`); o `title` do bloco, se
+houver, dá o nome ao ficheiro no editor.
+
+Um programa que não está completo sozinho, por exemplo porque usa uma função
+de um bloco anterior, não deve ter a ligação: marca-o com `no-playground`.
+
+````markdown
+```kriol no-playground
+fn inisiu() {
+    mostran(soma(2, 3));
+}
+```
+````
+
+A ligação é criada por `site/src/remark-playground-links.mjs`, testado com
+`npm test` dentro de `site/`. Para a apontar para um playground local, define
+`KRIOL_PLAYGROUND_URL`, por exemplo
+`KRIOL_PLAYGROUND_URL=http://localhost:3000/ npm run dev`.
+
 ## Licença
 
 MIT - Vê [LICENSE](../LICENSE) para detalhes
