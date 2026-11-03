@@ -35,7 +35,7 @@ mostran(x % 2.0);   // 1.5
 
 ### Divisão
 
-A divisão segue o C: entre dois inteiros é inteira e trunca em direção a zero; se um dos operandos for real, a divisão é real.
+Entre dois inteiros, a divisão é inteira: a parte decimal perde-se, por isso `7 / 2` dá `3` e `-7 / 2` dá `-3`. Se um dos operandos for real, a divisão é real.
 
 ```kriol
 int a = 7 / 2;       // 3
@@ -64,7 +64,7 @@ Entre inteiros com sinal, `MIN / -1` (por exemplo `i8` `-128 / -1`) também term
 
 ### Quando a conta transborda
 
-Ao contrário da divisão por zero, uma soma ou multiplicação que não caiba no tipo **não** para o programa: o valor dá a volta, como em C. Convém saber, porque o programa continua a correr com um número errado:
+Ao contrário da divisão por zero, uma soma ou multiplicação que não caiba no tipo **não** para o programa: o valor dá a volta. Convém saber, porque o programa continua a correr com um número errado:
 
 ```kriol
 u8 cheiu = 255;
@@ -123,7 +123,7 @@ mostran(a || b);   // sin
 mostran(!a);       // nau
 ```
 
-Tal como numa condição e como em C, os operadores lógicos também aceitam números: um número é verdadeiro quando não é zero. Assim, `!n` é `sin` quando `n == 0` e `nau` caso contrário. O resultado é sempre um `bool`.
+Tal como numa condição, os operadores lógicos também aceitam números: um número é verdadeiro quando não é zero. Assim, `!n` é `sin` quando `n == 0` e `nau` caso contrário. O resultado é sempre um `bool`.
 
 ```kriol
 int n = 0;
@@ -138,6 +138,8 @@ mostran(n && 3);   // nau
 Essa regra, a *avaliação em curto-circuito*, é o que torna seguro pôr a verificação e o uso na mesma condição: em `si i < 3 && v[i] > 0`, o `v[i]` nunca é lido quando `i` é 3 ou mais.
 
 ## Operadores de bits
+
+*Esta secção pode ficar para depois: os operadores de bits só fazem falta em programas que mexem nos bits de um número, como os que leem formatos de ficheiro ou falam com hardware.*
 
 Os operadores de bits atuam sobre cada bit de um inteiro, e só aceitam operandos inteiros (não aceitam `bool` nem números reais). Para valores lógicos usa `&&`, `||` e `!`.
 
@@ -199,7 +201,7 @@ num m = 10.0;
 m /= 4;    // m == 2.5
 ```
 
-Como em C, `x op= v` calcula `x op v` no tipo comum dos dois operandos e guarda o resultado no tipo de `x`. Assim, num inteiro, um valor real é truncado:
+`x op= v` calcula `x op v` no tipo comum dos dois operandos e guarda o resultado no tipo de `x`. Assim, num inteiro, um valor real é truncado:
 
 ```kriol
 int n = 9;

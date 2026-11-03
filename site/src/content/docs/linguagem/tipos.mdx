@@ -9,12 +9,12 @@ No Kriol, o tipo de cada variável fica fixo quando a declaras, e o compilador v
 
 ## Tipos primitivos
 
-| Tipo     | Equivalente C aproximado | Descrição                         | Exemplo             |
-|----------|---------------------------|-----------------------------------|---------------------|
-| `int`   | `int64_t`                 | Inteiro assinado de 64 bits       | `int x = 42;`      |
-| `num`    | `double`                  | Número de vírgula flutuante 64-bit| `num pi = 3.14;`    |
-| `bool`   | `bool`                    | Valor booleano (`sin` / `nau`)    | `bool ok = sin;`    |
-| `textu`  | `char*`                   | Cadeia de caracteres (string)     | `textu s = "oi";`   |
+| Tipo     | O que guarda                              | Exemplo             |
+|----------|-------------------------------------------|---------------------|
+| `int`    | Um número inteiro, positivo ou negativo   | `int x = 42;`       |
+| `num`    | Um número real, com casas decimais        | `num pi = 3.14;`    |
+| `bool`   | Verdadeiro (`sin`) ou falso (`nau`)       | `bool ok = sin;`    |
+| `textu`  | Um texto (uma *string*)                   | `textu s = "oi";`   |
 
 Também existem tipos numéricos primitivos explícitos para controlar largura e
 sinal quando isso é importante:
@@ -27,11 +27,17 @@ sinal quando isso é importante:
 
 `int` é equivalente a `i64`, e `num` é equivalente a `f64`. Os nomes `int` e `num` vêm de *interu* e *numeru*.
 
-Ao contrário do `int` do C, cuja largura depende da plataforma (tipicamente 32 bits), o `int` do Kriol tem **sempre 64 bits**. Para um inteiro de outra largura usa `i8`, `i16`, `i32`, `u8`, `u16`, `u32` ou `u64`; para números reais de 32 bits usa `f32`.
+O `int` do Kriol tem **sempre 64 bits**. Para um inteiro de outra largura usa `i8`, `i16`, `i32`, `u8`, `u16`, `u32` ou `u64`; para números reais de 32 bits usa `f32`.
 
 Se não tiveres uma razão concreta para escolher outro, usa `int` e `num`. Os tipos de largura fixa servem quando o tamanho em bits importa: ler um formato de ficheiro, falar com hardware, ou poupar memória num array grande.
 
+:::note[Para quem já programa]
+Em C, `int` corresponde ao `int64_t`, `num` ao `double`, `bool` ao `bool` e `textu` a um `char*`. Ao contrário do `int` do C, cuja largura depende da plataforma (tipicamente 32 bits), o `int` do Kriol tem sempre 64 bits.
+:::
+
 ### Intervalo de cada tipo inteiro
+
+*Esta tabela só interessa quando escolhes um tipo de largura fixa; com `int` e `num` raramente vais precisar dela.*
 
 Um valor que não caiba no tipo ou é recusado pelo compilador (se for um literal) ou dá a volta em execução, por isso vale saber os limites:
 
@@ -132,7 +138,7 @@ num y = x;   // ok, alargamento automático
 ```
 
 :::note
-Como em C, um real também passa automaticamente a inteiro, truncando (`int n = 3.9;` guarda `3`). Já um inteiro não passa automaticamente para um inteiro mais estreito (`int` → `u8`). Consulta a página [Conversão de Tipos](/linguagem/conversao-de-tipos/) para detalhes.
+Um real também passa automaticamente a inteiro, truncando (`int n = 3.9;` guarda `3`). Já um inteiro não passa automaticamente para um inteiro mais estreito (`int` → `u8`). Consulta a página [Conversão de Tipos](/linguagem/conversao-de-tipos/) para detalhes.
 :::
 
 ## Moldes definidos com `molda`

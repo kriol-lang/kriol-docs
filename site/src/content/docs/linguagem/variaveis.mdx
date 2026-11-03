@@ -81,6 +81,8 @@ Uma variável de topo é escrita e lida por qualquer função, o que torna mais 
 
 ## Tamanho das variáveis locais
 
+*Só precisas disto se declarares um array muito grande.*
+
 As variáveis declaradas dentro de uma função (e os parâmetros) ficam na pilha do programa, por isso cada uma pode ocupar no máximo **1 MiB** (1 048 576 bytes). Um valor maior, como um array grande, deve ser declarado fora das funções:
 
 ```kriol
