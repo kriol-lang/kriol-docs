@@ -3,7 +3,9 @@ title: Tipos de Dados
 description: Os tipos de dados primitivos disponíveis no Kriol.
 ---
 
-O Kriol é uma linguagem de **tipagem estática**. Cada variável tem um tipo definido em tempo de compilação que não pode mudar.
+Cada valor de um programa tem um **tipo**, que diz que espécie de valor é: um número inteiro (`int`), um número real, com casas decimais (`num`), um texto (`textu`) ou um verdadeiro ou falso (`bool`). O tipo decide o que podes fazer com o valor: somar dois números faz sentido, somar um número a um `bool` não.
+
+No Kriol, o tipo de cada variável fica fixo quando a declaras, e o compilador verifica os tipos antes de o programa correr. É a isto que se chama *tipagem estática*: se juntares tipos que não combinam, o erro aparece logo ao compilar, como `o operador '+' só funciona com números, mas recebeu valores dos tipos 'int' e 'bool'`.
 
 ## Tipos primitivos
 

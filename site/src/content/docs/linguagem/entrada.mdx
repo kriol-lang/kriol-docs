@@ -3,11 +3,11 @@ title: Entrada de Dados
 description: Leitura de input do utilizador no Kriol.
 ---
 
-## Conceito
+Muitos programas precisam de perguntar alguma coisa a quem os usa: um nome, uma idade, um número. É para isso que serve `toma`: escreve a pergunta que lhe deres, espera que a pessoa escreva uma linha e carregue em Enter, e devolve o que ela escreveu como `textu`.
 
-A função `toma` lê uma linha da entrada padrão (`stdin`) e devolve-a como `textu`. Pode receber uma mensagem, que é escrita antes da leitura para dizer ao utilizador o que escrever.
+`toma` está sempre disponível, sem precisares de nada para a usar. Por isso o nome é reservado: não o podes dar a uma variável ou função tua.
 
-`toma` é uma função embutida do prelúdio: está sempre disponível, mas o nome é reservado e não pode ser redefinido.
+Em termos técnicos, `toma` lê da *entrada padrão* (`stdin`), que normalmente é o teclado mas também pode ser um ficheiro (vê [Correr com um ficheiro em vez do teclado](#correr-com-um-ficheiro-em-vez-do-teclado)).
 
 ## Sintaxe
 
