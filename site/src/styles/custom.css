@@ -141,6 +141,29 @@ site-search button[data-open-modal] {
   box-shadow: 2px 2px 0 var(--kriol-ink-shadow);
 }
 
+/* «Abrir no playground», under each program; small, so the code stays the
+   main thing. */
+.sl-markdown-content p.playground-link {
+  margin-top: 0.4rem;
+  text-align: end;
+  font-size: var(--sl-text-sm);
+}
+
+.playground-link a {
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.playground-link a::before {
+  /* FE0E asks for the text form of the triangle, not the emoji. */
+  content: '\25B6\FE0E\00A0';
+  font-size: 0.8em;
+}
+
+.playground-link a:hover {
+  text-decoration: underline;
+}
+
 /* TBD badge styling */
 .tbh-badge {
   display: inline-block;
