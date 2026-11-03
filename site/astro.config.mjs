@@ -2,13 +2,13 @@
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import { readFileSync } from 'node:fs';
-import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import { kriolDark, kriolLight } from './src/kriol-themes.mjs';
 
+// The grammar comes from kriol-syntax, the single source of the language syntax.
 const kriolGrammar = JSON.parse(
-  readFileSync(fileURLToPath(new URL('./src/kriol.tmLanguage.json', import.meta.url)), 'utf-8')
+  readFileSync(createRequire(import.meta.url).resolve('kriol-syntax/kriol.tmLanguage.json'), 'utf-8')
 );
-kriolGrammar.name = 'kriol';
 kriolGrammar.aliases = ['kr', 'source.kriol'];
 
 // https://astro.build/config
