@@ -45,6 +45,7 @@ export default defineConfig({
 			components: {
 				SocialIcons: './src/components/SocialIcons.astro',
 			},
+			routeMiddleware: './src/route-data.ts',
 			expressiveCode: {
 				themes: [kriolDark, kriolLight],
 				shiki: {
@@ -55,6 +56,7 @@ export default defineConfig({
 				{
 					label: 'Introdução',
 					items: [
+						{ label: 'Início', link: '/' },
 						{ label: 'Sobre o Kriol', slug: 'introducao/sobre' },
 						{ label: 'Primeiros Passos', slug: 'introducao/primeiros-passos' },
 					],
