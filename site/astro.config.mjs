@@ -75,6 +75,7 @@ export default defineConfig({
 					items: [
 						{ label: 'Vocabulário', slug: 'referencia/vocabulario' },
 						{ label: 'Especificação Formal', slug: 'referencia/especificacao' },
+						{ label: 'Compilador', slug: 'referencia/compilador' },
 					],
 				},
 			],

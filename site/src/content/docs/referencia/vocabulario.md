@@ -157,4 +157,4 @@ Uma barra invertida seguida de outro carácter fica no texto tal como está.
 
 Não existem `++`, `--`, `<<`, `>>`, nem operador ternário `? :`.
 
-As opções do compilador estão em [Primeiros Passos](/introducao/primeiros-passos/#opções-do-compilador).
+As opções do compilador estão em [Compilador](/referencia/compilador/#opções-do-compilador).

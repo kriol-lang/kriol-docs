@@ -3,6 +3,8 @@ title: Primeiros Passos
 description: Como instalar e executar o teu primeiro programa Kriol.
 ---
 
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
 Esta página mostra como instalar o compilador do Kriol e como escrever, compilar e executar o primeiro programa. Se é a primeira vez que programas, basta leres até [Mensagens de erro](#mensagens-de-erro); o resto pode ficar para depois.
 
 :::tip[Ainda não queres instalar nada?]
@@ -13,15 +15,16 @@ O [playground](https://play.kriol.dev) corre programas Kriol no navegador: escre
 
 O Kriol funciona em **Linux** e **Windows** (x86_64) e em **macOS** nos Mac com Apple silicon (M1 ou mais recente). O suporte para Windows é experimental, e os Mac com processador Intel ainda não são suportados.
 
-Precisas ter:
-- No Linux, um compilador C (GCC ou Clang), usado para ligar os programas
-- No macOS, as Xcode Command Line Tools, que trazem o Clang usado para ligar os programas
-- No Windows, nada mais: o compilador já traz tudo o que precisa
-- Uma conexão à internet para a instalação
+Precisas de uma ligação à internet para a instalação; o que mais for preciso em cada sistema está indicado abaixo.
 
 ## Instalação
 
-### Linux
+Escolhe o teu sistema:
+
+<Tabs syncKey="sistema">
+<TabItem label="Linux">
+
+Precisas de um compilador C (GCC ou Clang), que o Kriol usa para ligar os programas.
 
 A forma mais fácil de instalar o Kriol é através do script de instalação:
 
@@ -41,9 +44,10 @@ Fecha e reabre o terminal, e verifica se funcionou:
 kriol --version
 ```
 
-### macOS
+</TabItem>
+<TabItem label="macOS">
 
-Se ainda não tens as Xcode Command Line Tools, instala-as primeiro. O Kriol usa o Clang que vem com elas para ligar os programas:
+Precisas das Xcode Command Line Tools. Se ainda não as tens, instala-as primeiro. O Kriol usa o Clang que vem com elas para ligar os programas:
 
 ```bash
 xcode-select --install
@@ -69,13 +73,14 @@ kriol --version
 
 No macOS, o Kriol compila apenas programas nativos: a compilação para WebAssembly (`--target wasm32-wasi`) ainda não está disponível.
 
-### Windows (experimental)
+</TabItem>
+<TabItem label="Windows (experimental)">
 
 :::caution[Suporte experimental]
 Os executáveis para Windows ainda não têm assinatura digital, por isso o Windows pode impedir que sejam executados. Se isso acontecer, vê [Se o Windows bloquear o kriol.exe](#se-o-windows-bloquear-o-kriolexe).
 :::
 
-No PowerShell, executa:
+Não precisas de mais nada: o compilador já traz tudo o que precisa. No PowerShell, executa:
 
 ```powershell
 & ([scriptblock]::Create((irm https://kriol.dev/install.ps1))) -Pre
@@ -89,7 +94,10 @@ kriol --version
 
 Também podes descarregar o ficheiro `kriol-<versão>-windows-x86_64.zip` da [página de versões](https://github.com/kriol-lang/kriol/releases) e usá-lo diretamente; mantém o `kriol.exe` e o `ld.lld.exe` na mesma pasta. Os programas compilados funcionam no Windows 7 e versões posteriores.
 
-#### Se o Windows bloquear o kriol.exe
+</TabItem>
+</Tabs>
+
+### Se o Windows bloquear o kriol.exe
 
 Como o `kriol.exe` e o `ld.lld.exe` não têm assinatura digital, ao executá-los podes ver um erro como *"Uma política de Controlo de Aplicações bloqueou este ficheiro"* (em inglês, *"An Application Control policy has blocked this file"*) ou um aviso do SmartScreen a dizer *"O Windows protegeu o seu PC"*. Isto vem das funcionalidades de segurança do Windows, não do Kriol. Para contornar:
 
@@ -107,14 +115,14 @@ Como o `kriol.exe` e o `ld.lld.exe` não têm assinatura digital, ao executá-lo
    wsl --install
    ```
 
-   Depois, no terminal do WSL (Ubuntu), instala um compilador C e o Kriol, como nas [instruções para Linux](#linux):
+   Depois, no terminal do WSL (Ubuntu), instala um compilador C e o Kriol, como no separador **Linux** acima, sem esquecer a linha do `PATH`:
 
    ```bash
    sudo apt update && sudo apt install -y gcc curl
    curl -fsSL https://kriol.dev/install.sh | sh -s -- --pre
    ```
 
-3. Caso contrário, por agora a única forma de contornar o Controlo Inteligente de Aplicações é desativá-lo no mesmo sítio. Em muitas versões do Windows 11 não é possível voltar a ativá-lo sem reinstalar o Windows, por isso pensa bem antes. Também podes [compilar o Kriol de origem](#compilar-de-origem-opcional).
+3. Caso contrário, por agora a única forma de contornar o Controlo Inteligente de Aplicações é desativá-lo no mesmo sítio. Em muitas versões do Windows 11 não é possível voltar a ativá-lo sem reinstalar o Windows, por isso pensa bem antes. Também podes [compilar o Kriol de origem](/referencia/compilador/#compilar-de-origem).
 
 4. Em computadores geridos por uma empresa ou escola, o bloqueio pode vir de uma política de TI. Pede ao administrador que autorize os ficheiros.
 
@@ -164,7 +172,7 @@ No Windows, o compilador acrescenta `.exe` ao nome, e o programa executa-se com 
 
 Se não indicares `-o`, o resultado fica em `./a.out` (o nome tradicional dos compiladores de C), o que é prático para experiências rápidas.
 
-Os programas são otimizados por omissão (nível 2). Podes escolher outro nível com `--opt-lvl <n>`, de `0` (sem otimização) a `3`.
+As outras opções do `kriol`, como o nível de otimização, estão em [Compilador](/referencia/compilador/).
 
 **Saída:**
 
@@ -238,34 +246,6 @@ fn inisiu() {
 
 Os ficheiros Kriol usam `.kriol` (preferida) ou `.kr` (abreviada). Com outra extensão, o compilador recusa o ficheiro e sugere `--ignore-extension`, que o aceita na mesma.
 
-## Opções do compilador
-
-Estas são as opções que o `kriol --help` lista. As três primeiras são as que vais usar no dia a dia:
-
-| Opção                   | Para que serve |
-|-------------------------|----------------|
-| `-o`, `--output FICH`   | Onde escrever o resultado (por omissão `./a.out`, ou `./a.wasm` para `wasm32-wasi`) |
-| `--opt-lvl N`           | Nível de otimização, de `0` (nenhuma) a `3`; por omissão `2` |
-| `--strict`              | Trata os avisos como erros de compilação; vê [Erros](/linguagem/erros/#avisos-e---strict) |
-| `--text CÓDIGO`         | Compila o código indicado em vez de um ficheiro |
-| `--target ALVO`         | `native` (por omissão) ou `wasm32-wasi`, para WebAssembly |
-| `--emit-ir`             | Escreve o IR do LLVM em vez do executável, no ecrã ou no ficheiro de `-o` |
-| `--ignore-extension`    | Aceita ficheiros sem a extensão `.kriol` ou `.kr` |
-| `-h`, `--help`          | Mostra a ajuda |
-| `-v`, `--version`       | Mostra a versão do compilador |
-
-Para testar uma ideia sem criar ficheiro nenhum, usa `--text`:
-
-```bash
-kriol --text 'fn inisiu() { mostran(1 + 2); }' -o soma && ./soma
-```
-
-O alvo `wasm32-wasi` produz um módulo WebAssembly em vez de um executável do sistema. É assim que o [playground](https://play.kriol.dev) corre Kriol dentro do navegador:
-
-```bash
-kriol ola-mundu.kriol --target wasm32-wasi -o ola-mundu.wasm
-```
-
 ## Exemplo: Fibonacci recursivo
 
 ```kriol title="fibonacci.kriol"
@@ -291,33 +271,3 @@ fn inisiu() {
 ```
 
 Neste exemplo, `konfirma` verifica uma condição em execução (vê [`konfirma`](/linguagem/controlo-de-fluxo/#konfirma-assert)), `[0; 10]` cria um array de 10 zeros (vê [Arrays](/linguagem/arrays/)) e `f"... {seq}"` é uma *f-string* (vê [Strings e Interpolação](/linguagem/strings/)).
-
-## Compilar de origem (opcional)
-
-Se quiseres compilar o compilador de origem, precisas de:
-
-- Clang, LLVM e LLD 20
-- bison e flex
-- cmake
-
-No Debian/Ubuntu:
-
-```bash
-apt install make flex bison clang-20 llvm-20 llvm-20-dev llvm-20-tools lld-20 zlib1g-dev libzstd-dev cmake wasi-libc libclang-rt-20-dev-wasm32
-```
-
-Obtém o código, incluindo o submódulo do coletor de lixo, e compila:
-
-```bash
-git clone --recursive https://github.com/kriol-lang/kriol
-cd kriol
-cmake -B build && cmake --build build
-```
-
-Executa:
-
-```bash
-./build/kriol --help
-```
-
-Para compilar no Windows, segue as instruções do `README.md` do [repositório](https://github.com/kriol-lang/kriol). Para mais exemplos, vê a pasta `examples/`.
