@@ -230,7 +230,7 @@ fn inisiu() {
 
 Podes declarar outras funções antes ou depois de `inisiu`. A ordem não importa para chamadas entre funções do mesmo ficheiro.
 
-A função `inisiu` não pode ter parâmetros nem declarar um tipo de retorno; o compilador recusa as duas coisas. Dentro dela, um `divolvi;` sem valor termina o programa com sucesso:
+A função `inisiu` não pode ter parâmetros nem devolver um valor; o compilador recusa as duas coisas. A única coisa que pode declarar é `: Erru`, para deixar um erro terminar o programa (vê [Erros](/linguagem/erros/#a-função-inisiu)). Dentro dela, um `divolvi;` sem valor termina o programa com sucesso:
 
 ```kriol
 fn inisiu() {
