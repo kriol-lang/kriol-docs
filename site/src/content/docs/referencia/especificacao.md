@@ -5,7 +5,7 @@ description: Gramática formal da linguagem KriolLang em forma BNF modificada.
 
 Esta especificação descreve a gramática da linguagem KriolLang usando uma forma modificada de **Backus-Naur Form (BNF)**.
 
-É a referência exacta da sintaxe, e pressupõe que já conheces as páginas de [A Linguagem](/linguagem/tipos/). Se estás a aprender, lê-as primeiro: aqui não há explicações, só regras.
+É a referência exata da sintaxe, e pressupõe que já conheces as páginas de [A Linguagem](/linguagem/tipos/). Se estás a aprender, lê-as primeiro: aqui não há explicações, só regras.
 
 Na notação, `<regra>` é um símbolo não terminal, `T_NOME` é um token produzido pelo analisador léxico, os caracteres entre `'` são literais, `|` separa alternativas e `λ` representa a ausência de conteúdo.
 
