@@ -120,6 +120,30 @@ pa int i = 0; i < 10 {
 
 A variável declarada na inicialização só existe dentro do ciclo. Se precisares do valor dela depois do ciclo, declara-a antes e usa `pa i = 0; ...` sem repetir o tipo.
 
+## Parênteses no cabeçalho
+
+O cabeçalho de `si`, `nkuantu` e `pa` pode ir entre parênteses, como em C ou Java. Com ou sem eles, o programa é o mesmo, por isso escolhe o estilo que preferires:
+
+```kriol
+fn inisiu() {
+    int x = 10;
+    si (x > 5) {
+        mostran("x é maior que 5");
+    }
+    nkuantu (x > 8) {
+        x -= 1;
+    }
+    pa (int i = 0; i < 3; i += 1) {
+        mostra(i);
+    }
+    mostran();
+}
+```
+
+No `pa`, os parênteses envolvem o cabeçalho inteiro, com as duas ou as três partes. O mesmo vale para um `si` que declara uma variável antes da condição: `si (int metade = x / 2; metade > 3) { ... }`. O `oops` de um [`spia`](/linguagem/erros/#apanhar-erros-spia-oops-e-sempri) também aceita o nome do erro com ou sem parênteses.
+
+As chavetas continuam obrigatórias, com ou sem parênteses.
+
 ## `kebra` (break)
 
 Termina o ciclo imediatamente:
@@ -179,11 +203,13 @@ sai(1);    // saída com erro
 
 Sem argumento, `sai()` é o mesmo que `sai(0)`. Por convenção, `0` significa que tudo correu bem e qualquer outro valor significa falha; é por este número que um script no terminal sabe se o teu programa funcionou.
 
-O `sai` termina o programa a partir de **qualquer** ponto, mesmo no fundo de várias funções, sem passar pelo resto do código.
+O código tem de estar entre `0` e `255`, porque o sistema só guarda esses valores: `sai(256)` terminaria com `0`, como se tudo tivesse corrido bem. Um número escrito fora desse intervalo é um erro de compilação, e um valor calculado fora dele termina o programa com um erro de execução.
+
+O `sai` termina o programa a partir de **qualquer** ponto, mesmo no fundo de várias funções, sem passar pelo resto do código. Nem um `spia` o apanha.
 
 ## `konfirma` (assert)
 
-Verifica uma condição em tempo de execução. Se a condição for falsa, o programa termina com erro:
+Verifica uma condição em tempo de execução. Se a condição for falsa, o programa termina com erro, a não ser que um [`spia`](/linguagem/erros/#apanhar-erros-spia-oops-e-sempri) o apanhe:
 
 ```kriol
 konfirma(x >= 0);         // falha se x < 0
@@ -204,7 +230,7 @@ Como numa condição de `si`, a expressão de `konfirma` pode ser um número, ve
 
 ## `paniku` (panic)
 
-Termina o programa de imediato com uma mensagem de erro e a linha onde foi chamado. Serve para situações que nunca deviam acontecer, isto é, bugs do programa:
+Termina o programa de imediato com uma mensagem de erro e a linha onde foi chamado, a não ser que um `spia` o apanhe. Serve para situações que nunca deviam acontecer, isto é, bugs do programa:
 
 ```kriol
 fn dia_da_semana(int n) textu {
@@ -227,4 +253,4 @@ As três formas de parar parecem-se, mas dizem coisas diferentes a quem lê o c�
 | `paniku`   | Chegaste a um ponto impossível, logo há um bug       | 1              |
 | `lansa`    | A falha era previsível e quem chamou deve decidir    | depende de quem trata |
 
-As três primeiras não se podem apanhar: o programa para ali. O `lansa` é diferente, e é o assunto da página [Erros](/linguagem/erros/).
+O `sai` não se pode apanhar: o programa para ali. `konfirma` e `paniku` também param o programa, a não ser que um `spia` os apanhe, e o `lansa` deixa a decisão a quem chamou. Os dois casos são o assunto da página [Erros](/linguagem/erros/).

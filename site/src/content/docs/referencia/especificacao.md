@@ -65,6 +65,7 @@ Um `T_STR_LIT` é delimitado por `"` ou `'`, e um `T_FSTR_LIT` começa por `f"` 
               | <molda_declaration>
               | <declaration>
               | <import_statement>
+              | <spia_statement>
 ```
 
 ## Importação
@@ -82,12 +83,14 @@ não está implementada na versão atual.
 ## Declaração de variáveis
 
 ```bnf
-<type_specifier> ::= T_TYPE_NUM
+<type_specifier> ::= <primitive_type>
+                   | T_TYPE_IDENT
+
+<primitive_type> ::= T_TYPE_NUM
                    | T_TYPE_INT
                    | T_TYPE_BOOL
                    | T_TYPE_TEXTU
                    | T_TYPE_PRIMITIVE
-                   | T_TYPE_IDENT
 
 <constant> ::= T_INT_LIT
              | T_FLOAT_LIT
@@ -263,20 +266,42 @@ não está implementada na versão atual.
 ## Seleção
 
 ```bnf
-<selection_statement> ::= T_SI <expression> <compound_statement>
-                        | T_SI <expression> <compound_statement> T_SINON <else_then>
+<selection_statement> ::= T_SI <if_header> <compound_statement>
+                        | T_SI <if_header> <compound_statement> T_SINON <else_then>
+
+<if_header> ::= <expression>
+              | <if_initializer> <expression>
+              | '(' <if_initializer> <expression> ')'
+
+<if_initializer> ::= <primitive_type> <declarator> '=' <initializer> ';'
+                   | <primitive_type> <array_dims> <declarator> '=' <initializer> ';'
 
 <else_then> ::= <compound_statement>
               | <selection_statement>
 ```
 
+A variável de `<if_initializer>` só existe dentro do `si` e dos seus ramos, e só pode ter um tipo primitivo.
+
 ## Iteração
 
 ```bnf
 <iteration_statement> ::= T_NKUANTU <expression> <compound_statement>
-                        | T_PA <expression> ';' <expression> ';' <expression> <compound_statement>
-                        | T_PA <expression> ';' <expression> <compound_statement>
+                        | T_PA <for_header> <compound_statement>
+                        | T_PA '(' <for_header> ')' <compound_statement>
+
+<for_header> ::= <for_initializer> ';' <expression> ';' <expression>
+               | <for_initializer> ';' <expression>
+
+<for_initializer> ::= <expression>
+                    | <type_specifier> <declarator> '=' <initializer>
+                    | <primitive_type> <array_dims> <declarator> '=' <initializer>
+                    | T_TYPE_IDENT <array_dims> <declarator> '=' <initializer>
 ```
+
+**Notas sobre os parênteses:**
+- O cabeçalho de `T_PA` pode ir entre parênteses, e o de `T_SI` também quando tem um `<if_initializer>`.
+- Um `(` a seguir a `T_SI` ou `T_NKUANTU` sem inicialização abre uma expressão entre parênteses, por isso `si (x > 0)` e `nkuantu (x > 0)` são a forma com parênteses dessas instruções.
+- Um `(` que abre uma expressão continua a ser uma expressão: em `pa (i) + 1 > 0; ...` e `si (int) x == 2 { }`, os parênteses fazem parte da inicialização e da condição.
 
 ## Salto
 
@@ -296,11 +321,24 @@ não está implementada na versão atual.
   `inisiu`, onde termina o programa com sucesso.
 - `paniku` e `sai` nunca regressam, por isso uma função com tipo de retorno não
   precisa de `divolvi` depois deles.
+- `divolvi`, `kebra` e `kontinua` não podem sair de um bloco `sempri`.
+
+## Tratamento de erros
+
+```bnf
+<spia_statement> ::= T_SPIA <compound_statement> <oops_clause>
+                   | T_SPIA <compound_statement> <oops_clause> T_SEMPRI <compound_statement>
+                   | T_SPIA <compound_statement> T_SEMPRI <compound_statement>
+
+<oops_clause> ::= T_OOPS T_IDENT <compound_statement>
+                | T_OOPS '(' T_IDENT ')' <compound_statement>
+```
 
 **Notas sobre erros:**
-- `Erru` é um molde predefinido (`molda Erru { textu mensage; }`) e é o único tipo aceite depois de `:` na assinatura de uma função. O nome é reservado e não pode ser redeclarado.
+- `Erru` é um molde predefinido (`molda Erru { textu mensagem; textu tipu; textu fixeru; int linha; }`) e é o único tipo aceite depois de `:` na assinatura de uma função. O nome é reservado e não pode ser redeclarado. Num literal de `Erru`, `tipu`, `fixeru` e `linha` podem faltar, e o compilador preenche-os.
+- O `T_IDENT` de `<oops_clause>` declara uma variável do tipo `Erru` que só existe no bloco do `oops`.
 - `T_SINON` como operador de valor por omissão tem a precedência mais baixa das expressões (acima da atribuição). O operando esquerdo, e o de `tenta`, tem de ser uma chamada a uma função que pode falhar.
-- A gramática aceita estas construções em qualquer sítio, e a análise semântica verifica onde são válidas: `tenta` e `lansa` só dentro de funções que declaram `: Erru`.
+- A gramática aceita estas construções em qualquer sítio, e a análise semântica verifica onde são válidas: `tenta` e `lansa` só dentro de funções que declaram `: Erru`, no corpo de um `spia` ou num `oops`, e nunca onde o erro sairia de um bloco `sempri`.
 
 ## Limites
 
@@ -310,7 +348,7 @@ O compilador impõe estes limites para que programas grandes falhem com uma mens
 |---|---|
 | Profundidade de uma expressão (operadores, chamadas, parênteses e inicializadores encadeados) | 256 níveis |
 | Elementos de uma dimensão de um array | 1 048 576 |
-| Tamanho de uma variável local ou parâmetro | 1 MiB |
+| Tamanho de uma variável local, de um parâmetro, de um valor devolvido ou de um array ou molde temporário | 1 MiB |
 | Aninhamento de blocos (`si`, `nkuantu`, `pa`, `{ }`) | cerca de 2 500 níveis |
 | Pilha dos programas compilados (Linux, Windows e WebAssembly) | 8 MiB |
 

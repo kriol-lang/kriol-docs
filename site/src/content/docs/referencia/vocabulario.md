@@ -38,6 +38,9 @@ Esta página é a tradução de tudo o que o Kriol reserva para si. A coluna *Ve
 | `divolvi`    | `return`         | Retornar valor         | *divolvi*, devolve |
 | `lansa`      | `throw`          | Falhar a função com um `Erru` | *lansa*, lança |
 | `tenta`      | `try` / `?`      | Passar adiante o erro de uma chamada | *tenta*, tenta |
+| `spia`       | `try`            | Corre um bloco e apanha os erros dele | *spia*, olha |
+| `oops`       | `catch`          | O bloco que trata o erro apanhado por `spia` | *oops*, interjeição |
+| `sempri`     | `finally`        | O bloco que corre sempre ao sair de `spia` | *sempri*, sempre |
 | `molda`      | `struct`         | Declara um molde       | *molda*, molde |
 | `inpristan`  | `#include`       | Importar módulo (reservado; ainda não implementado) | *inpristan*, empresta |
 
@@ -62,8 +65,11 @@ Estas funções são chamadas com sintaxe normal de função, mas os nomes são 
 
 | KriolLang          | Significado |
 |--------------------|-------------|
-| `Erru`             | O molde de erro embutido, `molda Erru { textu mensage; }`; o nome está reservado |
-| `mensage`          | O único campo de `Erru`, com a mensagem do erro |
+| `Erru`             | O molde de erro embutido, `molda Erru { textu mensagem; textu tipu; textu fixeru; int linha; }`; o nome está reservado |
+| `mensagem`         | O campo de `Erru` com a mensagem do erro |
+| `tipu`             | O campo de `Erru` com a espécie de erro, como `"lansa"`, `"divizon"` ou `"indisi"` |
+| `fixeru`           | O campo de `Erru` com o ficheiro onde o erro aconteceu |
+| `linha`            | O campo de `Erru` com a linha onde o erro aconteceu |
 | `tipo::konverti(t)` | Converte um `textu` num número ou `bool`; falha com `Erru` se o texto não servir |
 
 ## Palavras-chave planeadas
