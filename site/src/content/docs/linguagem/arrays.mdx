@@ -49,10 +49,10 @@ Os índices começam em `0`:
 
 ```kriol
 int[5] seq = [1, 2, 3, 4, 5];
-mostran(seq[0]);   // 1
-mostran(seq[4]);   // 5
+mostraln(seq[0]);   // 1
+mostraln(seq[4]);   // 5
 seq[2] = 99;
-mostran(seq[2]);   // 99
+mostraln(seq[2]);   // 99
 ```
 
 Num array de `N` elementos, o último índice válido é `N - 1`, e é por isso que um ciclo sobre um array se escreve `i < N` e não `i <= N`.
@@ -64,9 +64,9 @@ int[3] v = [1, 2, 3];
 int i = 1;
 u8 j = 2;
 
-mostran(v[i + 1]);   // 3
-mostran(v[j]);       // 3
-// mostran(v[1.0]);  // ERRO: o índice de um array tem de ser um número inteiro
+mostraln(v[i + 1]);   // 3
+mostraln(v[j]);       // 3
+// mostraln(v[1.0]);  // ERRO: o índice de um array tem de ser um número inteiro
 ```
 
 ### Índices fora dos limites
@@ -88,7 +88,7 @@ pa int i = 0; i < 10; i += 1 {
     seq[i] = i * i;
 }
 
-mostran(f"Quadrados: {seq}");
+mostraln(f"Quadrados: {seq}");
 ```
 
 O tamanho não se pode perguntar ao array: não há `seq.tamanho` nem `konta(seq)`. Como é fixo e conhecido na compilação, o costume é guardá-lo numa variável de topo, como `int tamanho = 10;`, e usá-la no ciclo. Note-se que o nome não pode ser `TAMANHO`: começar por maiúscula está reservado para moldes, por isso não há a convenção de constantes em maiúsculas de outras linguagens.
@@ -101,7 +101,7 @@ Um array pode ter várias dimensões. O primeiro tamanho é a dimensão de fora:
 int[2][3] m = [[1, 2, 3], [4, 5, 6]];
 int[3][2] zeros = [[0; 2]; 3];    // 3 linhas de [0, 0]
 
-mostran(m[1][2]);                 // 6
+mostraln(m[1][2]);                 // 6
 zeros[2][1] = 9;
 
 pa int i = 0; i < 2; i += 1 {
@@ -116,7 +116,7 @@ Cada linha é ela própria um array (`m[1]` é um `int[3]`), que se pode copiar,
 ```kriol
 m[0] = m[1];          // copia a linha 1 para a linha 0
 int[3] linha = m[1];  // uma cópia da linha
-mostran(m);           // [[4, 5, 6], [4, 5, 6]]
+mostraln(m);           // [[4, 5, 6], [4, 5, 6]]
 ```
 
 ## Arrays como valores
@@ -136,7 +136,7 @@ fn inisiu() {
     int[3] b = dobra(a);      // a continua [1, 2, 3]
     a = dobra(a);             // atribuição do array inteiro
     a = [a[2], a[1], a[0]];   // o novo valor é construído antes de ser guardado
-    mostran(dobra([5; 3])[2]); // 10
+    mostraln(dobra([5; 3])[2]); // 10
 }
 ```
 
@@ -146,18 +146,18 @@ Assim é fácil prever o que acontece, mas copiar um array grande a cada chamada
 Isto distingue o Kriol do C, onde um array passado a uma função é um ponteiro e a função altera o original.
 :::
 
-O tamanho faz parte do tipo, e os tipos têm de ser iguais: um `int[3]` só aceita outro `int[3]`, e não um `int[4]` nem um `u8[3]`. Um literal `[ ... ]` ou `[valor; N]` também pode ser usado diretamente como argumento, valor de `divolvi`, valor de uma atribuição ou valor depois de `sinon`, e recebe o tipo do destino.
+O tamanho faz parte do tipo, e os tipos têm de ser iguais: um `int[3]` só aceita outro `int[3]`, e não um `int[4]` nem um `u8[3]`. Um literal `[ ... ]` ou `[valor; N]` também pode ser usado diretamente como argumento, valor de `divolvi`, valor de uma atribuição ou valor depois de `sinau`, e recebe o tipo do destino.
 
 Para alterar um array de quem chama, devolve o novo valor e atribui-o, como em `a = dobra(a);`.
 
 ## Impressão de arrays
 
-Podes passar um array diretamente a `mostra` / `mostran` ou usá-lo numa f-string para imprimir todos os elementos:
+Podes passar um array diretamente a `mostra` / `mostraln` ou usá-lo numa f-string para imprimir todos os elementos:
 
 ```kriol
 int[3] a = [1, 2, 3];
-mostran(a);                    // [1, 2, 3]
-mostran(f"Array: {a}");        // Array: [1, 2, 3]
+mostraln(a);                    // [1, 2, 3]
+mostraln(f"Array: {a}");        // Array: [1, 2, 3]
 ```
 
 Os elementos aparecem entre `[ ]`, separados por vírgula e espaço, e cada um é escrito como se fosse impresso sozinho: um `num[2]` sai `[1.5, 2]`, um `bool[2]` sai `[sin, nau]` e um `int[2][2]` sai `[[1, 2], [3, 4]]`.
@@ -172,7 +172,7 @@ molda Pessoa {
 
 fn inisiu() {
     Pessoa pessoa = Pessoa{nomi = "jose", flags = [0, 1]};
-    mostran(f"Flags: {pessoa.flags}");   // Flags: [0, 1]
+    mostraln(f"Flags: {pessoa.flags}");   // Flags: [0, 1]
 }
 ```
 
@@ -200,8 +200,8 @@ fn inisiu() {
     pessoa.enderesus[0].rua = "medio";
     pessoa.enderesus[0].numero += 5;
 
-    mostran(pessoa.enderesus[0].rua);      // medio
-    mostran(pessoa.enderesus[0].numero);   // 15
+    mostraln(pessoa.enderesus[0].rua);      // medio
+    mostraln(pessoa.enderesus[0].numero);   // 15
 }
 ```
 
@@ -219,7 +219,7 @@ fn inisiu() {
 - Literais sem tipo explícito precisam de um contexto de array. Se o compilador
   não conseguir inferir o alvo, usa `(tipo[]) [...]`.
 - Arrays de valores de moldes podem ser usados, mas não podem ser impressos como
-  um todo com `mostra`, `mostran` ou f-strings; imprime campos individuais ou
+  um todo com `mostra`, `mostraln` ou f-strings; imprime campos individuais ou
   arrays de tipos primitivos.
 - Um array passado a uma função ou devolvido por ela é copiado, por isso o limite de **1 MiB** aplica-se também aos parâmetros e aos tipos de retorno.
 - Cada dimensão pode ter no máximo **1 048 576** elementos.

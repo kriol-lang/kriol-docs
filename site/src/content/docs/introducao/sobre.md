@@ -22,7 +22,7 @@ O Kriol é uma linguagem imperativa, de tipagem estática e compilada, com uma s
 O Criolo adapta-se bem à programação porque, tal como o inglês, se escreve quase sem acentos, e as palavras-chave de uma linguagem não podem ter acentos. Por exemplo:
 
 - Em português, `se/senão` teria de ser escrito `se/senao`, sem o acento
-- Em Criolo, `si/sinon` já se escreve assim, sem perder nada
+- Em Criolo, `si/sinau` já se escreve assim, sem perder nada
 
 ## As palavras lado a lado
 
@@ -33,11 +33,11 @@ Se já viste código noutra linguagem, esta tabela dá-te a tradução imediata.
 | `fn`       | `func`          | `def`      | Declara uma função             |
 | `inisiu`   | `main`          | *não tem*  | Onde o programa começa         |
 | `si`       | `if`            | `if`       | Decide                         |
-| `sinon`    | `else`          | `else`     | O caso contrário               |
+| `sinau`    | `else`          | `else`     | O caso contrário               |
 | `pa`       | `for`           | `for`      | Repete um número de vezes      |
 | `nkuantu`  | `while`         | `while`    | Repete enquanto for verdade    |
 | `divolvi`  | `return`        | `return`   | Devolve um valor               |
-| `mostran`  | `printf`        | `print`    | Escreve no ecrã                |
+| `mostraln`  | `printf`        | `print`    | Escreve no ecrã                |
 | `toma`     | `scanf`/`gets`  | `input`    | Lê uma linha escrita por quem usa |
 | `sin`/`nau`| `true`/`false`  | `True`/`False` | Verdadeiro e falso         |
 | `molda`    | `struct`        | `class`    | Agrupa campos num tipo novo    |
@@ -58,18 +58,18 @@ fn novu_pessoa(textu nomi, textu apelidu, int idadi) Pessoa {
 }
 
 fn mostra_pessoa(Pessoa p) {
-  mostran(f"{p.nomi} {p.apelidu} tem {p.idadi} anos de idade.");
+  mostraln(f"{p.nomi} {p.apelidu} tem {p.idadi} anos de idade.");
 }
 
 fn compara_idadi(Pessoa a, Pessoa b) {
   int diferensa = a.idadi - b.idadi;
 
   si diferensa == 0 {
-    mostran(f"{a.nomi} {a.apelidu} tem a mesma idade que {b.nomi} {b.apelidu}.");
-  } sinon si diferensa > 0 {
-    mostran(f"{a.nomi} {a.apelidu} é maior que {b.nomi} {b.apelidu} por {diferensa} anos.");
-  } sinon {
-    mostran(f"{a.nomi} {a.apelidu} é menor que {b.nomi} {b.apelidu} por {-diferensa} anos.");
+    mostraln(f"{a.nomi} {a.apelidu} tem a mesma idade que {b.nomi} {b.apelidu}.");
+  } sinau si diferensa > 0 {
+    mostraln(f"{a.nomi} {a.apelidu} é maior que {b.nomi} {b.apelidu} por {diferensa} anos.");
+  } sinau {
+    mostraln(f"{a.nomi} {a.apelidu} é menor que {b.nomi} {b.apelidu} por {-diferensa} anos.");
   }
 }
 
@@ -84,21 +84,21 @@ fn inisiu() {
     mostra_pessoa(pessoas[i]);
   }
 
-  mostran("-----------------");
-  mostran("[[ E tu? ]]");
+  mostraln("-----------------");
+  mostraln("[[ E tu? ]]");
 
   textu nomi = toma("-> Nome: ");
   textu apelidu = toma("-> Apelido: ");
   textu entrada_idadi = toma("-> Idade: ");
   int idadi = int::konverti(entrada_idadi);
 
-  mostran("-----------------");
+  mostraln("-----------------");
 
   Pessoa abo = novu_pessoa(nomi, apelidu, idadi);
 
   mostra_pessoa(abo);
 
-  mostran("-----------------");
+  mostraln("-----------------");
 
   pa int i = 0 ; i < 3 ; i += 1 {
     compara_idadi(abo, pessoas[i]);
@@ -113,16 +113,16 @@ A linguagem já suporta:
 - Variáveis tipadas (`int`, `num`, `textu`, `bool` e tipos primitivos explícitos como `i32`, `u64`, `f32`)
 - Variáveis no topo do ficheiro, partilhadas por todas as funções
 - Funções com retorno tipado, recursão e recursão mútua
-- Estruturas de controlo (`si/sinon`, `nkuantu`, `pa`)
+- Estruturas de controlo (`si/sinau`, `nkuantu`, `pa`)
 - Arrays de tamanho fixo, incluindo multidimensionais, passados e devolvidos por valor
 - Strings e interpolação com f-strings
 - Moldes (`molda`), com campos, literais, acesso com `.` e semântica de valor
-- Erros recuperáveis com `Erru`, `lansa`, `tenta` e `sinon`
+- Erros recuperáveis com `Erru`, `lansa`, `tenta` e `sinau`
 - Erros apanhados com `spia`, `oops` e `sempri`, incluindo os erros de execução
 - Conversão de texto para número com `tipo::konverti`
 - Conversões de tipos implícitas e explícitas, com *casts* no estilo do C
 - Operadores aritméticos, lógicos, relacionais e de bits (`&`, `|`, `^`, `~`)
-- Input/output (`mostra`, `mostran`, `toma`)
+- Input/output (`mostra`, `mostraln`, `toma`)
 - Compilação para executável nativo (Linux, Windows e macOS) e para WebAssembly (`wasm32-wasi`), que é o que faz o [playground](https://play.kriol.dev) funcionar
 
 ## Planos futuros

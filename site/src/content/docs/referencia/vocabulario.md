@@ -30,7 +30,7 @@ Esta página é a tradução de tudo o que o Kriol reserva para si. A coluna *Ve
 | `sin`        | `true` / `1`     | Verdadeiro             | *sin*, sim |
 | `nau`        | `false` / `0`    | Falso                  | *nau*, não |
 | `si`         | `if`             | Se (condicional)       | *si*, se   |
-| `sinon`      | `else`           | Senão                  | *sinon*, senão |
+| `sinau`      | `else`           | Senão                  | *sinau*, senão |
 | `pa`         | `for`            | Ciclo for              | *pa*, para |
 | `nkuantu`    | `while`          | Ciclo while            | *nkuantu*, enquanto |
 | `kebra`      | `break`          | Interromper ciclo      | *kebra*, quebra |
@@ -45,7 +45,7 @@ Esta página é a tradução de tudo o que o Kriol reserva para si. A coluna *Ve
 | `inpristan`  | `#include`       | Importar módulo (reservado; ainda não implementado) | *inpristan*, empresta |
 
 :::note
-`sinon` tem dois papéis: é o `else` de um `si`, e é o valor por omissão de uma chamada que pode falhar (`f() sinon 0`). O compilador distingue-os pelo sítio onde aparecem.
+`sinau` tem dois papéis: é o `else` de um `si`, e é o valor por omissão de uma chamada que pode falhar (`f() sinau 0`). O compilador distingue-os pelo sítio onde aparecem.
 :::
 
 ## Funções embutidas do prelúdio
@@ -53,11 +53,27 @@ Esta página é a tradução de tudo o que o Kriol reserva para si. A coluna *Ve
 | KriolLang    | C / Equivalente  | Significado            | Vem de     |
 |--------------|------------------|------------------------|------------|
 | `mostra`     | `printf`         | Imprimir sem newline, com um ou mais valores | *mostra* |
-| `mostran`    | `printf + \n`    | Imprimir com newline, com zero ou mais valores | *mostra* + *n* de nova linha |
+| `mostraln`   | `printf + \n`    | Imprimir com newline, com zero ou mais valores | *mostra* + *ln*, de *linha nova* |
 | `toma`       | `stdin`          | Ler uma linha como `textu` (pode falhar com `Erru`) | *toma*, recebe |
 | `sai`        | `exit()`         | Terminar programa (sem argumento, com código 0) | *sai* |
 | `konfirma`   | `assert()`       | Verificar condição (com mensagem opcional) | *konfirma* |
 | `paniku`     | `panic()`        | Terminar com uma mensagem de erro | *pâniku*, pânico |
+
+## Nomes antigos
+
+Duas palavras mudaram de nome. Os nomes antigos ainda compilam, mas o compilador avisa em cada sítio onde aparecem e diz qual é o novo:
+
+| Nome antigo | Nome novo  | Porquê |
+|-------------|------------|--------|
+| `sinon`     | `sinau`    | *sinau* reconhece-se mais facilmente de ilha para ilha |
+| `mostran`   | `mostraln` | Em Criolo, *mostran* lê-se "mostra-me"; *ln* lembra *linha nova* |
+
+```
+programa.kriol:4: aviso: 'sinon' está obsoleto; usa 'sinau'
+programa.kriol:5: aviso: 'mostran' está obsoleto; usa 'mostraln'
+```
+
+Com `--strict`, estes avisos passam a ser erros. Os nomes antigos continuam reservados enquanto o compilador os aceitar, por isso não os podes usar como nomes de variáveis ou funções.
 
 Estas funções são chamadas com sintaxe normal de função, mas os nomes são reservados e não podem ser redefinidos.
 
@@ -159,7 +175,7 @@ Uma barra invertida seguida de outro carácter fica no texto tal como está.
 | `.`      | Acesso          | Campo de um valor de molde |
 | `[ ]`    | Acesso          | Elemento de um array  |
 | `::`     | Qualificação    | Função associada a um tipo, como `int::konverti` |
-| `sinon`  | Erros           | Valor por omissão de uma chamada que pode falhar |
+| `sinau`  | Erros           | Valor por omissão de uma chamada que pode falhar |
 
 Não existem `++`, `--`, `<<`, `>>`, nem operador ternário `? :`.
 
