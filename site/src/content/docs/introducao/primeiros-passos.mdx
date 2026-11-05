@@ -132,7 +132,7 @@ Cria um ficheiro chamado `ola-mundu.kriol`:
 
 ```kriol title="ola-mundu.kriol"
 fn inisiu() {
-    mostran("Kualeh, Mundu!");
+    mostraln("Kualeh, Mundu!");
 }
 ```
 
@@ -150,7 +150,7 @@ Se é a primeira vez que vês código, vale a pena ler este programa palavra a p
 | `inisiu`           | o nome da função; é este nome que o Kriol procura para começar |
 | `()`               | a lista de parâmetros, aqui vazia: `inisiu` não recebe nada |
 | `{` … `}`          | o corpo da função, tudo o que ela faz |
-| `mostran(...)`     | escreve no ecrã e muda de linha no fim |
+| `mostraln(...)`     | escreve no ecrã e muda de linha no fim |
 | `"Kualeh, Mundu!"` | o texto a escrever, entre aspas |
 | `;`                | fim da instrução; todas as instruções terminam com ponto e vírgula |
 
@@ -192,7 +192,7 @@ fn inisiu() {
        útil para explicar um bloco inteiro
        ou para desligar código temporariamente. */
 
-    mostran("Kualeh!");   // também pode vir depois de código
+    mostraln("Kualeh!");   // também pode vir depois de código
 }
 ```
 
@@ -235,10 +235,10 @@ A função `inisiu` não pode ter parâmetros nem devolver um valor; o compilado
 ```kriol
 fn inisiu() {
     si nau {
-        mostran("isto não acontece");
+        mostraln("isto não acontece");
         divolvi;              // sai de inisiu, com sucesso
     }
-    mostran("fim");
+    mostraln("fim");
 }
 ```
 
@@ -254,7 +254,7 @@ fn fibo(int n) int {
 
     si n <= 1 {
         divolvi 1;
-    } sinon {
+    } sinau {
         divolvi fibo(n - 1) + fibo(n - 2);
     }
 }
@@ -266,7 +266,7 @@ fn inisiu() {
         seq[i] = fibo(i);
     }
 
-    mostran(f"A sequência de Fibonacci até o 10º elemento é {seq}");
+    mostraln(f"A sequência de Fibonacci até o 10º elemento é {seq}");
 }
 ```
 

@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import remarkPlaygroundLinks, { isRunnable, playgroundUrl } from './remark-playground-links.mjs';
 
-const PROGRAM = 'fn inisiu() {\n    mostran("Olá, mundu! ✓");\n}';
+const PROGRAM = 'fn inisiu() {\n    mostraln("Olá, mundu! ✓");\n}';
 
 function code(value, meta = null, lang = 'kriol') {
   return { type: 'code', lang, meta, value };
