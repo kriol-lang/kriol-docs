@@ -7,7 +7,7 @@ import YouTubeVideo from '../../components/YouTubeVideo.astro';
 
 ## O que é o Kriol?
 
-O **Kriol** (ou **KriolLang**) é uma linguagem de programação que usa palavras do Criolo cabo-verdiano. Onde outras linguagens escrevem, em inglês, `if`, `else` e `print`, o Kriol escreve `si`, `sinon` e `mostran`.
+O **Kriol** (ou **KriolLang**) é uma linguagem de programação que usa palavras do Criolo cabo-verdiano. Onde outras linguagens escrevem, em inglês, `if`, `else` e `print`, o Kriol escreve `si`, `sinau` e `mostraln`.
 
 Foi criada para que quem fala Criolo possa aprender a programar na sua própria língua.
 
@@ -20,11 +20,11 @@ fn inisiu() {
     int idadi = 16;
 
     // `si` decide: se a condição for verdadeira, corre o primeiro bloco;
-    // senão (`sinon`), corre o segundo.
+    // senão (`sinau`), corre o segundo.
     si idadi >= 18 {
-        mostran("Já és maior de idade.");
-    } sinon {
-        mostran(f"Ainda tens {idadi} anos: faltam {18 - idadi} para a maioridade.");
+        mostraln("Já és maior de idade.");
+    } sinau {
+        mostraln(f"Ainda tens {idadi} anos: faltam {18 - idadi} para a maioridade.");
     }
 }
 ```

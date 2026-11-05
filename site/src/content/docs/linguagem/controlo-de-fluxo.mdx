@@ -5,12 +5,12 @@ description: Condicionais, ciclos, break, continue e outras instruções de salt
 
 Um programa corre de cima para baixo, uma instrução de cada vez. O controlo de fluxo muda essa ordem: `si` decide se um bloco corre ou não, e `nkuantu` e `pa` repetem um bloco várias vezes. O resto da página mostra como sair de um ciclo, ou do programa, mais cedo.
 
-## Condicional `si` / `sinon`
+## Condicional `si` / `sinau`
 
 ```kriol
 si <condição> {
     // bloco verdadeiro
-} sinon {
+} sinau {
     // bloco falso (opcional)
 }
 ```
@@ -19,9 +19,9 @@ si <condição> {
 int x = 10;
 
 si x > 5 {
-    mostran("x é maior que 5");
-} sinon {
-    mostran("x é 5 ou menos");
+    mostraln("x é maior que 5");
+} sinau {
+    mostraln("x é 5 ou menos");
 }
 ```
 
@@ -31,19 +31,19 @@ A condição tem de ser um `bool` ou um número. Um número conta como verdadeir
 int n = 3;
 
 si n {                       // o mesmo que si n != 0
-    mostran("não é zero");
+    mostraln("não é zero");
 }
 ```
 
-### `sinon si` (else if)
+### `sinau si` (else if)
 
 ```kriol
 si x > 100 {
-    mostran("grande");
-} sinon si x > 10 {
-    mostran("médio");
-} sinon {
-    mostran("pequeno");
+    mostraln("grande");
+} sinau si x > 10 {
+    mostraln("médio");
+} sinau {
+    mostraln("pequeno");
 }
 ```
 
@@ -54,7 +54,7 @@ As chavetas `{ }` são **sempre obrigatórias**, mesmo para blocos de uma só in
 :::
 
 :::note[Não há `switch`]
-O Kriol ainda não tem `switch`, `case` nem `match`. Para escolher entre vários valores, usa uma cadeia de `sinon si`.
+O Kriol ainda não tem `switch`, `case` nem `match`. Para escolher entre vários valores, usa uma cadeia de `sinau si`.
 :::
 
 ## Ciclo `nkuantu` (while)
@@ -70,7 +70,7 @@ nkuantu <condição> {
 ```kriol
 int i = 0;
 nkuantu i < 5 {
-    mostran(i);
+    mostraln(i);
     i += 1;
 }
 ```
@@ -89,7 +89,7 @@ nkuantu sin {
         kebra;
     }
 }
-mostran(i);   // 3
+mostraln(i);   // 3
 ```
 
 ## Ciclo `pa` (for)
@@ -128,7 +128,7 @@ O cabeçalho de `si`, `nkuantu` e `pa` pode ir entre parênteses, como em C ou J
 fn inisiu() {
     int x = 10;
     si (x > 5) {
-        mostran("x é maior que 5");
+        mostraln("x é maior que 5");
     }
     nkuantu (x > 8) {
         x -= 1;
@@ -136,7 +136,7 @@ fn inisiu() {
     pa (int i = 0; i < 3; i += 1) {
         mostra(i);
     }
-    mostran();
+    mostraln();
 }
 ```
 
@@ -154,7 +154,7 @@ nkuantu i < 100 {
     si i == 5 {
         kebra;
     }
-    mostran(i);
+    mostraln(i);
     i += 1;
 }
 // imprime 0, 1, 2, 3, 4
@@ -169,7 +169,7 @@ pa int i = 0; i < 10; i += 1 {
     si i == 5 {
         kontinua;
     }
-    mostran(i);
+    mostraln(i);
 }
 // imprime 0, 1, 2, 3, 4, 6, 7, 8, 9
 ```

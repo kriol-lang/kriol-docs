@@ -99,7 +99,7 @@ de um bloco anterior, não deve ter a ligação: marca-o com `no-playground`.
 ````markdown
 ```kriol no-playground
 fn inisiu() {
-    mostran(soma(2, 3));
+    mostraln(soma(2, 3));
 }
 ```
 ````
