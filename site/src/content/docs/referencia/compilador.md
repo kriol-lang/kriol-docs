@@ -33,6 +33,8 @@ O alvo `wasm32-wasi` produz um módulo WebAssembly em vez de um executável do s
 kriol programa.kriol --target wasm32-wasi -o programa.wasm
 ```
 
+Um módulo que use `spia` precisa de um ambiente com tratamento de exceções de WebAssembly, que as versões atuais dos navegadores e do Node.js já têm.
+
 ## Compilar de origem
 
 Se quiseres compilar o compilador de origem, precisas de:

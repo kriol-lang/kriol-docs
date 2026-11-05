@@ -68,16 +68,19 @@ Top-level variables: a declaration outside any function is visible to the functi
 - si/sinon: if/else
 - nkuantu: while loop
 - pa: for loop, `pa int i = 0; i < 10; i += 1 { }`; the step is optional (`pa int i = 0; i < 10 { }`)
+- Headers of si, nkuantu and pa may be wrapped in parentheses: `si (x > 0) { }`, `pa (int i = 0; i < 10; i += 1) { }`, `si (int y = f(); y > 0) { }`; braces are always required
 - divolvi: return
 - mostra/mostran: print without/with newline; both take any number of arguments, written one after another with no separator, and `mostran()` with none prints an empty line
 - toma: read one line from stdin as textu; it stops the program if the input ends, unless handled: `tenta toma()` in a function declared `: Erru`, or `toma() sinon "default"`
 - kebra: break
 - kontinua: continue; both kebra and kontinua affect only the innermost loop
-- sai: exit; `sai()` without an argument exits with code 0
+- sai: exit; `sai()` without an argument exits with code 0; the code must be 0 to 255
 - konfirma: assert, with an optional message: konfirma(cond, "message")
 - paniku: abort the program with a message: paniku("message")
 - molda: struct; literal `Pessoa{nomi = "Ana", idadi = 30}`, fields read and written with `.`
-- Recoverable errors: `fn f() int : Erru`, `lansa Erru{mensage = "..."};`, `tenta f()` (propagate), `f() sinon value` (default). An unhandled error stops the program at the call, with a warning at compile time; `kriol --strict` turns warnings into errors
+- Recoverable errors: `fn f() int : Erru`, `lansa Erru{mensagem = "..."};`, `tenta f()` (propagate), `f() sinon value` (default). An unhandled error stops the program at the call, with a warning at compile time; `kriol --strict` turns warnings into errors
+- Erru: `molda Erru { textu mensagem; textu tipu; textu fixeru; int linha; }`; a literal needs only `mensagem`, the compiler fills the rest
+- spia/oops/sempri: try/catch/finally, `spia { } oops (err) { } sempri { }` (`oops err` also works). oops catches lansa, errors of calls at any depth, failed toma/konverti and runtime errors (division by zero, index out of bounds, konfirma, paniku); `err.tipu` says which. `lansa err;` in oops rethrows. sempri runs on every exit, including divolvi, kebra and kontinua; nothing may leave it early, and an error inside it that it does not catch stops the program. sai and out-of-memory are never caught
 
 ## Documentation Structure
 
@@ -107,6 +110,7 @@ Currently supported:
 - String interpolation (f-strings)
 - Structures (molda): fields, literals, `.` access, value semantics
 - Recoverable errors (Erru, lansa, tenta, sinon) and text-to-number conversion
+- Catching errors, runtime errors included (spia, oops, sempri)
 - Input/output (mostra, mostran, toma)
 - Native targets (Linux, Windows, macOS) and wasm32-wasi
 

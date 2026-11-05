@@ -1,20 +1,20 @@
 ---
 title: Erros
-description: Erros de execução no Kriol, e como declarar, lançar e tratar erros recuperáveis.
+description: Erros de execução no Kriol, e como declarar, lançar, tratar e apanhar erros com spia, oops e sempri.
 ---
 
 O Kriol distingue duas espécies de erros de execução:
 
-- **Bugs do programa**, como um índice fora dos limites, um resto por zero ou uma condição de `konfirma` falsa. Terminam o programa de imediato com um erro de execução.
+- **Bugs do programa**, como um índice fora dos limites, um resto por zero ou uma condição de `konfirma` falsa. Terminam o programa de imediato com um erro de execução, a não ser que um [`spia`](#apanhar-erros-spia-oops-e-sempri) os apanhe.
 - **Falhas esperadas**, como uma entrada inválida ou um ficheiro que não existe. A função que falha **declara** que pode falhar, e quem a chama **decide** o que fazer.
 
 A diferença é de intenção. Um bug é uma coisa que tu fizeste mal, e não há nada de útil a fazer em execução a não ser parar e mostrar onde. Uma falha esperada vem de fora do programa, e um programa bem feito tem uma resposta para ela.
 
 | Situação | Espécie | O que o Kriol faz |
 |---|---|---|
-| Índice de array fora dos limites | Bug | Termina o programa |
-| Divisão ou resto por zero | Bug | Termina o programa |
-| `konfirma` falso, ou `paniku` | Bug | Termina o programa |
+| Índice de array fora dos limites | Bug | Termina o programa, ou vai para o `oops` de um `spia` |
+| Divisão ou resto por zero | Bug | Termina o programa, ou vai para o `oops` de um `spia` |
+| `konfirma` falso, ou `paniku` | Bug | Termina o programa, ou vai para o `oops` de um `spia` |
 | Texto que não é um número em `int::konverti` | Falha esperada | Devolve um `Erru` a quem chamou |
 | Entrada que acabou, em `toma` | Falha esperada | Devolve um `Erru` a quem chamou |
 | `lansa` numa função tua com `: Erru` | Falha esperada | Devolve um `Erru` a quem chamou |
@@ -37,18 +37,23 @@ Um erro de execução escreve `programa.kriol:N: erro de execução: mensagem`, 
 
 `Erru` é um molde que já existe em todos os programas:
 
-```kriol
+```kriol no-playground
 molda Erru {
-    textu mensage;
+    textu mensagem;   // o que correu mal
+    textu tipu;       // que espécie de erro é, como "lansa" ou "divizon"
+    textu fixeru;     // o ficheiro onde o erro aconteceu
+    int linha;        // a linha onde o erro aconteceu
 }
 ```
+
+Ao criar um `Erru` só precisas de dar a `mensagem`: o compilador preenche `tipu` com `"lansa"`, e `fixeru` e `linha` com o sítio onde o escreveste. Estes campos servem para quando [apanhas o erro](#apanhar-erros-spia-oops-e-sempri).
 
 Uma função que pode falhar declara-o a seguir ao tipo de retorno, depois de `:`:
 
 ```kriol
 fn metadi(int a, int b) num : Erru {
     si b == 0 {
-        lansa Erru{mensage = "divizon pa zero"};
+        lansa Erru{mensagem = "divizon pa zero"};
     }
     divolvi (num) a / b;
 }
@@ -56,19 +61,19 @@ fn metadi(int a, int b) num : Erru {
 
 - `fn nome() int : Erru` devolve um `int` ou falha com um `Erru`.
 - `fn nome() : Erru` não devolve valor, mas pode falhar.
-- `lansa <erru>;` falha a função de imediato. Só pode ser usado numa função que declare `: Erru`.
+- `lansa <erru>;` falha a função de imediato. Só pode ser usado numa função que declare `: Erru`, ou dentro de um `spia`.
 - Por agora `Erru` é o único tipo de erro aceite depois de `:`.
 - `Erru` é um nome reservado: um programa não pode declarar outro `molda Erru`.
 
 A mensagem é texto livre, e pode ser uma f-string, o que é a forma de incluir o valor que causou a falha:
 
 ```kriol
-lansa Erru{mensage = f"mês inválido: {m}"};
+lansa Erru{mensagem = f"mês inválido: {m}"};
 ```
 
 ## Tratar uma falha
 
-Quem chama uma função que pode falhar pode tratar o erro de duas formas, descritas a seguir. Se não o tratar, **o erro não desaparece**: quando a função falhar, o programa termina nessa chamada com `programa.kriol:N: erro não tratado: mensagem`. O compilador avisa disso, mas continua a compilar.
+Quem chama uma função que pode falhar pode tratar o erro com `tenta` ou `sinon`, descritos a seguir, ou apanhá-lo com [`spia`](#apanhar-erros-spia-oops-e-sempri). Se não o tratar, **o erro não desaparece**: quando a função falhar, o programa termina nessa chamada com `programa.kriol:N: erro não tratado: mensagem`. O compilador avisa disso, mas continua a compilar.
 
 ```kriol no-playground
 fn inisiu() {
@@ -85,7 +90,7 @@ Para o compilador tratar os avisos como erros, compila com `--strict`.
 ```kriol
 fn valida(int n) : Erru {
     si n < 0 {
-        lansa Erru{mensage = f"negativu: {n}"};
+        lansa Erru{mensagem = f"negativu: {n}"};
     }
 }
 
@@ -116,7 +121,101 @@ A mesma palavra `sinon` serve de `else` num `si` e de valor por omissão numa ch
 |---|---|
 | Continuar com um valor razoável | `chamada sinon valor` |
 | Desistir e deixar quem chamou decidir | `tenta chamada` |
+| Tratar o erro aqui, sabendo qual foi | `spia { } oops (err) { }` |
 | Parar o programa aqui, porque a falha não devia acontecer | não trates, ou converte num `paniku` |
+
+## Apanhar erros: `spia`, `oops` e `sempri`
+
+`spia` corre um bloco e, se alguma coisa nele falhar, salta para o bloco `oops`, em vez de terminar o programa ou de devolver o erro a quem chamou. Depois do `oops`, o programa continua a seguir ao `spia`. O bloco `sempri`, opcional, corre no fim, tenha havido erro ou não:
+
+```kriol
+fn inisiu() {
+    textu entrada = toma("Screbi un númeru interu: ");
+    spia {
+        int numeru = int::konverti(entrada);
+        mostran(f"100 / {numeru} = {100 / numeru}");
+    } oops (err) {
+        mostran(f"Erru ({err.tipu}): {err.mensagem}");
+    } sempri {
+        mostran("Fin.");
+    }
+}
+```
+
+Com a entrada `0`, a divisão falha e o programa escreve `Erru (divizon): divisão por zero` e depois `Fin.`. Com um texto que não é um número, quem falha é `int::konverti`, e o `tipu` é `"konverti"`.
+
+`err` é um `Erru` como outro qualquer, e só existe dentro do `oops`. Os parênteses à volta do nome são opcionais: `oops err { }` é o mesmo que `oops (err) { }`.
+
+### O que o `oops` apanha
+
+Tudo o que falhar dentro do corpo do `spia`, mesmo que venha de uma função chamada várias funções abaixo:
+
+| Erro | `err.tipu` |
+|---|---|
+| `lansa`, no `spia` ou numa função que não trata o erro | `"lansa"`, ou o que deste ao campo |
+| `toma` sem entrada para ler | `"toma"` |
+| `tipo::konverti` com um texto que não serve | `"konverti"` |
+| Divisão ou resto por zero, ou um resultado que não cabe no tipo | `"divizon"` |
+| Índice de array fora dos limites | `"indisi"` |
+| `konfirma` falso | `"konfirma"` |
+| `paniku` | `"paniku"` |
+
+`err.fixeru` e `err.linha` dizem onde o erro aconteceu: a linha do `lansa`, da divisão ou do índice, e não a do `spia`.
+
+Há duas coisas que nenhum `spia` apanha: `sai(n)`, que termina o programa de propósito, e a falta de memória.
+
+Dentro do corpo de um `spia`, uma chamada a uma função que pode falhar não gera aviso, porque o erro tem para onde ir, e `lansa` pode ser usado mesmo numa função que não declare `: Erru`.
+
+### Passar o erro adiante
+
+`lansa err;` dentro do `oops` volta a lançar o erro apanhado, depois de fazeres o que precisavas com ele. O erro segue para o `spia` à volta, se houver, para quem chamou, se a função declarar `: Erru`, ou termina o programa:
+
+```kriol
+fn le_idadi() int : Erru {
+    spia {
+        divolvi int::konverti(toma("Idadi: "));
+    } oops (err) {
+        mostran(f"não consegui ler a idade ({err.tipu})");
+        lansa err;
+    }
+}
+```
+
+### `sempri`
+
+O `sempri` corre sempre que o programa sai do `spia`: no fim normal do corpo, depois do `oops`, num `divolvi`, `kebra` ou `kontinua`, e quando um erro sai do `spia` sem ser tratado. É o sítio para o que tem de acontecer de qualquer maneira:
+
+```kriol
+fn le(int[3] valores, int i) int {
+    spia {
+        divolvi valores[i];
+    } oops (err) {
+        mostran(f"índice inválido: {i}");
+        divolvi -1;
+    } sempri {
+        mostran("leitura terminada");
+    }
+}
+
+fn inisiu() {
+    int[3] valores = [10, 20, 30];
+    mostran(le(valores, 1));   // leitura terminada, depois 20
+    mostran(le(valores, 5));   // índice inválido: 5, leitura terminada, depois -1
+}
+```
+
+Num `divolvi`, o valor é calculado antes de o `sempri` correr.
+
+Um `spia` pode ter só o `sempri`, sem `oops`. Nesse caso nenhum erro é tratado: o `sempri` corre, e o erro continua o seu caminho como se o `spia` não existisse.
+
+O `sempri` corre sempre até ao fim, por isso não pode sair mais cedo:
+
+- `divolvi`, `kebra`, `kontinua`, `lansa` e `tenta` que saiam do `sempri` são erros de compilação: *'lansa' não pode sair de um bloco 'sempri', que corre sempre até ao fim*.
+- Um erro que aconteça dentro do `sempri` e não seja apanhado lá dentro, por um `spia` também dentro do `sempri`, termina o programa, mesmo que haja um `spia` à volta. Assim, um erro do `sempri` nunca esconde o erro que o `spia` estava a passar adiante.
+
+:::note
+Um programa compilado para WebAssembly (`--target wasm32-wasi`) que use `spia` precisa de um ambiente com tratamento de exceções de WebAssembly, que as versões atuais dos navegadores e do Node.js já têm. Os programas sem `spia` não mudam.
+:::
 
 ## A função `inisiu`
 
@@ -132,7 +231,7 @@ fn inisiu() : Erru {
 
 ## Avisos e `--strict`
 
-Ignorar o erro de uma função **declarada por ti** com `: Erru` gera um aviso:
+Ignorar o erro de uma função **declarada por ti** com `: Erru`, fora do corpo de um `spia`, gera um aviso:
 
 ```
 programa.kriol:9: aviso: o erro de 'metadi' não é tratado, por isso o programa
@@ -152,13 +251,14 @@ Usa `--strict` em projetos e na integração contínua para garantir que nenhum 
 
 ## Regras
 
-- Um erro não tratado termina o programa na chamada que falhou; só `tenta` e `sinon` o tratam.
+- Um erro não tratado termina o programa na chamada que falhou; só `tenta`, `sinon` e `spia` o tratam.
 - `tenta` e `sinon` só se aplicam a chamadas de funções que podem falhar.
-- `tenta` só pode ser usado dentro de uma função que declare `: Erru`.
+- `tenta` só pode ser usado dentro de uma função que declare `: Erru`, ou dentro de um `spia`.
 - `sinon` não se aplica a funções que não devolvem valor.
 - `Erru` não pode ser redeclarado.
 - O tipo de uma chamada que pode falhar não se pode escrever numa declaração: o resultado só existe para `tenta` e `sinon` o consumirem.
-- Não há forma de ler a mensagem de um erro que apanhaste: `sinon` dá-te um valor alternativo, não o `Erru`. Se precisares da mensagem, escreve-a no `lansa` ou deixa o erro subir.
+- `sinon` dá-te um valor alternativo, não o `Erru`. Para saber a mensagem, o tipo ou a linha de um erro, apanha-o com `spia` e `oops`.
+- Nada sai de um `sempri` mais cedo: nem um salto, nem um erro.
 
 :::note
 As funções embutidas `toma` e `tipo::konverti` também podem falhar com um `Erru`. Vê [Entrada de dados](/linguagem/entrada/) e [Conversão de Tipos](/linguagem/conversao-de-tipos/#texto-para-número-tkonverti).

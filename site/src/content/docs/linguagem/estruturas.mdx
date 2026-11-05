@@ -160,7 +160,7 @@ fn inisiu() {
 }
 ```
 
-O tipo de erro embutido, `molda Erru { textu mensage; }`, é um molde como qualquer outro; vê [Erros](/linguagem/erros/).
+O tipo de erro embutido, `molda Erru { textu mensagem; textu tipu; textu fixeru; int linha; }`, é um molde como qualquer outro; vê [Erros](/linguagem/erros/).
 
 ## Exemplo completo
 
@@ -192,6 +192,6 @@ fn inisiu() {
   imprimíveis como um todo.
 - Dois valores de molde não se comparam com `==`.
 - Herança não está prevista.
-- Um molde usado como variável local ou parâmetro pode ocupar no máximo 1 MiB,
-  contando os arrays que contém; vê
+- Um molde usado como variável local, parâmetro, valor devolvido ou valor
+  temporário pode ocupar no máximo 1 MiB, contando os arrays que contém; vê
   [Tamanho das variáveis locais](../variaveis/#tamanho-das-variáveis-locais).

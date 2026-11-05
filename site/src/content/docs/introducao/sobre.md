@@ -118,6 +118,7 @@ A linguagem já suporta:
 - Strings e interpolação com f-strings
 - Moldes (`molda`), com campos, literais, acesso com `.` e semântica de valor
 - Erros recuperáveis com `Erru`, `lansa`, `tenta` e `sinon`
+- Erros apanhados com `spia`, `oops` e `sempri`, incluindo os erros de execução
 - Conversão de texto para número com `tipo::konverti`
 - Conversões de tipos implícitas e explícitas, com *casts* no estilo do C
 - Operadores aritméticos, lógicos, relacionais e de bits (`&`, `|`, `^`, `~`)
