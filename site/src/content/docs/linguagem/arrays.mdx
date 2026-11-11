@@ -146,7 +146,7 @@ Assim é fácil prever o que acontece, mas copiar um array grande a cada chamada
 Isto distingue o Kriol do C, onde um array passado a uma função é um ponteiro e a função altera o original.
 :::
 
-O tamanho faz parte do tipo, e os tipos têm de ser iguais: um `int[3]` só aceita outro `int[3]`, e não um `int[4]` nem um `u8[3]`. Um literal `[ ... ]` ou `[valor; N]` também pode ser usado diretamente como argumento, valor de `divolvi`, valor de uma atribuição ou valor depois de `sinon`, e recebe o tipo do destino.
+O tamanho faz parte do tipo, e os tipos têm de ser iguais: um `int[3]` só aceita outro `int[3]`, e não um `int[4]` nem um `u8[3]`. Um literal `[ ... ]` ou `[valor; N]` também pode ser usado diretamente como argumento, valor de `divolvi` ou valor de uma atribuição, e recebe o tipo do destino.
 
 Para alterar um array de quem chama, devolve o novo valor e atribui-o, como em `a = dobra(a);`.
 

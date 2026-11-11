@@ -37,16 +37,11 @@ Esta página é a tradução de tudo o que o Kriol reserva para si. A coluna *Ve
 | `kontinua`   | `continue`       | Continuar ciclo        | *kontinua*, continua |
 | `divolvi`    | `return`         | Retornar valor         | *divolvi*, devolve |
 | `lansa`      | `throw`          | Falhar a função com um `Erru` | *lansa*, lança |
-| `tenta`      | `try` / `?`      | Passar adiante o erro de uma chamada | *tenta*, tenta |
-| `spia`       | `try`            | Corre um bloco e apanha os erros dele | *spia*, olha |
+| `spia`       | `try` / `?`      | Corre um bloco e apanha os erros dele; antes de uma chamada, passa o erro dela a quem chamou | *spia*, olha |
 | `oops`       | `catch`          | O bloco que trata o erro apanhado por `spia` | *oops*, interjeição |
 | `sempri`     | `finally`        | O bloco que corre sempre ao sair de `spia` | *sempri*, sempre |
 | `molda`      | `struct`         | Declara um molde       | *molda*, molde |
 | `inpristan`  | `#include`       | Importar módulo (reservado; ainda não implementado) | *inpristan*, empresta |
-
-:::note
-`sinon` tem dois papéis: é o `else` de um `si`, e é o valor por omissão de uma chamada que pode falhar (`f() sinon 0`). O compilador distingue-os pelo sítio onde aparecem.
-:::
 
 ## Funções embutidas do prelúdio
 
@@ -173,7 +168,7 @@ Uma barra invertida seguida de outro carácter fica no texto tal como está.
 | `.`      | Acesso          | Campo de um valor de molde |
 | `[ ]`    | Acesso          | Elemento de um array  |
 | `::`     | Qualificação    | Função associada a um tipo, como `int::konverti` |
-| `sinon`  | Erros           | Valor por omissão de uma chamada que pode falhar |
+| `spia`   | Erros           | Passa o erro de uma chamada a quem chamou, como em `spia f()` |
 
 Não existem `++`, `--`, `<<`, `>>`, nem operador ternário `? :`.
 

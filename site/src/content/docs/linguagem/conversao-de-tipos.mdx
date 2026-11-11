@@ -117,8 +117,13 @@ Converter texto em número pode falhar (o texto pode não ser um número), por i
 
 ```kriol
 fn inisiu() : Erru {
-    int idadi = tenta int::konverti("42");
-    num altura = num::konverti("1.75") sinon 0.0;
+    int idadi = spia int::konverti("42");
+    num altura = 0.0;
+    spia {
+        altura = num::konverti("1.75");
+    } oops (err) {
+        mostraln(f"altura inválida: {err.mensagem}");
+    }
     mostraln(f"{idadi}; {altura}");   // 42; 1.75
 }
 ```
@@ -137,6 +142,6 @@ O `konverti` aceita a notação de expoente (`"1e3"` dá `1000`), que os literai
 
 Os espaços no início e no fim do texto são ignorados. As mensagens de erro dizem o que correu mal, por exemplo `'abc' não é um número inteiro válido`, `'256' não cabe no tipo 'u8'` ou `'x' não é um número válido`. Um texto com mais de 40 bytes aparece cortado e termina em `...`.
 
-Se o erro não for tratado com `tenta` ou `sinon`, o programa termina nessa chamada com a mensagem do erro. Ao contrário de uma função tua declarada com `: Erru`, o `konverti` não gera aviso de compilação quando o erro fica sem tratamento, nem com `--strict`.
+Se o erro não for tratado com `spia`, o programa termina nessa chamada com a mensagem do erro. Ao contrário de uma função tua declarada com `: Erru`, o `konverti` não gera aviso de compilação quando o erro fica sem tratamento, nem com `--strict`.
 
 Para converter um valor lido do utilizador, vê [Ler números](/linguagem/entrada/#ler-números) em Entrada de Dados.

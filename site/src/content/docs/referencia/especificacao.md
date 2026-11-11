@@ -177,7 +177,7 @@ não está implementada na versão atual.
                           | T_NOT <unary_expression>
                           | T_BIT_NOT <unary_expression>
                           | '(' <type_specifier> ')' <unary_expression>
-                          | T_TENTA <unary_expression>
+                          | T_SPIA <unary_expression>
                           | T_MINUS <unary_expression>
 
 <primary_expression>    ::= <postfix_expression>
@@ -202,8 +202,6 @@ não está implementada na versão atual.
                               | <record_field_initializers> ',' T_IDENT '=' <initializer>
 
 <assignment_expression> ::= <constant_expression>
-                          | <constant_expression> T_SINON <constant_expression>
-                          | <constant_expression> T_SINON <array_value>
                           | <primary_expression> <assignment_operator> <assignment_expression>
                           | <primary_expression> <assignment_operator> <array_value>
 
@@ -337,8 +335,8 @@ A variável de `<if_initializer>` só existe dentro do `si` e dos seus ramos, e 
 **Notas sobre erros:**
 - `Erru` é um molde predefinido (`molda Erru { textu mensagem; textu tipu; textu fixeru; int linha; }`) e é o único tipo aceite depois de `:` na assinatura de uma função. O nome é reservado e não pode ser redeclarado. Num literal de `Erru`, `tipu`, `fixeru` e `linha` podem faltar, e o compilador preenche-os.
 - O `T_IDENT` de `<oops_clause>` declara uma variável do tipo `Erru` que só existe no bloco do `oops`.
-- `T_SINON` como operador de valor por omissão tem a precedência mais baixa das expressões (acima da atribuição). O operando esquerdo, e o de `tenta`, tem de ser uma chamada a uma função que pode falhar.
-- A gramática aceita estas construções em qualquer sítio, e a análise semântica verifica onde são válidas: `tenta` e `lansa` só dentro de funções que declaram `: Erru`, no corpo de um `spia` ou num `oops`, e nunca onde o erro sairia de um bloco `sempri`.
+- Depois de `T_SPIA`, um `{` começa um `<spia_statement>`, e qualquer outra coisa começa uma `<unary_expression>`. O operando de `T_SPIA` numa `<unary_expression>` tem de ser uma chamada a uma função que pode falhar.
+- A gramática aceita estas construções em qualquer sítio, e a análise semântica verifica onde são válidas: `spia` antes de uma chamada e `lansa` só dentro de funções que declaram `: Erru`, no corpo de um `spia` ou num `oops`, e nunca onde o erro sairia de um bloco `sempri`.
 
 ## Limites
 

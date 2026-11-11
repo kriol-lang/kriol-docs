@@ -154,7 +154,7 @@ fn inisiu() {
 
 Uma função recursiva precisa sempre de um caso que **não** chama a si mesma, como o `n == 0` destes exemplos. Sem ele, a recursão não para e o programa esgota a pilha de 8 MiB que os programas Kriol recebem.
 
-Uma função declara que pode falhar escrevendo `: Erru` depois do tipo de retorno, e quem a chama trata a falha com `tenta` ou `sinon`; vê [Erros](/linguagem/erros/).
+Uma função declara que pode falhar escrevendo `: Erru` depois do tipo de retorno, e quem a chama trata a falha com `spia`; vê [Erros](/linguagem/erros/).
 
 ## Funções embutidas
 
@@ -162,7 +162,7 @@ Uma função declara que pode falhar escrevendo `: Erru` depois do tipo de retor
 |--------------|---------------------------------------------------|
 | `mostra(...)`  | Imprime os argumentos, sem nova linha no fim    |
 | `mostraln(...)` | Imprime os argumentos, seguidos de nova linha   |
-| `toma()`     | Lê uma linha de `stdin` e retorna `textu`; pode falhar com `Erru` (termina o programa se não for tratado; vê `tenta` e `sinon`) |
+| `toma()`     | Lê uma linha de `stdin` e retorna `textu`; pode falhar com `Erru` (termina o programa se não for tratado; vê `spia`) |
 | `konfirma(e)`, `konfirma(e, m)` | Verifica que `e` é verdadeiro; termina se falso, com a mensagem `m` se existir |
 | `paniku(m)`  | Termina o programa de imediato com a mensagem `m` |
 | `sai()`, `sai(código)` | Termina o programa com o código de saída dado, de `0` a `255`, ou `0` sem argumento |

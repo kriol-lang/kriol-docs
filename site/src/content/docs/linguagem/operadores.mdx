@@ -216,7 +216,7 @@ Não existem `++` nem `--`. Para somar um, escreve `i += 1`, que é o que os cic
 
 Do maior para o menor precedência:
 
-1. Operadores unários `-`, `!`, `~` e *casts* `(tipo)`
+1. Operadores unários `-`, `!`, `~`, *casts* `(tipo)` e `spia` antes de uma chamada
 2. `*`, `/`, `%`
 3. `+`, `-`
 4. `&`
@@ -226,7 +226,6 @@ Do maior para o menor precedência:
 8. `==`, `!=`
 9. `&&`
 10. `||`
-11. `sinon` (valor por omissão de uma chamada que pode falhar)
-12. `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`
+11. `=`, `+=`, `-=`, `*=`, `/=`, `%=`, `&=`, `|=`, `^=`
 
 Usa parênteses `()` para forçar a ordem de avaliação desejada: `2 + 3 * 4` dá `14`, e `(2 + 3) * 4` dá `20`. Em caso de dúvida, põe os parênteses.
