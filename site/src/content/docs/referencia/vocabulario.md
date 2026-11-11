@@ -37,27 +37,36 @@ Esta página é a tradução de tudo o que o Kriol reserva para si. A coluna *Ve
 | `kontinua`   | `continue`       | Continuar ciclo        | *kontinua*, continua |
 | `divolvi`    | `return`         | Retornar valor         | *divolvi*, devolve |
 | `lansa`      | `throw`          | Falhar a função com um `Erru` | *lansa*, lança |
-| `tenta`      | `try` / `?`      | Passar adiante o erro de uma chamada | *tenta*, tenta |
-| `spia`       | `try`            | Corre um bloco e apanha os erros dele | *spia*, olha |
+| `spia`       | `try` / `?`      | Corre um bloco e apanha os erros dele; antes de uma chamada, passa o erro dela a quem chamou | *spia*, olha |
 | `oops`       | `catch`          | O bloco que trata o erro apanhado por `spia` | *oops*, interjeição |
 | `sempri`     | `finally`        | O bloco que corre sempre ao sair de `spia` | *sempri*, sempre |
 | `molda`      | `struct`         | Declara um molde       | *molda*, molde |
 | `inpristan`  | `#include`       | Importar módulo (reservado; ainda não implementado) | *inpristan*, empresta |
-
-:::note
-`sinon` tem dois papéis: é o `else` de um `si`, e é o valor por omissão de uma chamada que pode falhar (`f() sinon 0`). O compilador distingue-os pelo sítio onde aparecem.
-:::
 
 ## Funções embutidas do prelúdio
 
 | KriolLang    | C / Equivalente  | Significado            | Vem de     |
 |--------------|------------------|------------------------|------------|
 | `mostra`     | `printf`         | Imprimir sem newline, com um ou mais valores | *mostra* |
-| `mostran`    | `printf + \n`    | Imprimir com newline, com zero ou mais valores | *mostra* + *n* de nova linha |
+| `mostraln`   | `printf + \n`    | Imprimir com newline, com zero ou mais valores | *mostra* + *ln*, de *linha nova* |
 | `toma`       | `stdin`          | Ler uma linha como `textu` (pode falhar com `Erru`) | *toma*, recebe |
 | `sai`        | `exit()`         | Terminar programa (sem argumento, com código 0) | *sai* |
 | `konfirma`   | `assert()`       | Verificar condição (com mensagem opcional) | *konfirma* |
 | `paniku`     | `panic()`        | Terminar com uma mensagem de erro | *pâniku*, pânico |
+
+## Nomes antigos
+
+Uma palavra mudou de nome. O nome antigo ainda compila, mas o compilador avisa em cada sítio onde aparece e diz qual é o novo:
+
+| Nome antigo | Nome novo  | Porquê |
+|-------------|------------|--------|
+| `mostran`   | `mostraln` | Em Criolo, *mostran* lê-se "mostra-me"; *ln* lembra *linha nova* |
+
+```
+programa.kriol:5: aviso: 'mostran' está obsoleto; usa 'mostraln'
+```
+
+Com `--strict`, este aviso passa a ser um erro. O nome antigo continua reservado enquanto o compilador o aceitar, por isso não o podes usar como nome de variável ou função.
 
 Estas funções são chamadas com sintaxe normal de função, mas os nomes são reservados e não podem ser redefinidos.
 
@@ -159,7 +168,7 @@ Uma barra invertida seguida de outro carácter fica no texto tal como está.
 | `.`      | Acesso          | Campo de um valor de molde |
 | `[ ]`    | Acesso          | Elemento de um array  |
 | `::`     | Qualificação    | Função associada a um tipo, como `int::konverti` |
-| `sinon`  | Erros           | Valor por omissão de uma chamada que pode falhar |
+| `spia`   | Erros           | Passa o erro de uma chamada a quem chamou, como em `spia f()` |
 
 Não existem `++`, `--`, `<<`, `>>`, nem operador ternário `? :`.
 

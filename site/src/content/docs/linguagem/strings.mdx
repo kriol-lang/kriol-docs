@@ -19,7 +19,7 @@ As duas formas são equivalentes, o que é prático quando o texto contém um do
 Um literal pode conter acentos e qualquer outro carácter UTF-8, incluindo emoji:
 
 ```kriol
-mostran("Olá, São Vicente! 🦈");
+mostraln("Olá, São Vicente! 🦈");
 ```
 
 ## Sequências de escape
@@ -39,9 +39,9 @@ Para escrever um carácter que não se pode teclar dentro de aspas, usa uma barr
 | `\}`      | Chaveta `}` numa f-string |
 
 ```kriol
-mostran("Linha 1\nLinha 2");
+mostraln("Linha 1\nLinha 2");
 mostra("coluna1\tcoluna2");
-mostran('it\'s');
+mostraln('it\'s');
 ```
 
 :::note
@@ -55,7 +55,7 @@ As f-strings permitem embutir expressões diretamente numa string, prefixando-a 
 ```kriol
 int n = 42;
 textu nome = "Kriol";
-mostran(f"O valor é {n} e a linguagem é {nome}.");
+mostraln(f"O valor é {n} e a linguagem é {nome}.");
 ```
 
 O que está entre `{ }` é calculado quando o programa chega ali, e o resultado é convertido em texto e inserido na posição. Sem o `f` inicial, `{n}` não é nada de especial: aparece tal e qual no ecrã.
@@ -67,10 +67,10 @@ int  n = 10;
 num   x = 2.5;
 bool  b = sin;
 
-mostran(f"n = {n}");
-mostran(f"x = {x}");
-mostran(f"b = {b}");
-mostran(f"n={n} x={x} b={b}");
+mostraln(f"n = {n}");
+mostraln(f"x = {x}");
+mostraln(f"b = {b}");
+mostraln(f"n={n} x={x} b={b}");
 ```
 
 Cada valor é escrito como se fosse impresso sozinho: um `num` sai com 6 dígitos significativos e um `bool` sai como `sin` ou `nau`. Vê [como cada tipo aparece no ecrã](/linguagem/tipos/#como-cada-tipo-aparece-no-ecrã).
@@ -81,7 +81,7 @@ Podes interpolar um array inteiro numa f-string:
 
 ```kriol
 int[3] nums = [1, 2, 3];
-mostran(f"Números: {nums}");   // Números: [1, 2, 3]
+mostraln(f"Números: {nums}");   // Números: [1, 2, 3]
 ```
 
 ### Interpolação de chamadas de função
@@ -93,7 +93,7 @@ fn soma(int a, int b) int { divolvi a + b; }
 
 fn inisiu() {
     int n = 10;
-    mostran(f"Soma de 1 a {n} é {soma(1, n)}.");
+    mostraln(f"Soma de 1 a {n} é {soma(1, n)}.");
 }
 ```
 
@@ -104,7 +104,7 @@ Dentro de `{ }` cabe qualquer expressão, não só um nome: contas, comparaçõe
 Para incluir uma chaveta literal `{` ou `}` numa f-string, escapa **cada uma** delas com `\`:
 
 ```kriol
-mostran(f"Usa \{chavetas\} assim.");
+mostraln(f"Usa \{chavetas\} assim.");
 // saída: Usa {chavetas} assim.
 ```
 
@@ -124,15 +124,15 @@ Não há operador de concatenação: a f-string é a forma de juntar valores num
 textu nomi = "Ana";
 textu apelidu = "Silva";
 textu completu = f"{nomi} {apelidu}";
-mostran(completu);                       // Ana Silva
+mostraln(completu);                       // Ana Silva
 ```
 
-## `mostra` vs `mostran`
+## `mostra` vs `mostraln`
 
 | Função      | Comportamento                                  |
 |-------------|------------------------------------------------|
 | `mostra(x)` | Imprime `x` **sem** nova linha no final        |
-| `mostran(x)`| Imprime `x` **com** nova linha (`\n`) no final |
+| `mostraln(x)`| Imprime `x` **com** nova linha (`\n`) no final |
 
 ```kriol
 mostra("a");
@@ -140,14 +140,14 @@ mostra("b");
 mostra("c");
 // saída: abc  (tudo na mesma linha)
 
-mostran("linha1");
-mostran("linha2");
+mostraln("linha1");
+mostraln("linha2");
 // saída:
 // linha1
 // linha2
 ```
 
-Ambas aceitam vários valores separados por vírgula, e `mostran()` sem nada escreve uma linha vazia. Vê [`mostra` e `mostran` aceitam vários valores](/linguagem/funcoes/#mostra-e-mostran-aceitam-vários-valores).
+Ambas aceitam vários valores separados por vírgula, e `mostraln()` sem nada escreve uma linha vazia. Vê [`mostra` e `mostraln` aceitam vários valores](/linguagem/funcoes/#mostra-e-mostraln-aceitam-vários-valores).
 
 ## O que ainda não existe
 

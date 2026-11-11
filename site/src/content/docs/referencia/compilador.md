@@ -24,7 +24,7 @@ Estas são as opções que o `kriol --help` lista. As três primeiras são as ma
 Para testar uma ideia sem criar ficheiro nenhum, usa `--text`:
 
 ```bash
-kriol --text 'fn inisiu() { mostran(1 + 2); }' -o soma && ./soma
+kriol --text 'fn inisiu() { mostraln(1 + 2); }' -o soma && ./soma
 ```
 
 O alvo `wasm32-wasi` produz um módulo WebAssembly em vez de um executável do sistema. É assim que o [playground](https://play.kriol.dev) corre Kriol dentro do navegador:

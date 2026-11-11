@@ -14,8 +14,7 @@ Em termos técnicos, `toma` lê da *entrada padrão* (`stdin`), que normalmente 
 ```kriol
 toma()
 toma("Mensagem para o utilizador: ")
-toma() sinon ""     // valor por omissão, se a leitura falhar
-tenta toma()        // passa o erro a quem chamou (vê Erros)
+spia toma()         // passa o erro a quem chamou (vê Erros)
 ```
 
 ## Regras
@@ -36,8 +35,8 @@ A entrada termina quando o ficheiro redirecionado chega ao fim, ou quando o util
 Podes tratar a falha (vê [Erros](/linguagem/erros/)), ou não fazer nada:
 
 - `toma()` sozinho termina o programa com `programa.kriol:N: erro não tratado: a entrada terminou e não há mais linhas para ler` se a entrada acabar. É o mais simples, e adequado para programas curtos.
-- `toma() sinon "valor"` usa um texto por omissão quando a leitura falha.
-- `tenta toma()` passa o erro a quem chamou, por isso só se usa numa função que declare `: Erru`.
+- `spia toma()` passa o erro a quem chamou, por isso só se usa numa função que declare `: Erru`, ou dentro de um bloco `spia`.
+- Um bloco `spia { } oops (err) { }` à volta da leitura deixa-te decidir o que fazer, por exemplo usar um texto por omissão (vê [Valor por omissão se a entrada acabar](#valor-por-omissão-se-a-entrada-acabar)).
 
 :::note
 Ao contrário das funções declaradas com `: Erru`, um `toma` não tratado não gera aviso do compilador, nem com `--strict`, para manter simples os primeiros programas.
@@ -51,28 +50,32 @@ Ao contrário das funções declaradas com `: Erru`, um `toma` não tratado não
 fn inisiu() {
     textu entrada_idadi = toma("Idadi: ");
     int idadi = int::konverti(entrada_idadi);
-    mostran(f"Para o ano terás {idadi + 1}.");
+    mostraln(f"Para o ano terás {idadi + 1}.");
 }
 ```
 
 Os espaços no início e no fim do texto são ignorados. Se quem usa o programa escrever algo que não é um número, o programa termina com uma mensagem como `programa.kriol:3: erro não tratado: 'abc' não é um número inteiro válido`.
 
-Para voltar a pedir o valor em vez de terminar, junta `sinon` e um valor de reserva, e repete a pergunta num ciclo:
+Para voltar a pedir o valor em vez de terminar, apanha a falha com `spia` e repete a pergunta num ciclo:
 
 ```kriol
 fn inisiu() {
     int idadi = -1;
     nkuantu idadi < 0 {
         textu entrada_idadi = toma("Idadi: ");
-        idadi = int::konverti(entrada_idadi) sinon -1;
+        spia {
+            idadi = int::konverti(entrada_idadi);
+        } oops (err) {
+            mostraln("Isso não é um número.");
+        }
     }
-    mostran(f"Idadi: {idadi}");
+    mostraln(f"Idadi: {idadi}");
 }
 ```
 
-`int::konverti(entrada_idadi) sinon -1` quer dizer: converte o texto e, se não for um número, usa `-1`. Como uma idade não pode ser `-1`, esse valor marca "ainda não tenho uma resposta válida", e o ciclo repete-se até ter uma.
+Se o texto não for um número, o `oops` avisa e `idadi` continua a ser `-1`. Como uma idade não pode ser `-1`, esse valor marca "ainda não tenho uma resposta válida", e o ciclo repete-se até ter uma.
 
-Mais detalhes sobre a conversão estão em [Conversão de Tipos](/linguagem/conversao-de-tipos/#texto-para-número-tkonverti), e sobre `sinon` e `tenta` em [Erros](/linguagem/erros/).
+Mais detalhes sobre a conversão estão em [Conversão de Tipos](/linguagem/conversao-de-tipos/#texto-para-número-tkonverti), e sobre `spia` em [Erros](/linguagem/erros/).
 
 ## Exemplos
 
@@ -81,7 +84,7 @@ Mais detalhes sobre a conversão estão em [Conversão de Tipos](/linguagem/conv
 ```kriol
 fn inisiu() {
     textu nome = toma("Digite o seu nome: ");
-    mostran(f"Olá, {nome}!");
+    mostraln(f"Olá, {nome}!");
 }
 ```
 
@@ -89,8 +92,13 @@ fn inisiu() {
 
 ```kriol
 fn inisiu() {
-    textu nome = toma("Digite o seu nome: ") sinon "visitanti";
-    mostran(f"Olá, {nome}!");
+    textu nome = "visitanti";
+    spia {
+        nome = toma("Digite o seu nome: ");
+    } oops (err) {
+        // a entrada acabou, e nome continua a ser "visitanti"
+    }
+    mostraln(f"Olá, {nome}!");
 }
 ```
 
@@ -104,7 +112,7 @@ fn inisiu() {
     textu entrada_b = toma("Segundo númeru: ");
     num b = num::konverti(entrada_b);
 
-    mostran(f"{a} + {b} = {a + b}");
+    mostraln(f"{a} + {b} = {a + b}");
 }
 ```
 
@@ -121,7 +129,7 @@ fn inisiu() {
         total += int::konverti(linha);
     }
 
-    mostran(f"Total: {total}");
+    mostraln(f"Total: {total}");
 }
 ```
 

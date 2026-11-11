@@ -73,7 +73,12 @@ lansa Erru{mensagem = f"mês inválido: {m}"};
 
 ## Tratar uma falha
 
-Quem chama uma função que pode falhar pode tratar o erro com `tenta` ou `sinon`, descritos a seguir, ou apanhá-lo com [`spia`](#apanhar-erros-spia-oops-e-sempri). Se não o tratar, **o erro não desaparece**: quando a função falhar, o programa termina nessa chamada com `programa.kriol:N: erro não tratado: mensagem`. O compilador avisa disso, mas continua a compilar.
+Quem chama uma função que pode falhar decide o que fazer com o erro, sempre com `spia`, que tem duas formas:
+
+- `spia chamada` passa o erro a quem chamou, descrito a seguir.
+- `spia { } oops (err) { }` apanha o erro e trata-o ali mesmo, descrito em [Apanhar erros](#apanhar-erros-spia-oops-e-sempri).
+
+Se não fizer nenhuma das duas, **o erro não desaparece**: quando a função falhar, o programa termina nessa chamada com `programa.kriol:N: erro não tratado: mensagem`. O compilador avisa disso, mas continua a compilar.
 
 ```kriol no-playground
 fn inisiu() {
@@ -83,9 +88,9 @@ fn inisiu() {
 
 Para o compilador tratar os avisos como erros, compila com `--strict`.
 
-### `tenta`: passar o erro a quem chamou
+### `spia chamada`: passar o erro a quem chamou
 
-`tenta chamada` devolve o valor da chamada, ou, se ela falhar, falha também a função atual com o mesmo erro. Por isso só pode ser usado dentro de uma função que declare `: Erru`.
+`spia chamada` devolve o valor da chamada, ou, se ela falhar, falha também a função atual com o mesmo erro. Por isso só pode ser usado dentro de uma função que declare `: Erru`, ou dentro de um bloco `spia`.
 
 ```kriol
 fn valida(int n) : Erru {
@@ -95,49 +100,52 @@ fn valida(int n) : Erru {
 }
 
 fn kaminhu(int n) num : Erru {
-    tenta valida(n);
-    num m = tenta metadi(n, 4);
+    spia valida(n);
+    num m = spia metadi(n, 4);
     divolvi m + 1;
 }
 ```
 
-### `sinon`: usar um valor por omissão
+Tal como o `!`, o `spia` aplica-se só à chamada que vem logo a seguir: `spia metadi(7, 2) == 3.5` compara o valor da chamada. Para usar um campo ou um elemento do resultado, põe a chamada entre parênteses, como em `(spia kria(1)).x`, porque `spia kria(1).x` já não é uma chamada.
 
-`chamada sinon valor` dá o valor da chamada, ou `valor` se ela falhar. O valor depois de `sinon` só é calculado quando a chamada falha, e tem de ser compatível com o tipo devolvido.
+O compilador distingue as duas formas pelo que vem a seguir ao `spia`: um `{` começa um bloco, e qualquer outra coisa tem de ser uma chamada.
 
-```kriol
-num m = metadi(7, 0) sinon -1.0;   // -1.0
+### Usar um valor por omissão
+
+Para continuar com um valor razoável quando a chamada falha, dá esse valor antes do `spia`, ou dentro do `oops`:
+
+```kriol no-playground
+num m = -1.0;
+spia {
+    m = metadi(7, 0);
+} oops (err) {
+    // a divisão falhou, e m continua a ser -1.0
+}
 ```
-
-`sinon` tem a precedência mais baixa de todos os operadores (acima só da atribuição), por isso usa parênteses para o combinar com outros operadores: `(metadi(7, 2) sinon 0.0) == 3.5`.
-
-:::note
-A mesma palavra `sinon` serve de `else` num `si` e de valor por omissão numa chamada. O compilador distingue os dois pelo sítio onde aparecem, e nunca se confundem no mesmo código.
-:::
 
 ### Qual escolher
 
 | Queres | Usa |
 |---|---|
-| Continuar com um valor razoável | `chamada sinon valor` |
-| Desistir e deixar quem chamou decidir | `tenta chamada` |
+| Desistir e deixar quem chamou decidir | `spia chamada` |
 | Tratar o erro aqui, sabendo qual foi | `spia { } oops (err) { }` |
+| Continuar com um valor razoável | `spia { } oops (err) { }`, com o valor dado antes ou no `oops` |
 | Parar o programa aqui, porque a falha não devia acontecer | não trates, ou converte num `paniku` |
 
 ## Apanhar erros: `spia`, `oops` e `sempri`
 
-`spia` corre um bloco e, se alguma coisa nele falhar, salta para o bloco `oops`, em vez de terminar o programa ou de devolver o erro a quem chamou. Depois do `oops`, o programa continua a seguir ao `spia`. O bloco `sempri`, opcional, corre no fim, tenha havido erro ou não:
+Um bloco `spia` corre o seu corpo e, se alguma coisa nele falhar, salta para o bloco `oops`, em vez de terminar o programa ou de devolver o erro a quem chamou. Depois do `oops`, o programa continua a seguir ao `spia`. O bloco `sempri`, opcional, corre no fim, tenha havido erro ou não:
 
 ```kriol
 fn inisiu() {
     textu entrada = toma("Screbi un númeru interu: ");
     spia {
         int numeru = int::konverti(entrada);
-        mostran(f"100 / {numeru} = {100 / numeru}");
+        mostraln(f"100 / {numeru} = {100 / numeru}");
     } oops (err) {
-        mostran(f"Erru ({err.tipu}): {err.mensagem}");
+        mostraln(f"Erru ({err.tipu}): {err.mensagem}");
     } sempri {
-        mostran("Fin.");
+        mostraln("Fin.");
     }
 }
 ```
@@ -175,7 +183,7 @@ fn le_idadi() int : Erru {
     spia {
         divolvi int::konverti(toma("Idadi: "));
     } oops (err) {
-        mostran(f"não consegui ler a idade ({err.tipu})");
+        mostraln(f"não consegui ler a idade ({err.tipu})");
         lansa err;
     }
 }
@@ -190,17 +198,17 @@ fn le(int[3] valores, int i) int {
     spia {
         divolvi valores[i];
     } oops (err) {
-        mostran(f"índice inválido: {i}");
+        mostraln(f"índice inválido: {i}");
         divolvi -1;
     } sempri {
-        mostran("leitura terminada");
+        mostraln("leitura terminada");
     }
 }
 
 fn inisiu() {
     int[3] valores = [10, 20, 30];
-    mostran(le(valores, 1));   // leitura terminada, depois 20
-    mostran(le(valores, 5));   // índice inválido: 5, leitura terminada, depois -1
+    mostraln(le(valores, 1));   // leitura terminada, depois 20
+    mostraln(le(valores, 5));   // índice inválido: 5, leitura terminada, depois -1
 }
 ```
 
@@ -210,7 +218,7 @@ Um `spia` pode ter só o `sempri`, sem `oops`. Nesse caso nenhum erro é tratado
 
 O `sempri` corre sempre até ao fim, por isso não pode sair mais cedo:
 
-- `divolvi`, `kebra`, `kontinua`, `lansa` e `tenta` que saiam do `sempri` são erros de compilação: *'lansa' não pode sair de um bloco 'sempri', que corre sempre até ao fim*.
+- `divolvi`, `kebra`, `kontinua`, `lansa` e `spia chamada` que saiam do `sempri` são erros de compilação: *'lansa' não pode sair de um bloco 'sempri', que corre sempre até ao fim*.
 - Um erro que aconteça dentro do `sempri` e não seja apanhado lá dentro, por um `spia` também dentro do `sempri`, termina o programa, mesmo que haja um `spia` à volta. Assim, um erro do `sempri` nunca esconde o erro que o `spia` estava a passar adiante.
 
 :::note
@@ -223,11 +231,11 @@ Um programa compilado para WebAssembly (`--target wasm32-wasi`) que use `spia` p
 
 ```kriol no-playground
 fn inisiu() : Erru {
-    num x = tenta metadi(1, 0);
+    num x = spia metadi(1, 0);
 }
 ```
 
-É o atalho habitual para programas pequenos: usa `tenta` em todas as chamadas que podem falhar, e deixa a mensagem aparecer se algo correr mal.
+É o atalho habitual para programas pequenos: usa `spia` antes de todas as chamadas que podem falhar, e deixa a mensagem aparecer se algo correr mal.
 
 ## Avisos e `--strict`
 
@@ -235,7 +243,7 @@ Ignorar o erro de uma função **declarada por ti** com `: Erru`, fora do corpo 
 
 ```
 programa.kriol:9: aviso: o erro de 'metadi' não é tratado, por isso o programa
-termina se a função falhar; usa 'tenta' ou 'sinon'
+termina se a função falhar; usa 'spia'
 ```
 
 É provável que seja um esquecimento, porque quem escreveu a função previu esse caminho.
@@ -249,15 +257,16 @@ kriol --strict programa.kriol   # qualquer aviso passa a ser um erro de compila�
 
 Usa `--strict` em projetos e na integração contínua para garantir que nenhum erro é ignorado.
 
+O compilador também avisa quando o código usa o nome antigo de uma palavra, como `mostran` em vez de `mostraln`; vê [Nomes antigos](/referencia/vocabulario/#nomes-antigos).
+
 ## Regras
 
-- Um erro não tratado termina o programa na chamada que falhou; só `tenta`, `sinon` e `spia` o tratam.
-- `tenta` e `sinon` só se aplicam a chamadas de funções que podem falhar.
-- `tenta` só pode ser usado dentro de uma função que declare `: Erru`, ou dentro de um `spia`.
-- `sinon` não se aplica a funções que não devolvem valor.
+- Um erro não tratado termina o programa na chamada que falhou; só o `spia` o trata, antes da chamada ou como bloco.
+- `spia chamada` só se aplica a chamadas de funções que podem falhar.
+- `spia chamada` só pode ser usado dentro de uma função que declare `: Erru`, ou dentro de um bloco `spia`.
+- `sinon` é só o `else` de um `si`. Para um valor por omissão quando uma chamada falha, vê [Usar um valor por omissão](#usar-um-valor-por-omissão).
 - `Erru` não pode ser redeclarado.
-- O tipo de uma chamada que pode falhar não se pode escrever numa declaração: o resultado só existe para `tenta` e `sinon` o consumirem.
-- `sinon` dá-te um valor alternativo, não o `Erru`. Para saber a mensagem, o tipo ou a linha de um erro, apanha-o com `spia` e `oops`.
+- O tipo de uma chamada que pode falhar não se pode escrever numa declaração: não existe um tipo para "um valor ou um erro".
 - Nada sai de um `sempri` mais cedo: nem um salto, nem um erro.
 
 :::note

@@ -45,7 +45,7 @@ Windows (PowerShell; installs kriol.exe and ld.lld.exe, programs run on Windows 
 Entry point function (it takes no parameters and declares no return type):
 ```kriol
 fn inisiu() {
-    mostran("Kualeh, Mundu!");
+    mostraln("Kualeh, Mundu!");
 }
 ```
 
@@ -66,19 +66,20 @@ Top-level variables: a declaration outside any function is visible to the functi
 
 - fn: function declaration
 - si/sinon: if/else
+- Old spelling: `mostran` (now `mostraln`) still compiles, with a warning; write the new one
 - nkuantu: while loop
 - pa: for loop, `pa int i = 0; i < 10; i += 1 { }`; the step is optional (`pa int i = 0; i < 10 { }`)
 - Headers of si, nkuantu and pa may be wrapped in parentheses: `si (x > 0) { }`, `pa (int i = 0; i < 10; i += 1) { }`, `si (int y = f(); y > 0) { }`; braces are always required
 - divolvi: return
-- mostra/mostran: print without/with newline; both take any number of arguments, written one after another with no separator, and `mostran()` with none prints an empty line
-- toma: read one line from stdin as textu; it stops the program if the input ends, unless handled: `tenta toma()` in a function declared `: Erru`, or `toma() sinon "default"`
+- mostra/mostraln: print without/with newline; both take any number of arguments, written one after another with no separator, and `mostraln()` with none prints an empty line
+- toma: read one line from stdin as textu; it stops the program if the input ends, unless handled: `spia toma()` in a function declared `: Erru`, or a `spia { } oops (err) { }` block around it
 - kebra: break
 - kontinua: continue; both kebra and kontinua affect only the innermost loop
 - sai: exit; `sai()` without an argument exits with code 0; the code must be 0 to 255
 - konfirma: assert, with an optional message: konfirma(cond, "message")
 - paniku: abort the program with a message: paniku("message")
 - molda: struct; literal `Pessoa{nomi = "Ana", idadi = 30}`, fields read and written with `.`
-- Recoverable errors: `fn f() int : Erru`, `lansa Erru{mensagem = "..."};`, `tenta f()` (propagate), `f() sinon value` (default). An unhandled error stops the program at the call, with a warning at compile time; `kriol --strict` turns warnings into errors
+- Recoverable errors: `fn f() int : Erru`, `lansa Erru{mensagem = "..."};`, `spia f()` (propagate to the caller; only in a function declared `: Erru` or inside a spia block), or a `spia { } oops (err) { }` block to handle it locally. There is no `f() sinon value` fallback: `sinon` is only the else of `si`. An unhandled error stops the program at the call, with a warning at compile time; `kriol --strict` turns warnings into errors
 - Erru: `molda Erru { textu mensagem; textu tipu; textu fixeru; int linha; }`; a literal needs only `mensagem`, the compiler fills the rest
 - spia/oops/sempri: try/catch/finally, `spia { } oops (err) { } sempri { }` (`oops err` also works). oops catches lansa, errors of calls at any depth, failed toma/konverti and runtime errors (division by zero, index out of bounds, konfirma, paniku); `err.tipu` says which. `lansa err;` in oops rethrows. sempri runs on every exit, including divolvi, kebra and kontinua; nothing may leave it early, and an error inside it that it does not catch stops the program. sai and out-of-memory are never caught
 
@@ -109,9 +110,9 @@ Currently supported:
 - Arrays (fixed size, multi-dimensional, passed and returned by value)
 - String interpolation (f-strings)
 - Structures (molda): fields, literals, `.` access, value semantics
-- Recoverable errors (Erru, lansa, tenta, sinon) and text-to-number conversion
+- Recoverable errors (Erru, lansa, spia) and text-to-number conversion
 - Catching errors, runtime errors included (spia, oops, sempri)
-- Input/output (mostra, mostran, toma)
+- Input/output (mostra, mostraln, toma)
 - Native targets (Linux, Windows, macOS) and wasm32-wasi
 
 In development:
@@ -127,7 +128,7 @@ In development:
 Hello World:
 ```kriol
 fn inisiu() {
-    mostran("Kualeh, Mundu!");
+    mostraln("Kualeh, Mundu!");
 }
 ```
 
@@ -147,7 +148,7 @@ fn inisiu() {
     pa int i = 0; i < 10; i += 1 {
         seq[i] = fibo(i);
     }
-    mostran(f"Fibonacci: {seq}");
+    mostraln(f"Fibonacci: {seq}");
 }
 ```
 
@@ -157,7 +158,7 @@ fn inisiu() {
 - Implicit widening: int to num (automatic); as in C, a real stored into an integer is truncated toward zero (`int n = 3.9;` is 3, saturating out of range)
 - Explicit casting with C-style syntax: `(int) 3.9`, `(u8) 300`, `(bool) n`; only numbers and bool convert (text is not convertible)
 - Typed array literal: `(int[]) [1, 2, 3]`
-- Text to number: `textu t = tenta toma(); int n = tenta int::konverti(t);`, `num::konverti(s) sinon 0.0`, also `bool::konverti`; it fails with an Erru on invalid text
+- Text to number: `textu t = spia toma(); int n = spia int::konverti(t);`, also `num::konverti` and `bool::konverti`; it fails with an Erru on invalid text
 - No null types and no uninitialized variables (every declaration has an initial value)
 - Division as in C: two integers divide as integers (`7 / 2` is 3), a real operand makes it real; `x op= v` computes in the common type and stores into x's type
 - Division or remainder by zero stops the program, for integers and reals
@@ -184,7 +185,7 @@ fn inisiu() {
 Compile: `kriol file.kr -o output` (without -o the result is ./a.out)
 Optimization: `--opt-lvl <n>`, 0 to 3 (default 2)
 Run: `./output`
-Compile a snippet with no file: `kriol --text 'fn inisiu() { mostran(1); }'`
+Compile a snippet with no file: `kriol --text 'fn inisiu() { mostraln(1); }'`
 WebAssembly: `kriol file.kr --target wasm32-wasi -o file.wasm` (this is what the playground runs)
 Emit IR: `kriol file.kr --emit-ir`
 Warnings as errors: `kriol --strict file.kr`
