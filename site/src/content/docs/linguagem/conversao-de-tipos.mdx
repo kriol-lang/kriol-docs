@@ -29,7 +29,7 @@ int x = 5;
 num y = x;       // ok, alargamento automático int para num
 
 fn aceita_num(num n) {
-    mostran(n);
+    mostraln(n);
 }
 
 fn inisiu() {
@@ -119,7 +119,7 @@ Converter texto em número pode falhar (o texto pode não ser um número), por i
 fn inisiu() : Erru {
     int idadi = tenta int::konverti("42");
     num altura = num::konverti("1.75") sinon 0.0;
-    mostran(f"{idadi}; {altura}");   // 42; 1.75
+    mostraln(f"{idadi}; {altura}");   // 42; 1.75
 }
 ```
 

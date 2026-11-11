@@ -73,8 +73,8 @@ Pessoa pessoa = Pessoa{nomi = "jose", flags = [0, 1]};
 Usa `.` para ler ou alterar um campo:
 
 ```kriol
-mostran(pessoa.nomi);
-mostran(pessoa.idadi);
+mostraln(pessoa.nomi);
+mostraln(pessoa.idadi);
 
 pessoa.idadi = 61;
 pessoa.idadi += 1;
@@ -103,8 +103,8 @@ fn inisiu() {
     pessoa.enderesus[0].rua = "medio";
     pessoa.enderesus[0].numero += 5;
 
-    mostran(pessoa.enderesus[0].rua);      // medio
-    mostran(pessoa.enderesus[0].numero);   // 15
+    mostraln(pessoa.enderesus[0].rua);      // medio
+    mostraln(pessoa.enderesus[0].numero);   // 15
 }
 ```
 
@@ -121,8 +121,8 @@ Pessoa x = Pessoa{nomi = "jose", idadi = 60};
 Pessoa y = x;        // uma cópia independente
 
 y.idadi = 99;
-mostran(x.idadi);    // 60, não foi tocado
-mostran(y.idadi);    // 99
+mostraln(x.idadi);    // 60, não foi tocado
+mostraln(y.idadi);    // 99
 ```
 
 Para alterar um valor dentro de uma função, devolve a versão nova e atribui-a:
@@ -136,7 +136,7 @@ fn fazi_anos(Pessoa p) Pessoa {
 fn inisiu() {
     Pessoa jose = Pessoa{nomi = "jose", idadi = 60};
     jose = fazi_anos(jose);
-    mostran(jose.idadi);   // 61
+    mostraln(jose.idadi);   // 61
 }
 ```
 
@@ -156,7 +156,7 @@ fn area(Retangulu r) num {
 
 fn inisiu() {
     Retangulu r = Retangulu{largura = 3.0, altura = 2.5};
-    mostran(f"{r.largura} x {r.altura}, área {area(r)}");   // 3 x 2.5, área 7.5
+    mostraln(f"{r.largura} x {r.altura}, área {area(r)}");   // 3 x 2.5, área 7.5
 }
 ```
 
@@ -178,7 +178,7 @@ fn inisiu() {
     Pessoa pessoa = Pessoa{nomi = "jose", idadi = 60};
     mostra(pessoa.nomi);
     mostra(" ");
-    mostran(proxima_idadi(pessoa));
+    mostraln(proxima_idadi(pessoa));
 }
 ```
 

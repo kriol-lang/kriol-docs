@@ -19,9 +19,9 @@ si <condição> {
 int x = 10;
 
 si x > 5 {
-    mostran("x é maior que 5");
+    mostraln("x é maior que 5");
 } sinon {
-    mostran("x é 5 ou menos");
+    mostraln("x é 5 ou menos");
 }
 ```
 
@@ -31,7 +31,7 @@ A condição tem de ser um `bool` ou um número. Um número conta como verdadeir
 int n = 3;
 
 si n {                       // o mesmo que si n != 0
-    mostran("não é zero");
+    mostraln("não é zero");
 }
 ```
 
@@ -39,11 +39,11 @@ si n {                       // o mesmo que si n != 0
 
 ```kriol
 si x > 100 {
-    mostran("grande");
+    mostraln("grande");
 } sinon si x > 10 {
-    mostran("médio");
+    mostraln("médio");
 } sinon {
-    mostran("pequeno");
+    mostraln("pequeno");
 }
 ```
 
@@ -70,7 +70,7 @@ nkuantu <condição> {
 ```kriol
 int i = 0;
 nkuantu i < 5 {
-    mostran(i);
+    mostraln(i);
     i += 1;
 }
 ```
@@ -89,7 +89,7 @@ nkuantu sin {
         kebra;
     }
 }
-mostran(i);   // 3
+mostraln(i);   // 3
 ```
 
 ## Ciclo `pa` (for)
@@ -128,7 +128,7 @@ O cabeçalho de `si`, `nkuantu` e `pa` pode ir entre parênteses, como em C ou J
 fn inisiu() {
     int x = 10;
     si (x > 5) {
-        mostran("x é maior que 5");
+        mostraln("x é maior que 5");
     }
     nkuantu (x > 8) {
         x -= 1;
@@ -136,7 +136,7 @@ fn inisiu() {
     pa (int i = 0; i < 3; i += 1) {
         mostra(i);
     }
-    mostran();
+    mostraln();
 }
 ```
 
@@ -154,7 +154,7 @@ nkuantu i < 100 {
     si i == 5 {
         kebra;
     }
-    mostran(i);
+    mostraln(i);
     i += 1;
 }
 // imprime 0, 1, 2, 3, 4
@@ -169,7 +169,7 @@ pa int i = 0; i < 10; i += 1 {
     si i == 5 {
         kontinua;
     }
-    mostran(i);
+    mostraln(i);
 }
 // imprime 0, 1, 2, 3, 4, 6, 7, 8, 9
 ```

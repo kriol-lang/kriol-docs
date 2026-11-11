@@ -133,11 +133,11 @@ fn inisiu() {
     textu entrada = toma("Screbi un númeru interu: ");
     spia {
         int numeru = int::konverti(entrada);
-        mostran(f"100 / {numeru} = {100 / numeru}");
+        mostraln(f"100 / {numeru} = {100 / numeru}");
     } oops (err) {
-        mostran(f"Erru ({err.tipu}): {err.mensagem}");
+        mostraln(f"Erru ({err.tipu}): {err.mensagem}");
     } sempri {
-        mostran("Fin.");
+        mostraln("Fin.");
     }
 }
 ```
@@ -175,7 +175,7 @@ fn le_idadi() int : Erru {
     spia {
         divolvi int::konverti(toma("Idadi: "));
     } oops (err) {
-        mostran(f"não consegui ler a idade ({err.tipu})");
+        mostraln(f"não consegui ler a idade ({err.tipu})");
         lansa err;
     }
 }
@@ -190,17 +190,17 @@ fn le(int[3] valores, int i) int {
     spia {
         divolvi valores[i];
     } oops (err) {
-        mostran(f"índice inválido: {i}");
+        mostraln(f"índice inválido: {i}");
         divolvi -1;
     } sempri {
-        mostran("leitura terminada");
+        mostraln("leitura terminada");
     }
 }
 
 fn inisiu() {
     int[3] valores = [10, 20, 30];
-    mostran(le(valores, 1));   // leitura terminada, depois 20
-    mostran(le(valores, 5));   // índice inválido: 5, leitura terminada, depois -1
+    mostraln(le(valores, 1));   // leitura terminada, depois 20
+    mostraln(le(valores, 5));   // índice inválido: 5, leitura terminada, depois -1
 }
 ```
 
@@ -248,6 +248,8 @@ kriol --strict programa.kriol   # qualquer aviso passa a ser um erro de compila�
 ```
 
 Usa `--strict` em projetos e na integração contínua para garantir que nenhum erro é ignorado.
+
+O compilador também avisa quando o código usa o nome antigo de uma palavra, como `mostran` em vez de `mostraln`; vê [Nomes antigos](/referencia/vocabulario/#nomes-antigos).
 
 ## Regras
 

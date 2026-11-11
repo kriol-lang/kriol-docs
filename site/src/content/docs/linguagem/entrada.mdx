@@ -51,7 +51,7 @@ Ao contrário das funções declaradas com `: Erru`, um `toma` não tratado não
 fn inisiu() {
     textu entrada_idadi = toma("Idadi: ");
     int idadi = int::konverti(entrada_idadi);
-    mostran(f"Para o ano terás {idadi + 1}.");
+    mostraln(f"Para o ano terás {idadi + 1}.");
 }
 ```
 
@@ -66,7 +66,7 @@ fn inisiu() {
         textu entrada_idadi = toma("Idadi: ");
         idadi = int::konverti(entrada_idadi) sinon -1;
     }
-    mostran(f"Idadi: {idadi}");
+    mostraln(f"Idadi: {idadi}");
 }
 ```
 
@@ -81,7 +81,7 @@ Mais detalhes sobre a conversão estão em [Conversão de Tipos](/linguagem/conv
 ```kriol
 fn inisiu() {
     textu nome = toma("Digite o seu nome: ");
-    mostran(f"Olá, {nome}!");
+    mostraln(f"Olá, {nome}!");
 }
 ```
 
@@ -90,7 +90,7 @@ fn inisiu() {
 ```kriol
 fn inisiu() {
     textu nome = toma("Digite o seu nome: ") sinon "visitanti";
-    mostran(f"Olá, {nome}!");
+    mostraln(f"Olá, {nome}!");
 }
 ```
 
@@ -104,7 +104,7 @@ fn inisiu() {
     textu entrada_b = toma("Segundo númeru: ");
     num b = num::konverti(entrada_b);
 
-    mostran(f"{a} + {b} = {a + b}");
+    mostraln(f"{a} + {b} = {a + b}");
 }
 ```
 
@@ -121,7 +121,7 @@ fn inisiu() {
         total += int::konverti(linha);
     }
 
-    mostran(f"Total: {total}");
+    mostraln(f"Total: {total}");
 }
 ```
 

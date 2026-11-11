@@ -19,18 +19,18 @@ Os operadores são os símbolos que fazem contas e comparações: `+` soma, `>` 
 ```kriol
 int a = 10;
 int b = 3;
-mostran(a + b);   // 13
-mostran(a - b);   // 7
-mostran(a * b);   // 30
-mostran(a % b);   // 1
-mostran(-a);      // -10
+mostraln(a + b);   // 13
+mostraln(a - b);   // 7
+mostraln(a * b);   // 30
+mostraln(a % b);   // 1
+mostraln(-a);      // -10
 ```
 
 O `%` também funciona entre reais, onde dá o resto da divisão real:
 
 ```kriol
 num x = 7.5;
-mostran(x % 2.0);   // 1.5
+mostraln(x % 2.0);   // 1.5
 ```
 
 ### Divisão
@@ -57,7 +57,7 @@ Dividir por zero, ou calcular o resto por zero, termina o programa com uma mensa
 
 ```kriol
 num x = 1.5;
-mostran(x / 0);      // programa.kriol:2: erro de execução: divisão por zero
+mostraln(x / 0);      // programa.kriol:2: erro de execução: divisão por zero
 ```
 
 Entre inteiros com sinal, `MIN / -1` (por exemplo `i8` `-128 / -1`) também termina o programa, com *o resultado da divisão não cabe no tipo do número inteiro*: o valor positivo correspondente ao mínimo não existe no tipo.
@@ -69,18 +69,18 @@ Ao contrário da divisão por zero, uma soma ou multiplicação que não caiba n
 ```kriol
 u8 cheiu = 255;
 cheiu += 1;
-mostran(cheiu);      // 0: deu a volta ao início
+mostraln(cheiu);      // 0: deu a volta ao início
 
 int maximu = 9223372036854775807;
 maximu += 1;
-mostran(maximu);     // -9223372036854775808
+mostraln(maximu);     // -9223372036854775808
 ```
 
 O mesmo acontece com o `-` unário num tipo sem sinal, que não tem onde guardar o sinal:
 
 ```kriol
 u8 a = 5;
-mostran(-a);         // 251, isto é 256 - 5
+mostraln(-a);         // 251, isto é 256 - 5
 ```
 
 Se um valor puder chegar perto do limite do tipo, escolhe um tipo mais largo ou verifica-o antes da conta com um `si` ou um [`konfirma`](/linguagem/controlo-de-fluxo/#konfirma-assert).
@@ -118,19 +118,19 @@ A comparação de strings com `==` / `!=` **não** é suportada na versão atual
 bool a = sin;
 bool b = nau;
 
-mostran(a && b);   // nau
-mostran(a || b);   // sin
-mostran(!a);       // nau
+mostraln(a && b);   // nau
+mostraln(a || b);   // sin
+mostraln(!a);       // nau
 ```
 
 Tal como numa condição, os operadores lógicos também aceitam números: um número é verdadeiro quando não é zero. Assim, `!n` é `sin` quando `n == 0` e `nau` caso contrário. O resultado é sempre um `bool`.
 
 ```kriol
 int n = 0;
-mostran(!n);       // sin
-mostran(!5);       // nau
-mostran(n || 3);   // sin
-mostran(n && 3);   // nau
+mostraln(!n);       // sin
+mostraln(!5);       // nau
+mostraln(n || 3);   // sin
+mostraln(n && 3);   // nau
 ```
 
 `&&` e `||` avaliam o operando da direita só quando é preciso: em `a && b`, `b` só é avaliado se `a` for verdadeiro, e em `a || b`, só se `a` for falso.
@@ -151,13 +151,13 @@ Os operadores de bits atuam sobre cada bit de um inteiro, e só aceitam operando
 | `~`      | Complemento (unário) | `~a`      |
 
 ```kriol
-mostran(12 & 10);   // 8
-mostran(12 | 10);   // 14
-mostran(12 ^ 10);   // 6
-mostran(~0);        // -1
+mostraln(12 & 10);   // 8
+mostraln(12 | 10);   // 14
+mostraln(12 ^ 10);   // 6
+mostraln(~0);        // -1
 
 u8 mascara = 15;
-mostran(~mascara);  // 240
+mostraln(~mascara);  // 240
 ```
 
 Tal como um literal inteiro, `~` aplicado a um literal adapta-se ao tipo onde é usado. Num tipo sem sinal, troca os bits dentro da largura desse tipo:

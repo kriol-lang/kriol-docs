@@ -37,7 +37,7 @@ Se já viste código noutra linguagem, esta tabela dá-te a tradução imediata.
 | `pa`       | `for`           | `for`      | Repete um número de vezes      |
 | `nkuantu`  | `while`         | `while`    | Repete enquanto for verdade    |
 | `divolvi`  | `return`        | `return`   | Devolve um valor               |
-| `mostran`  | `printf`        | `print`    | Escreve no ecrã                |
+| `mostraln`  | `printf`        | `print`    | Escreve no ecrã                |
 | `toma`     | `scanf`/`gets`  | `input`    | Lê uma linha escrita por quem usa |
 | `sin`/`nau`| `true`/`false`  | `True`/`False` | Verdadeiro e falso         |
 | `molda`    | `struct`        | `class`    | Agrupa campos num tipo novo    |
@@ -58,18 +58,18 @@ fn novu_pessoa(textu nomi, textu apelidu, int idadi) Pessoa {
 }
 
 fn mostra_pessoa(Pessoa p) {
-  mostran(f"{p.nomi} {p.apelidu} tem {p.idadi} anos de idade.");
+  mostraln(f"{p.nomi} {p.apelidu} tem {p.idadi} anos de idade.");
 }
 
 fn compara_idadi(Pessoa a, Pessoa b) {
   int diferensa = a.idadi - b.idadi;
 
   si diferensa == 0 {
-    mostran(f"{a.nomi} {a.apelidu} tem a mesma idade que {b.nomi} {b.apelidu}.");
+    mostraln(f"{a.nomi} {a.apelidu} tem a mesma idade que {b.nomi} {b.apelidu}.");
   } sinon si diferensa > 0 {
-    mostran(f"{a.nomi} {a.apelidu} é maior que {b.nomi} {b.apelidu} por {diferensa} anos.");
+    mostraln(f"{a.nomi} {a.apelidu} é maior que {b.nomi} {b.apelidu} por {diferensa} anos.");
   } sinon {
-    mostran(f"{a.nomi} {a.apelidu} é menor que {b.nomi} {b.apelidu} por {-diferensa} anos.");
+    mostraln(f"{a.nomi} {a.apelidu} é menor que {b.nomi} {b.apelidu} por {-diferensa} anos.");
   }
 }
 
@@ -84,21 +84,21 @@ fn inisiu() {
     mostra_pessoa(pessoas[i]);
   }
 
-  mostran("-----------------");
-  mostran("[[ E tu? ]]");
+  mostraln("-----------------");
+  mostraln("[[ E tu? ]]");
 
   textu nomi = toma("-> Nome: ");
   textu apelidu = toma("-> Apelido: ");
   textu entrada_idadi = toma("-> Idade: ");
   int idadi = int::konverti(entrada_idadi);
 
-  mostran("-----------------");
+  mostraln("-----------------");
 
   Pessoa abo = novu_pessoa(nomi, apelidu, idadi);
 
   mostra_pessoa(abo);
 
-  mostran("-----------------");
+  mostraln("-----------------");
 
   pa int i = 0 ; i < 3 ; i += 1 {
     compara_idadi(abo, pessoas[i]);
@@ -122,7 +122,7 @@ A linguagem já suporta:
 - Conversão de texto para número com `tipo::konverti`
 - Conversões de tipos implícitas e explícitas, com *casts* no estilo do C
 - Operadores aritméticos, lógicos, relacionais e de bits (`&`, `|`, `^`, `~`)
-- Input/output (`mostra`, `mostran`, `toma`)
+- Input/output (`mostra`, `mostraln`, `toma`)
 - Compilação para executável nativo (Linux, Windows e macOS) e para WebAssembly (`wasm32-wasi`), que é o que faz o [playground](https://play.kriol.dev) funcionar
 
 ## Planos futuros

@@ -45,7 +45,7 @@ Windows (PowerShell; installs kriol.exe and ld.lld.exe, programs run on Windows 
 Entry point function (it takes no parameters and declares no return type):
 ```kriol
 fn inisiu() {
-    mostran("Kualeh, Mundu!");
+    mostraln("Kualeh, Mundu!");
 }
 ```
 
@@ -66,11 +66,12 @@ Top-level variables: a declaration outside any function is visible to the functi
 
 - fn: function declaration
 - si/sinon: if/else
+- Old spelling: `mostran` (now `mostraln`) still compiles, with a warning; write the new one
 - nkuantu: while loop
 - pa: for loop, `pa int i = 0; i < 10; i += 1 { }`; the step is optional (`pa int i = 0; i < 10 { }`)
 - Headers of si, nkuantu and pa may be wrapped in parentheses: `si (x > 0) { }`, `pa (int i = 0; i < 10; i += 1) { }`, `si (int y = f(); y > 0) { }`; braces are always required
 - divolvi: return
-- mostra/mostran: print without/with newline; both take any number of arguments, written one after another with no separator, and `mostran()` with none prints an empty line
+- mostra/mostraln: print without/with newline; both take any number of arguments, written one after another with no separator, and `mostraln()` with none prints an empty line
 - toma: read one line from stdin as textu; it stops the program if the input ends, unless handled: `tenta toma()` in a function declared `: Erru`, or `toma() sinon "default"`
 - kebra: break
 - kontinua: continue; both kebra and kontinua affect only the innermost loop
@@ -111,7 +112,7 @@ Currently supported:
 - Structures (molda): fields, literals, `.` access, value semantics
 - Recoverable errors (Erru, lansa, tenta, sinon) and text-to-number conversion
 - Catching errors, runtime errors included (spia, oops, sempri)
-- Input/output (mostra, mostran, toma)
+- Input/output (mostra, mostraln, toma)
 - Native targets (Linux, Windows, macOS) and wasm32-wasi
 
 In development:
@@ -127,7 +128,7 @@ In development:
 Hello World:
 ```kriol
 fn inisiu() {
-    mostran("Kualeh, Mundu!");
+    mostraln("Kualeh, Mundu!");
 }
 ```
 
@@ -147,7 +148,7 @@ fn inisiu() {
     pa int i = 0; i < 10; i += 1 {
         seq[i] = fibo(i);
     }
-    mostran(f"Fibonacci: {seq}");
+    mostraln(f"Fibonacci: {seq}");
 }
 ```
 
@@ -184,7 +185,7 @@ fn inisiu() {
 Compile: `kriol file.kr -o output` (without -o the result is ./a.out)
 Optimization: `--opt-lvl <n>`, 0 to 3 (default 2)
 Run: `./output`
-Compile a snippet with no file: `kriol --text 'fn inisiu() { mostran(1); }'`
+Compile a snippet with no file: `kriol --text 'fn inisiu() { mostraln(1); }'`
 WebAssembly: `kriol file.kr --target wasm32-wasi -o file.wasm` (this is what the playground runs)
 Emit IR: `kriol file.kr --emit-ir`
 Warnings as errors: `kriol --strict file.kr`
