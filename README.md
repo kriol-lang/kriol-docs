@@ -81,10 +81,14 @@ Os ficheiros compilados ficam em `dist/`
 ## Realce de sintaxe
 
 A gramática Shiki do Expressive Code/Starlight vem do pacote
-[kriol-syntax](https://github.com/kriol-lang/kriol-syntax), a fonte única da
-sintaxe da linguagem, e é carregada em `site/astro.config.mjs`. Blocos Markdown
-marcados como `kriol`, `kr` ou `source.kriol` usam essa gramática. Para mudar
-o realce, altera o kriol-syntax e atualiza a versão em `site/package.json`.
+[kriol-syntax](https://github.com/kriol-lang/kriol/tree/main/syntax), a fonte
+única da sintaxe da linguagem, e é carregada em `site/astro.config.mjs`. Blocos
+Markdown marcados como `kriol`, `kr` ou `source.kriol` usam essa gramática.
+
+O pacote vive na pasta `syntax/` do repositório do compilador e sai com cada
+release dele, com a mesma versão. Para mudar o realce, altera
+`syntax/kriol-syntax.json` no compilador e, depois da release seguinte, aponta
+`site/package.json` para o `kriol-syntax-<versão>.tgz` dessa release.
 
 ## Abrir no playground
 

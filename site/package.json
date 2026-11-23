@@ -13,7 +13,7 @@
   "dependencies": {
     "@astrojs/starlight": "^0.40.0",
     "astro": "^6.4.5",
-    "kriol-syntax": "https://github.com/kriol-lang/kriol-syntax/archive/refs/tags/v0.3.0.tar.gz",
+    "kriol-syntax": "https://github.com/kriol-lang/kriol/releases/download/v1.17.1-alpha%2Bbuild3/kriol-syntax-1.17.1-alpha+build3.tgz",
     "sharp": "^0.34.5"
   }
 }
